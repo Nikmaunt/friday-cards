@@ -1,3 +1,6 @@
-export const appReducer = (state: any, action: any) => {
+
+const initialState = {}
+
+export const appReducer = (state=initialState, action: any) => {
     return state
 }

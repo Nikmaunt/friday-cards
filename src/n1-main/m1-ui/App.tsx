@@ -17,14 +17,14 @@ const App = () => {
                 <Header/>
                 <div>
                     <Routes>
-                        <Route path={'/login'} element={<Login/>}></Route>
-                        <Route path={'/registration'} element={<Registration/>}></Route>
-                        <Route path={'/profile'} element={<Profile/>}></Route>
-                        <Route path={'/404'} element={<NotFoundPage/>}></Route>
-                        <Route path={'/password-recovery'} element={<PasswordRecovery/>}></Route>
-                        <Route path={'/new-password'} element={<NewPassword/>}></Route>
-                        <Route path={'/test-components'} element={<TestComponents/>}></Route>
-                        <Route path={'/'} element={<Registration/>}></Route>
+                        <Route path={'/friday-cards/login'} element={<Login/>}></Route>
+                        <Route path={'/friday-cards/registration'} element={<Registration/>}></Route>
+                        <Route path={'/friday-cards/profile'} element={<Profile/>}></Route>
+                        <Route path={'/friday-cards/404'} element={<NotFoundPage/>}></Route>
+                        <Route path={'/friday-cards/password-recovery'} element={<PasswordRecovery/>}></Route>
+                        <Route path={'/friday-cards/new-password'} element={<NewPassword/>}></Route>
+                        <Route path={'/friday-cards/test-components'} element={<TestComponents/>}></Route>
+                        <Route path={'/friday-cards'} element={<Registration/>}></Route>
                         <Route path={'*'} element={<NotFoundPage/>}></Route>
                     </Routes>
                 </div>
