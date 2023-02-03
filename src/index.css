@@ -1,15 +1,13 @@
 body {
   margin: 0;
-  font-family:Inter, sans-serif;
+  font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 500;
-
-
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -20,5 +18,5 @@ a {
   color: #000000;
 }
 .active {
-  color: #0059B2;
+  color: #0059b2;
 }
