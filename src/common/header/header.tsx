@@ -9,7 +9,9 @@ export const Header = () => {
         <NavLink to="/friday-cards/registration">Registration</NavLink>
         <NavLink to="/friday-cards/profile">Profile</NavLink>
         <NavLink to="/friday-cards/404">Page Not Found</NavLink>
-        <NavLink to="/friday-cards/password-recovery">Password Recovery</NavLink>
+        <NavLink to="/friday-cards/password-recovery">
+          Password Recovery
+        </NavLink>
         <NavLink to="/friday-cards/new-password">New Password</NavLink>
         <NavLink to="/friday-cards/test-components">Test Components</NavLink>
       </div>
