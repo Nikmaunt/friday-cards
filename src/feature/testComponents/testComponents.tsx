@@ -1,6 +1,5 @@
 import SuperSelect from "../../common/c5-SuperSelect/SuperSelect";
 import SuperInputText from "../../common/c1-SuperInputText/SuperInputText";
-import SuperButton from "../../common/c2-SuperButton/SuperButton";
 import SuperCheckbox from "../../common/c3-SuperCheckbox/SuperCheckbox";
 import SuperEditableSpan from "../../common/c4-SuperEditableSpan/SuperEditableSpan";
 import SuperRadio from "../../common/c6-SuperRadio/SuperRadio";
@@ -14,7 +13,7 @@ export const TestComponents = () => {
   return (
     <div className={s.wrapper}>
       <SuperSelect />
-      <SuperButton />
+
       <SuperInputText />
       <SuperCheckbox />
       <SuperEditableSpan />

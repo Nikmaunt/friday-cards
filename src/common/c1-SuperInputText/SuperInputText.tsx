@@ -1,17 +1,8 @@
-import React, {
-  ChangeEvent,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-  KeyboardEvent,
-  ReactNode,
-} from "react";
+import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, KeyboardEvent, ReactNode } from "react";
 import s from "./SuperInputText.module.css";
 
 // тип пропсов обычного инпута
-type DefaultInputPropsType = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 // здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута, кроме type
 // (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
@@ -46,9 +37,7 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
       onEnter(); // то вызвать его
   };
 
-  const finalSpanClassName = error
-    ? s.error + (spanClassName ? " " + s[spanClassName] : " ")
-    : " ";
+  const finalSpanClassName = error ? s.error + (spanClassName ? " " + s[spanClassName] : " ") : " ";
   const finalInputClassName = s.superInput + (error ? " " + s.errorInput : " "); // задача на смешивание классов
 
   return (

@@ -1,15 +1,8 @@
-import React, {
-  ChangeEvent,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-} from "react";
+import React, { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from "react";
 import s from "./SuperCheckbox.module.css";
 
 // тип пропсов обычного инпута
-type DefaultInputPropsType = DetailedHTMLProps<
-  InputHTMLAttributes<HTMLInputElement>,
-  HTMLInputElement
->;
+type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 type SuperCheckboxPropsType = Omit<DefaultInputPropsType, "type"> & {
   onChangeChecked?: (checked: boolean) => void;
@@ -30,8 +23,7 @@ const SuperCheckbox: React.FC<SuperCheckboxPropsType> = ({
     onChange?.(e);
   };
 
-  const finalInputClassName =
-    s.checkbox + (className ? " " + s[className] : "");
+  const finalInputClassName = s.checkbox + (className ? " " + s[className] : "");
 
   return (
     <label className={s.label}>
