@@ -11,6 +11,7 @@ import { NewPassword } from "../feature/newPassword/newPassword";
 import { TestComponents } from "../feature/testComponents/testComponents";
 import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
 import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
+import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
           </Routes>
           <ForgotPassword />
           <CheckEmail />
+          <CreatePassword />
         </div>
       </>
     </div>
