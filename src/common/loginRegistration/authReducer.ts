@@ -9,6 +9,7 @@ export const authReducer = (state = initialAuthState, action: any): InitialAuthS
   switch (action.type) {
     default:
       return state;
+    //
   }
 };
 
