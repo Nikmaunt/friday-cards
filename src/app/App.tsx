@@ -2,11 +2,16 @@ import React from "react";
 import "./App.css";
 import { Header } from "../common/header/header";
 import { Route, Routes } from "react-router-dom";
+import { Login } from "../feature/login/login";
+import { Registration } from "../feature/registration/registration";
 import { Profile } from "../feature/profile/profile";
 import { NotFoundPage } from "../feature/notFoundPage/notFoundPage";
 import { PasswordRecovery } from "../feature/passwordRecovery/passwordRecovery";
 import { NewPassword } from "../feature/newPassword/newPassword";
 import { TestComponents } from "../feature/testComponents/testComponents";
+import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
+import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
+import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
 import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
 
 const App = () => {
@@ -26,6 +31,9 @@ const App = () => {
             <Route path={"/friday-cards"} element={<LoginRegistration />}></Route>
             <Route path={"*"} element={<NotFoundPage />}></Route>
           </Routes>
+          <ForgotPassword />
+          <CheckEmail />
+          <CreatePassword />
         </div>
       </>
     </div>
