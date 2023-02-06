@@ -12,6 +12,12 @@ type ChangePasswordActionType = {
   message: string;
 };
 
+type forgotPasswordResponseType = {
+  info: string;
+  success: boolean;
+  answer: boolean;
+  html: boolean;
+};
 const initialState = {};
 type initialForgotPasswordStateType = typeof initialState;
 
@@ -55,12 +61,16 @@ export const recoveryPasswordTC =
       dispatch(recoveryPasswordAC(res.data.error));
       throw new Error(res.data.error);
     }
+    alert(res.data);
   };
 
 export const changePasswordTC =
   (password: string): AppThunk =>
   async (dispatch) => {
-    const resetPasswordToken = "resetPasswordToken";
+    //url из строки браузера
+    const URL = window.location.href;
+    //токен
+    const resetPasswordToken = URL.replace(/^.*[\\\/]/, "");
     const res = await appAPI.setNewPassword(password, resetPasswordToken);
     if (!res.data.error) {
       dispatch(changePasswordAC(res.data.info));

@@ -4,7 +4,8 @@ export const instance = axios.create({
   // const
   // baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/' ,
   baseURL:
-    process.env.NODE_ENV === "development" ? "http://localhost:7542/2.0/" : "https://neko-back.herokuapp.com/2.0/",
+    // process.env.NODE_ENV === "development" ? "http://localhost:7542/2.0/" : "https://neko-back.herokuapp.com/2.0/",
+    "https://neko-back.herokuapp.com/2.0/", // для регистрации на сервере
   withCredentials: true,
 });
 
@@ -16,23 +17,21 @@ type RecoveryResponseType = {
 export const appAPI = {
   recoveryPassword(email: string) {
     const payload = {
-      // кому восстанавливать пароль
       email: email,
-      // можно указать разработчика фронта
-      from: "test-front-admin <vladimir817vk@gmail.com>",
-      // хтмп-письмо, вместо $token$ бэк вставит токен
+      from: email,
       message: `<div style="background-color: lime; padding: 15px"> 
                 password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
                 </div>`,
     };
-    // axios.post("");
-    return instance.post<RecoveryResponseType>("auth/forgot", payload);
+    // return instance.post<RecoveryResponseType>("auth/forgot", payload);
+    return axios.post<RecoveryResponseType>("https://neko-back.herokuapp.com/2.0/auth/forgot", payload);
   },
   setNewPassword(password: string, resetPasswordToken: string) {
     const payload = {
       password: password,
       resetPasswordToken: resetPasswordToken,
     };
-    return instance.post("auth/set-new-password", payload);
+    // return instance.post("auth/set-new-password", payload);
+    return axios.post("https://neko-back.herokuapp.com/2.0/auth/set-new-password", payload);
   },
 };
