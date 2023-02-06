@@ -6,6 +6,7 @@ const initialState = {
 export const appReducer = (state = initialState, action: AppActionCreatorsType): InitialStateType => {
   switch (action.type) {
     case AppActions.ToggleIsSignUp:
+      console.log(state);
       return { ...state, isSignUp: !state.isSignUp };
     default:
       return state;

@@ -15,6 +15,7 @@ export const ForgotPassword = () => {
   //отправка инструкции восстановления пароля на email
   const sendRecoveryPasswordInstructions = () => {
     const email = "vladimir817vk@gmail.com";
+    // const email = "ai73a@yandex.by";
     dispatch(recoveryPasswordTC(email));
   };
 

@@ -25,6 +25,7 @@ export const appAPI = {
                 password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
                 </div>`,
     };
+    // axios.post("");
     return instance.post<RecoveryResponseType>("auth/forgot", payload);
   },
   setNewPassword(password: string, resetPasswordToken: string) {
