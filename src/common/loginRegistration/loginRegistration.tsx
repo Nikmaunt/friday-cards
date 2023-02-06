@@ -11,16 +11,17 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { toggleIsSignUp } from "../../app/appReducer";
-import { loginUser, registrateUser } from "./authReducer";
+import { loginUser, registrationUser } from "./authReducer";
 
 export const LoginRegistration = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isSignUp = useAppSelector<boolean>((state) => state.app.isSignUp);
+  const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -57,28 +58,31 @@ export const LoginRegistration = () => {
       }
       return errors;
     },
-    onSubmit: (values) => {
+    async onSubmit(values) {
       if (isSignUp) {
         const { confirmPassword, rememberMe, ...restValues } = values;
-        dispatch(registrateUser(restValues));
+        await dispatch(registrationUser(restValues));
       }
       if (!isSignUp) {
-        console.log("work");
         const { confirmPassword, ...restValues } = values;
-        dispatch(loginUser(restValues));
+        await dispatch(loginUser(restValues));
       }
       formik.resetForm();
     },
   });
 
   const onClickHandler = () => {
-    dispatch(toggleIsSignUp());
     if (!isSignUp) {
-      navigate("/friday-cards/registration");
+      dispatch(toggleIsSignUp(true));
     } else {
-      navigate("/friday-cards/login");
+      dispatch(toggleIsSignUp(false));
     }
   };
+
+  if (isLogin) {
+    return <Navigate to={"/friday-cards/profile"} />;
+  }
+
   return (
     <div className={s.wrapper}>
       <div className={s.content}>
@@ -109,7 +113,6 @@ export const LoginRegistration = () => {
             {formik.touched.password && formik.errors.password && (
               <div style={{ color: "red" }}>{formik.errors.password}</div>
             )}
-
             {isSignUp && (
               <FormControl variant="standard" fullWidth>
                 <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
@@ -143,7 +146,6 @@ export const LoginRegistration = () => {
                   {...formik.getFieldProps("rememberMe")}
                   checked={formik.values.rememberMe}
                 />
-
                 <div className={s.linkToPassword}>
                   <NavLink to="">Forgot Password?</NavLink>
                 </div>

@@ -2,9 +2,10 @@ import Button from "@mui/material/Button";
 
 import React from "react";
 
-export const SuperButton: React.FC<SuperButtonPropsType> = ({ name }) => {
+export const SuperButton: React.FC<SuperButtonPropsType> = ({ name, callback }) => {
   return (
     <Button
+      onClick={callback}
       fullWidth
       type={"submit"}
       variant={"contained"}
@@ -20,4 +21,5 @@ export const SuperButton: React.FC<SuperButtonPropsType> = ({ name }) => {
 
 export type SuperButtonPropsType = {
   name: string;
+  callback?: () => void;
 };

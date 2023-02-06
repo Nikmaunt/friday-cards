@@ -1,12 +1,23 @@
 import s from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { setLoginUser } from "../loginRegistration/authReducer";
 
 export const Header = () => {
+  const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
+
   let activeStyle = {
     color: "#0059b2",
   };
-
+  const goToSignIn = () => {
+    console.log("bottom");
+    return <Navigate to={"/friday-cards/login"} />;
+  };
+  const logoutHandler = () => {
+    dispatch(setLoginUser(false));
+  };
   // не понятно как типизировать, оставим так, потом все равно этот header убирать
   // @ts-ignore
   const style = ({ isActive }) => (isActive ? activeStyle : undefined);
@@ -36,7 +47,11 @@ export const Header = () => {
           Test Components
         </NavLink>
         <div className={s.button}>
-          <SuperButton name={"Sign in"} />
+          {isLogin ? (
+            <SuperButton name={"Logout"} callback={logoutHandler} />
+          ) : (
+            <SuperButton name={"Sign in"} callback={goToSignIn} />
+          )}
         </div>
       </div>
     </div>
