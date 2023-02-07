@@ -10,6 +10,9 @@ export const authAPI = {
   authMe() {
     return instance.post<UserType>("/auth/me");
   },
+  logout() {
+    return instance.delete("/auth/me",{});
+  }
 };
 ////////////////////////// types /////////////////////////////
 

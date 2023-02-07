@@ -13,12 +13,6 @@ import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
 import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
 import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
 import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
-import { useAppDispatch, useAppSelector } from "./store";
-import { authMe } from "../common/loginRegistration/authReducer";
-import CircularProgress from "@mui/material/CircularProgress";
-import LinearProgress from "@mui/material/LinearProgress";
-import { RequestStatusType } from "./appReducer";
-import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
 
 const App = () => {
   const dispatch = useAppDispatch();

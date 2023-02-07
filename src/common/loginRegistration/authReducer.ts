@@ -36,6 +36,10 @@ export const authReducer = (state = initialAuthState, action: AuthActionCreators
 export const setLoginUser = (value: boolean) => ({ type: AuthActions.SetAuthUser, payload: { value } } as const);
 export const setCurrentUser = (user: UserType) => ({ type: AuthActions.SetCurrentUser, payload: { user } } as const);
 
+// actions
+
+export const setIsLoggedINAC = (value: boolean,data?:UserDataType) => ({type: 'SET-IS-LOGGED-IN', value,data} as const)
+
 /////////////////// THUNK CREATORS ////////////////////////
 export const registrationUser = (values: RegistrationRequestType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
@@ -75,6 +79,19 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
   }
 };
 
+export const logoutUser = () => (dispatch: AppThunkDispatch) => {
+    authAPI.logout()
+        .then(res => {
+            if (res.status === 200) {
+                dispatch(setIsLoggedINAC(false))
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+
 //////////// types //////////////
 
 type InitialAuthStateType = typeof initialAuthState;
@@ -85,3 +102,24 @@ export enum AuthActions {
 }
 
 export type AuthActionCreatorsType = ReturnType<typeof setLoginUser> | ReturnType<typeof setCurrentUser>;
+
+export type UserDataType =  {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
+// количество колод
+
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean; // подтвердил ли почту
+    rememberMe: boolean;
+
+    error?: string;
+}
+
+
+type ActionsType =
+    | ReturnType<typeof setIsLoggedINAC>
