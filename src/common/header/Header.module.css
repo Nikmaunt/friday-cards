@@ -16,3 +16,9 @@
 .button {
   width: 113px;
 }
+
+h4 {
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline dotted
+}

@@ -7,6 +7,9 @@ export const authAPI = {
   login(values: LoginRequestType) {
     return instance.post("/auth/login", values);
   },
+  logout() {
+    return instance.delete("/auth/me",{});
+  }
 };
 /////////// types /////////////
 export type RegistrationRequestType = {
