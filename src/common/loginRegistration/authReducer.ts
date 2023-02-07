@@ -74,6 +74,19 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
   }
 };
 
+export const logoutUser = () => (dispatch: AppThunkDispatch) => {
+    authAPI.logout()
+        .then(res => {
+            if (res.status === 200) {
+                dispatch(setIsLoggedINAC(false))
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
+
+
 //////////// types //////////////
 
 type InitialAuthStateType = typeof initialAuthState;
@@ -84,3 +97,24 @@ export enum AuthActions {
 }
 
 export type AuthActionCreatorsType = ReturnType<typeof setLoginUser> | ReturnType<typeof setCurrentUser>;
+
+export type UserDataType =  {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
+    publicCardPacksCount: number;
+// количество колод
+
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean; // подтвердил ли почту
+    rememberMe: boolean;
+
+    error?: string;
+}
+
+
+type ActionsType =
+    | ReturnType<typeof setIsLoggedINAC>
