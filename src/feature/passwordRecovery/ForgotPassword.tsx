@@ -9,6 +9,7 @@ import { recoveryPasswordTC } from "../../state/forgotPassword-reducer";
 
 export type AppThunkType = ThunkDispatch<RootReducerType, void, Action>;
 
+//
 export const ForgotPassword = () => {
   let dispatch = useDispatch<AppThunkType>();
   const [email, setEmail] = useState("");

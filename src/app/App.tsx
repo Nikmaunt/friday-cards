@@ -25,8 +25,10 @@ const App = () => {
             <Route path={"/friday-cards/registration"} element={<LoginRegistration />}></Route>
             <Route path={"/friday-cards/profile"} element={<Profile />}></Route>
             <Route path={"/friday-cards/404"} element={<NotFoundPage />}></Route>
-            <Route path={"/friday-cards/password-recovery"} element={<PasswordRecovery />}></Route>
-            <Route path={"/friday-cards/new-password"} element={<NewPassword />}></Route>
+            {/*<Route path={"/friday-cards/password-recovery"} element={<PasswordRecovery />}></Route>*/}
+            <Route path={"/friday-cards/password-recovery"} element={<ForgotPassword />}></Route>
+            {/*<Route path={"/friday-cards/new-password"} element={<NewPassword />}></Route>*/}
+            <Route path={"/friday-cards/new-password"} element={<CreatePassword />}></Route>
             <Route path={"/friday-cards/test-components"} element={<TestComponents />}></Route>
             <Route path={"/friday-cards"} element={<LoginRegistration />}></Route>
             <Route path={"*"} element={<NotFoundPage />}></Route>

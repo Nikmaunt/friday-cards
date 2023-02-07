@@ -1,6 +1,7 @@
 /*общий блок CheckEmail*/
 .checkEmail {
   display: flex;
+  background-color: #ffffff;
 
   /*располоение элементов в блоке в колонку*/
   flex-direction: column;
