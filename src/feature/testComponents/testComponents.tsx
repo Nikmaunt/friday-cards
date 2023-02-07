@@ -19,8 +19,6 @@ export const TestComponents = () => {
       <SuperRadio />
       <SuperRange />
       <SuperDebouncedInput />
-      {/*<SuperPagination page={1} itemsCountForPage={4} totalCount={5} onChange={}/>*/}
-      {/*<SuperSort sort={} value={} onChange={}/>*/}
     </div>
   );
 };
