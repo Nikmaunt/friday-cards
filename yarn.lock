@@ -1885,15 +1885,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@icons/material@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "@icons/material@npm:0.4.1"
-  peerDependencies:
-    react: "*"
-  checksum: c199c98d72f939faae2da78dc3c573d2a66e4970d153ab7dc9c22ab233e1302145f68a700045050d3f2fb0e8a0b91c599374dd0cd7b5be32a847783177bf7d67
-  languageName: node
-  linkType: hard
-
 "@istanbuljs/load-nyc-config@npm:^1.0.0":
   version: 1.1.0
   resolution: "@istanbuljs/load-nyc-config@npm:1.1.0"
@@ -2292,22 +2283,6 @@ __metadata:
   version: 5.11.7
   resolution: "@mui/core-downloads-tracker@npm:5.11.7"
   checksum: 8d5f9b0133a986a937f049bf9e877b7be991f1fcc0a1e597bb359f68e13d3a5ba214a299352d85adc6ebcb4a7ea861db070e49306a99e4789853cd6aee6d9aae
-  languageName: node
-  linkType: hard
-
-"@mui/icons-material@npm:^5.11.0":
-  version: 5.11.0
-  resolution: "@mui/icons-material@npm:5.11.0"
-  dependencies:
-    "@babel/runtime": ^7.20.6
-  peerDependencies:
-    "@mui/material": ^5.0.0
-    "@types/react": ^17.0.0 || ^18.0.0
-    react: ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 764c1185b3432f0228f3c5217b0e218b10f106fa96d305dfc62c0ef5afd2a7a087b0d664fd0a8171282e195c18d3ee073d5f037901a2bed1a1519a70fbb0501c
   languageName: node
   linkType: hard
 
@@ -6815,8 +6790,6 @@ __metadata:
   dependencies:
     "@emotion/react": ^11.10.5
     "@emotion/styled": ^11.10.5
-    "@icons/material": ^0.4.1
-    "@mui/icons-material": ^5.11.0
     "@mui/material": ^5.11.7
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0

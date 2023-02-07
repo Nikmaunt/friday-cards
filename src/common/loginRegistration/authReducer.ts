@@ -29,6 +29,7 @@ export const authReducer = (state = initialAuthState, action: AuthActionCreators
       return { ...state };
     default:
       return state;
+    //
   }
 };
 /////////////////// ACTION CREATORS ///////////////////////

@@ -8,4 +8,30 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
-export const appAPI = {};
+type RecoveryResponseType = {
+  info: string;
+  error: string;
+};
+
+export const appAPI = {
+  recoveryPassword(email: string) {
+    const payload = {
+      // кому восстанавливать пароль
+      email: email,
+      // можно указать разработчика фронта
+      from: "test-front-admin <vladimir817vk@gmail.com>",
+      // хтмп-письмо, вместо $token$ бэк вставит токен
+      message: `<div style="background-color: lime; padding: 15px"> 
+                password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
+                </div>`,
+    };
+    return instance.post<RecoveryResponseType>("auth/forgot", payload);
+  },
+  setNewPassword(password: string, resetPasswordToken: string) {
+    const payload = {
+      password: password,
+      resetPasswordToken: resetPasswordToken,
+    };
+    return instance.post("auth/set-new-password", payload);
+  },
+};
