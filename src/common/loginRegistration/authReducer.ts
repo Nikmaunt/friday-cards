@@ -14,6 +14,7 @@ export const authReducer = (state = initialAuthState, action: ActionsType) : Ini
             return {...state, isAuth: action.value, userData: action.data}
         default:
             return state;
+
         //
     }
 };
