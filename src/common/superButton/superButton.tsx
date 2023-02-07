@@ -1,10 +1,14 @@
 import Button from "@mui/material/Button";
 
 import React from "react";
+import { useAppSelector } from "../../app/store";
+import { RequestStatusType } from "../../app/appReducer";
 
-export const SuperButton: React.FC<SuperButtonPropsType> = ({ name, callback }) => {
+export const SuperButton: React.FC<SuperButtonPropsType> = ({ name, callback, disabled }) => {
+  const status = useAppSelector<RequestStatusType>((state) => state.app.status);
   return (
     <Button
+      disabled={status === "loading"}
       onClick={callback}
       fullWidth
       type={"submit"}
@@ -22,4 +26,5 @@ export const SuperButton: React.FC<SuperButtonPropsType> = ({ name, callback }) 
 export type SuperButtonPropsType = {
   name: string;
   callback?: () => void;
+  disabled?: boolean;
 };

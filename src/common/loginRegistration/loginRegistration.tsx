@@ -11,7 +11,7 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { toggleIsSignUp } from "../../app/appReducer";
@@ -19,9 +19,9 @@ import { loginUser, registrationUser } from "./authReducer";
 
 export const LoginRegistration = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const isSignUp = useAppSelector<boolean>((state) => state.app.isSignUp);
   const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);

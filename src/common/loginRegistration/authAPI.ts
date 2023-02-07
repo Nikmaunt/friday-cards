@@ -5,10 +5,10 @@ export const authAPI = {
     return instance.post<RegistrationRequestType, ResponseRegistrationType>("/auth/register", values);
   },
   login(values: LoginRequestType) {
-    return instance.post<LoginRequestType, ResponseLoginType>("/auth/login", values);
+    return instance.post<LoginRequestType, UserType>("/auth/login", values);
   },
   authMe() {
-    return instance.post<ResponseLoginType>("/auth/me");
+    return instance.post<UserType>("/auth/me");
   },
 };
 ////////////////////////// types /////////////////////////////
@@ -28,7 +28,7 @@ export type LoginRequestType = {
   rememberMe: boolean;
 };
 
-type ResponseLoginType = {
+export type UserType = {
   _id: string;
   email: string;
   name: string;

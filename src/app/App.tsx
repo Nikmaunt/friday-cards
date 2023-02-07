@@ -13,6 +13,7 @@ import { authMe } from "../common/loginRegistration/authReducer";
 import CircularProgress from "@mui/material/CircularProgress";
 import LinearProgress from "@mui/material/LinearProgress";
 import { RequestStatusType } from "./appReducer";
+import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +34,7 @@ const App = () => {
   return (
     <div className="App">
       <>
+        <ErrorSnackbar />
         <Header />
         {status === "loading" && <LinearProgress sx={{ marginBottom: "40px" }} />}
         <div>
