@@ -13,6 +13,11 @@ import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
 import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
 import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
 import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
+import {CircularProgress, LinearProgress} from "@mui/material";
+import {ErrorSnackbar} from "../common/errorSnackbar/errorSnackbar";
+import {authMe} from "../common/loginRegistration/authReducer";
+import {RequestStatusType} from "./appReducer";
+import {useAppDispatch, useAppSelector} from "./store";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +39,7 @@ const App = () => {
     <div className="App">
       <>
         <ErrorSnackbar />
-        <Header />
+        <Header/>
         {status === "loading" && <LinearProgress sx={{ marginBottom: "40px" }} />}
         <div>
           <Routes>
