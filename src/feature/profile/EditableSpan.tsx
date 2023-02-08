@@ -8,7 +8,7 @@ import React, {
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {useAppDispatch} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 import {updateUser} from "./profileReducer";
 
 
@@ -35,7 +35,6 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                                                             }) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     const {children, onDoubleClick, className, defaultText, ...restSpanProps} = spanProps || {};
-    // let [name, setName] = useState<any>('');
     const dispatch = useAppDispatch()
 
     const onButtonClickHandler =  () => {
@@ -68,13 +67,11 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                     variant="standard"
                     style={{width: 347}}
                     label="Nickname"
-                    onBlur={onBlurHandler}
                     onKeyPress={onKeyPressHandler}
                     onChange={spanProps?.onChange}
-                    autoFocus
-                    // onBlur={onBlurHandler}
                     {...restProps}
                     InputProps={{
+                        // onBlur:onBlurHandler,
                         endAdornment:
                             <Button
                                 onClick={onButtonClickHandler}
@@ -98,7 +95,5 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
 
 export default SuperEditableSpan;
 
-function dispatch(arg0: (dispatch: import("../../app/store").AppThunkDispatch) => void) {
-    throw new Error("Function not implemented.");
-}
+
 

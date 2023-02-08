@@ -13,14 +13,13 @@ import {Navigate} from "react-router-dom";
 
 export const Profile = () => {
     const dispatch = useAppDispatch()
-    const isSignUp = useAppSelector<boolean>((state) => state.auth.isAuth);
+    const isSignUp = useAppSelector<boolean>((state) => state.auth.isLogin)
     const logOutHandler = useCallback(() => {
         dispatch(logoutUser())
     }, [])
-    const userData = useAppSelector<UserDataType | undefined>((state) => state.auth.userData)
+    const userData = useAppSelector<any>((state) => state.auth.user)
     let [name, setName] = useState<any>(userData?.name);
-
-
+// console.log(userData)
     const changeName = (e: ChangeEvent<HTMLInputElement>) => {
       setName(e.currentTarget.value)
     }

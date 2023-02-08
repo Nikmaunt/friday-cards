@@ -2,10 +2,10 @@ import { instance } from "../../app/appAPI";
 
 export const authAPI = {
   registration(values: RegistrationRequestType) {
-    return instance.post<RegistrationRequestType, ResponseRegistrationType>("/auth/register", values);
+    return instance.post("/auth/register", values);
   },
   login(values: LoginRequestType) {
-    return instance.post<LoginRequestType, UserType>("/auth/login", values);
+    return instance.post("/auth/login", values);
   },
   authMe() {
     return instance.post<UserType>("/auth/me");

@@ -5,8 +5,7 @@ import SuperEditableSpan from "../../common/c4-SuperEditableSpan/SuperEditableSp
 import SuperRadio from "../../common/c6-SuperRadio/SuperRadio";
 import SuperRange from "../../common/c7-SuperRange/SuperRange";
 import SuperDebouncedInput from "../../common/c8-SuperDebouncedInput/SuperDebouncedInput";
-import SuperPagination from "../../common/c9-SuperPagination/SuperPagination";
-import SuperSort from "../../common/c10-SuperSort/SuperSort";
+
 import s from "./TestComponents.module.css";
 
 export const TestComponents = () => {
@@ -20,8 +19,6 @@ export const TestComponents = () => {
       <SuperRadio />
       <SuperRange />
       <SuperDebouncedInput />
-      {/*<SuperPagination page={1} itemsCountForPage={4} totalCount={5} onChange={}/>*/}
-      {/*<SuperSort sort={} value={} onChange={}/>*/}
     </div>
   );
 };
