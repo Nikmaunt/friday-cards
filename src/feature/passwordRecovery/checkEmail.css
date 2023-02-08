@@ -1,34 +1,36 @@
-/*общий блок CheckEmail*/
-.checkEmail {
-  display: flex;
+
+.checkEmailBlock {
   background-color: #ffffff;
 
-  /*располоение элементов в блоке в колонку*/
-  flex-direction: column;
+  /*размеры блока*/
+  width: 413px;
+  height: 408px;
 
   /*границы общего блока*/
   border: 2px solid #ffffff;
   border-radius: 2px;
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1), -1px -1px 2px rgba(0, 0, 0, 0.1);
 
-  /*размеры блока*/
-  width: 413px;
-  height: 408px;
-
   /*отступы*/
   margin-top: 60px;
   margin-left: auto;
   margin-right: auto;
+}
+
+
+/*общий блок CheckEmail*/
+.checkEmail {
+  display: flex;
+  padding: 35px 33px 48px;
+
+  /*располоение элементов в блоке в колонку*/
+  flex-direction: column;
 
   /*расположение по центру*/
   align-items: center;
 }
 
 .checkEmail .title {
-  /*расположение*/
-  margin-top: 35px;
-  margin-left: 123px;
-  margin-right: 123px;
   /*текст*/
   color: #000000;
   font-size: 26px;
@@ -41,10 +43,9 @@
 
 .checkEmail .description {
   /*расположение*/
-  margin: 31px 0 0;
+  margin-top: 31px;
 
   /*текст*/
-  width: 328px;
   color: #000000;
   text-align: center;
   font-size: 14px;

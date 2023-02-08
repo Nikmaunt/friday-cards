@@ -2,24 +2,9 @@ import React, { Dispatch } from 'react'
 import { AppThunkDispatch } from '../app/store'
 import { appAPI } from '../app/appAPI'
 
-type RecoveryPasswordActionType = {
-  type: 'PASSWORD-RECOVERY'
-  message: string
-}
-
-// type ChangePasswordActionType = {
-//   type: 'PASSWORD-CHANGE'
-//   message: string
-// }
-
 type ChangePasswordActionType = ReturnType<typeof changePasswordAC>
 
 type redirectToLoginACType = ReturnType<typeof redirectToLoginAC>
-
-// type LoginActionType = {
-//   type: 'PASSWORD-CHANGE'
-//   message: string
-// }
 
 type forgotPasswordResponseType = {
   info: string
@@ -27,6 +12,7 @@ type forgotPasswordResponseType = {
   answer: boolean
   html: boolean
 }
+
 const initialState = { isLogin: false }
 type initialForgotPasswordStateType = typeof initialState
 
@@ -37,17 +23,11 @@ export const forgotPasswordReducer = (
   action: ForgotPasswordActionsType,
 ): initialForgotPasswordStateType => {
   switch (action.type) {
-    // case 'PASSWORD-RECOVERY': {
-    //   console.log(action.message)
-    //   alert(action.message)
-    //   return { ...state }
-    // }
-
     case 'PASSWORD-CHANGE': {
-      alert('!New password has been applied')
+      alert(action.message)
       return state
     }
-    case 'REDIRECT-TO-LOGIN': {
+    case 'REDIRECT-TO': {
       return { ...state, isLogin: action.value }
     }
     default:
@@ -55,28 +35,24 @@ export const forgotPasswordReducer = (
   }
 }
 
-// export const recoveryPasswordAC = (message: string): RecoveryPasswordActionType => {
-//   return { type: 'PASSWORD-RECOVERY', message }
-// }
-
 export const changePasswordAC = (message: string) => {
   return { type: 'PASSWORD-CHANGE', message } as const
 }
 
 export const redirectToLoginAC = (value: boolean) => {
-  return { type: 'REDIRECT-TO-LOGIN', value } as const
+  return { type: 'REDIRECT-TO', value } as const
 }
 
 export const recoveryPasswordTC = (email: string) => async (dispatch: AppThunkDispatch) => {
-  const res = await appAPI.recoveryPassword(email)
-  if (!res.data.error) {
-    // dispatch(recoveryPasswordAC(res.data.info))
-    dispatch(redirectToLoginAC(true))
-  } else {
-    // dispatch(recoveryPasswordAC(res.data.error))
-    throw new Error(res.data.error)
-  }
-  alert(res.data)
+  try {
+    const res = await appAPI.recoveryPassword(email)
+    if (!res.data.error) {
+      dispatch(redirectToLoginAC(true))
+    } else {
+      throw new Error(res.data.error)
+    }
+    alert(res.data)
+  } catch (e) {}
 }
 // const { token } = uxeParams<{ token: string }>()
 export const changePasswordTC = (password: string) => async (dispatch: AppThunkDispatch) => {
@@ -90,6 +66,7 @@ export const changePasswordTC = (password: string) => async (dispatch: AppThunkD
     //проверка ошибки запроса
     if (!res.data.error) {
       dispatch(changePasswordAC(res.data.info))
+      dispatch(redirectToLoginAC(true))
     } else {
       dispatch(changePasswordAC(res.data.error))
       throw new Error(res.data.error)
