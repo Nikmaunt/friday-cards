@@ -13,12 +13,20 @@
   color: #0059b2;
 }
 
-.button {
-  width: 113px;
+.main_logo {
+   width:173px;
+   height:41px;
+   margin-left: 136px;
 }
 
-h4 {
+.button {
+  width: 113px;
+  margin-right: 136px;
+}
+
+.userProfile {
   font-size: 16px;
   font-weight: 500;
+  margin-right: 136px;
   text-decoration: underline dotted
 }
