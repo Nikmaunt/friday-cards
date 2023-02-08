@@ -1,6 +1,8 @@
 import s from "./Header.module.css";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { setLoginUser } from "../loginRegistration/authReducer";
 import {Stack} from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import React, {useEffect} from "react";
@@ -10,8 +12,18 @@ import {UserDataType} from "../loginRegistration/authReducer";
 import {updateUser} from "../../feature/profile/profileReducer";
 
 export const Header = () => {
+  const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
+
   let activeStyle = {
     color: "#0059b2",
+  };
+  const goToSignIn = () => {
+    console.log("bottom");
+    return <Navigate to={"/friday-cards/login"} />;
+  };
+  const logoutHandler = () => {
+    dispatch(setLoginUser(false));
   };
 
   const userData = useAppSelector<UserDataType | undefined>((state) => state.auth.userData)
@@ -47,6 +59,13 @@ export const Header = () => {
         <NavLink style={style} to="/friday-cards/test-components">
           Test Components
         </NavLink>
+        <div className={s.button}>
+          {isLogin ? (
+            <SuperButton name={"Logout"} callback={logoutHandler} />
+          ) : (
+            <SuperButton name={"Sign in"} callback={goToSignIn} />
+          )}
+        </div>
         {isSignUp ?  <Stack direction="row" spacing={1}>
           <h4  >{userName}</h4>
           <Avatar style={{marginTop:'12px'}}

@@ -1,46 +1,82 @@
-import {AppThunkDispatch} from "../../app/store";
-import {authAPI, LoginRequestType, RegistrationRequestType} from "./authAPI";
-import {Dispatch} from "react";
+import { AppThunkDispatch } from "../../app/store";
+import { authAPI, LoginRequestType, RegistrationRequestType, UserType } from "./authAPI";
+import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
+import { AxiosError } from "axios";
+import { errorUtils } from "../../utils/errorUtils/errorUtils";
 
-const initialAuthState : InitialAuthStateType = {
-    isAuth: false,
-    userData: {}  as UserDataType
-
+const initialAuthState = {
+  isLogin: false,
+  user: {
+    _id: "",
+    email: "",
+    name: "",
+    avatar: "",
+    publicCardPacksCount: 0,
+    created: "",
+    updated: "",
+    isAdmin: false,
+    verified: false,
+    rememberMe: false,
+    error: "",
+  },
 };
 
-export const authReducer = (state = initialAuthState, action: ActionsType) : InitialAuthStateType    => {
-    switch (action.type) {
-        case 'SET-IS-LOGGED-IN':
-            return {...state, isAuth: action.value, userData: action.data}
-        default:
-            return state;
-
-        //
-    }
+export const authReducer = (state = initialAuthState, action: AuthActionCreatorsType): InitialAuthStateType => {
+  switch (action.type) {
+    case AuthActions.SetAuthUser:
+      return { ...state, isLogin: action.payload.value };
+    case AuthActions.SetCurrentUser:
+      return { ...state };
+    default:
+      return state;
+    //
+  }
 };
+/////////////////// ACTION CREATORS ///////////////////////
+export const setLoginUser = (value: boolean) => ({ type: AuthActions.SetAuthUser, payload: { value } } as const);
+export const setCurrentUser = (user: UserType) => ({ type: AuthActions.SetCurrentUser, payload: { user } } as const);
 
 // actions
 
 export const setIsLoggedINAC = (value: boolean,data?:UserDataType) => ({type: 'SET-IS-LOGGED-IN', value,data} as const)
 
 /////////////////// THUNK CREATORS ////////////////////////
-export const registrateUser = (values: RegistrationRequestType) => async (dispatch: AppThunkDispatch) => {
-    try {
-        let res = await authAPI.registration(values);
-        // console.log(res);
-    } catch (e) {
-    }
+export const registrationUser = (values: RegistrationRequestType) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
+  try {
+    await authAPI.registration(values);
+    dispatch(toggleIsSignUp(false));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setAppStatus("succeeded"));
+  }
 };
 
 export const loginUser = (values: LoginRequestType) => async (dispatch: AppThunkDispatch) => {
-    try {
-        let res = await authAPI.login(values);
-        if (res.status === 200) {
-            dispatch(setIsLoggedINAC(true, res.data))
-        }
-        console.log(res.data);
-    } catch (e) {
-    }
+  dispatch(setAppStatus("loading"));
+  try {
+    await authAPI.login(values);
+    dispatch(setLoginUser(true));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setAppStatus("succeeded"));
+  }
+};
+
+export const authMe = () => async (dispatch: AppThunkDispatch) => {
+  try {
+    await authAPI.authMe();
+    dispatch(setLoginUser(true));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setIsInitialized(true));
+  }
 };
 
 export const logoutUser = () => (dispatch: AppThunkDispatch) => {
@@ -58,10 +94,14 @@ export const logoutUser = () => (dispatch: AppThunkDispatch) => {
 
 //////////// types //////////////
 
-export type InitialAuthStateType = {
-    isAuth: boolean;
-    userData?: UserDataType
-};
+type InitialAuthStateType = typeof initialAuthState;
+
+export enum AuthActions {
+  SetAuthUser = "SET-AUTH-USER",
+  SetCurrentUser = "SET-CURRENT-USER",
+}
+
+export type AuthActionCreatorsType = ReturnType<typeof setLoginUser> | ReturnType<typeof setCurrentUser>;
 
 export type UserDataType =  {
     _id: string;
