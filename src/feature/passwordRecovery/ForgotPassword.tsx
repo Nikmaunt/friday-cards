@@ -1,44 +1,64 @@
-import React, { ChangeEvent, useState } from "react";
-import { Button, Input, TextField } from "@mui/material";
-import "./forgotPassword.css";
-import { useDispatch } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
-import { RootReducerType } from "../../app/store";
-import { Action } from "redux";
-import { recoveryPasswordTC } from "../../state/forgotPassword-reducer";
+import React, { ChangeEvent, useState } from 'react'
+import { Button, Input, TextField } from '@mui/material'
+import './forgotPassword.css'
+import { useDispatch } from 'react-redux'
+import { ThunkDispatch } from 'redux-thunk'
+import { RootReducerType, useAppDispatch, useAppSelector } from '../../app/store'
+import { Action } from 'redux'
+import { recoveryPasswordTC } from '../../state/forgotPassword-reducer'
+import { Navigate, NavLink } from 'react-router-dom'
+import { SuperButton } from '../../common/superButton/superButton'
 
-export type AppThunkType = ThunkDispatch<RootReducerType, void, Action>;
+export type AppThunkType = ThunkDispatch<RootReducerType, void, Action>
 
-//
+//восстановление пароля
 export const ForgotPassword = () => {
-  let dispatch = useDispatch<AppThunkType>();
-  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState('')
+  let dispatch = useAppDispatch()
+  const [email, setEmail] = useState('')
+  const isLogin = useAppSelector<boolean>((state) => state.recoveryPassword.isLogin)
 
   //ввод email
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.currentTarget.value);
-  };
+    setEmail(e.currentTarget.value)
+    if (e.currentTarget.value) {
+      setEmailError('')
+    }
+  }
 
   //отправка инструкции восстановления пароля на email
   const sendRecoveryPasswordInstructions = () => {
     //проверка корректности email
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
-      alert("Invalid email address");
+      setEmailError('Incorrect password')
     } else {
-      dispatch(recoveryPasswordTC(email));
+      setEmailError('')
+      dispatch(recoveryPasswordTC(email))
     }
-  };
-
+  }
+  if (isLogin) {
+    return <Navigate to={'/friday-cards/check-email'} />
+  }
   return (
-    <div className={"forgotPassword"}>
-      <div className={"title"}>Forgot your password?</div>
-      <TextField label="Email" variant="standard" className={"textField"} onChange={onChangeHandler} />
-      <div className={"description"}>Enter your email address and we will send you further instructions</div>
-      <Button className={"button"} variant={"contained"} onClick={sendRecoveryPasswordInstructions}>
+    <div className={'forgotPassword'}>
+      <div className={'title'}>Forgot your password?</div>
+      <TextField
+        error={emailError !== ''}
+        label='Email'
+        variant='standard'
+        className={'textField'}
+        onChange={onChangeHandler}
+        helperText={emailError ? emailError : ''}
+      />
+      <div className={'description'}>Enter your email address and we will send you further instructions</div>
+      <NavLink to='/friday-cards/check-email' />
+      <SuperButton name={'Send Instructions'} callback={sendRecoveryPasswordInstructions} />
+
+      <Button className={'button'} variant={'contained'} onClick={sendRecoveryPasswordInstructions}>
         Send Instructions
       </Button>
-      <div className={"rememberPassword"}>Did you remember your password?</div>
-      <div className={"link"}>Try logging in</div>
+      <div className={'rememberPassword'}>Did you remember your password?</div>
+      <div className={'link'}>Try logging in</div>
     </div>
-  );
-};
+  )
+}

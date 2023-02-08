@@ -1,29 +1,29 @@
 const initialState = {
   isSignIn: true,
   isSignUp: false,
-};
+}
 
 export const appReducer = (state = initialState, action: AppActionCreatorsType): InitialStateType => {
   switch (action.type) {
     case AppActions.ToggleIsSignUp:
-      console.log(state);
-      return { ...state, isSignUp: !state.isSignUp };
+      console.log(state)
+      return { ...state, isSignUp: !state.isSignUp }
     default:
-      return state;
+      return state
   }
-};
+}
 
 //////////////////////// ACTIONS CREATORS /////////////////////
-export const toggleIsSignUp = () => ({ type: AppActions.ToggleIsSignUp } as const);
+export const toggleIsSignUp = () => ({ type: AppActions.ToggleIsSignUp } as const)
 
 //////////////////////// types  ///////////////////////////////
 export type InitialStateType = {
-  isSignIn: boolean;
-  isSignUp: boolean;
-};
+  isSignIn: boolean
+  isSignUp: boolean
+}
 
-export type AppActionCreatorsType = ReturnType<typeof toggleIsSignUp>;
+export type AppActionCreatorsType = ReturnType<typeof toggleIsSignUp>
 
 export enum AppActions {
-  ToggleIsSignUp = "TOGGLE-IS-SIGN-UP",
+  ToggleIsSignUp = 'TOGGLE-IS-SIGN-UP',
 }
