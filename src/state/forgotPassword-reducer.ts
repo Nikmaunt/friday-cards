@@ -7,15 +7,19 @@ type RecoveryPasswordActionType = {
   message: string
 }
 
-type ChangePasswordActionType = {
-  type: 'PASSWORD-CHANGE'
-  message: string
-}
+// type ChangePasswordActionType = {
+//   type: 'PASSWORD-CHANGE'
+//   message: string
+// }
 
-type LoginActionType = {
-  type: 'PASSWORD-CHANGE'
-  message: string
-}
+type ChangePasswordActionType = ReturnType<typeof changePasswordAC>
+
+type redirectToLoginACType = ReturnType<typeof redirectToLoginAC>
+
+// type LoginActionType = {
+//   type: 'PASSWORD-CHANGE'
+//   message: string
+// }
 
 type forgotPasswordResponseType = {
   info: string
@@ -26,30 +30,24 @@ type forgotPasswordResponseType = {
 const initialState = { isLogin: false }
 type initialForgotPasswordStateType = typeof initialState
 
-export type ForgotPasswordActionsType = RecoveryPasswordActionType | ChangePasswordActionType | isLoginACType
+export type ForgotPasswordActionsType = ChangePasswordActionType | redirectToLoginACType
 
 export const forgotPasswordReducer = (
   state: initialForgotPasswordStateType = initialState,
   action: ForgotPasswordActionsType,
 ): initialForgotPasswordStateType => {
   switch (action.type) {
-    case 'PASSWORD-RECOVERY': {
-      console.log(action.message)
-      alert(action.message)
-
-      //redirect на checkEmail
-      // setTimeout(function () {
-      //   // @ts-ignore
-      //   window.location = '/friday-cards/check-email'
-      // }, 500)
-      return { ...state }
-    }
+    // case 'PASSWORD-RECOVERY': {
+    //   console.log(action.message)
+    //   alert(action.message)
+    //   return { ...state }
+    // }
 
     case 'PASSWORD-CHANGE': {
       alert('!New password has been applied')
       return state
     }
-    case 'PASSWORD-LOGIN': {
+    case 'REDIRECT-TO-LOGIN': {
       return { ...state, isLogin: action.value }
     }
     default:
@@ -57,25 +55,23 @@ export const forgotPasswordReducer = (
   }
 }
 
-export const recoveryPasswordAC = (message: string): RecoveryPasswordActionType => {
-  return { type: 'PASSWORD-RECOVERY', message }
+// export const recoveryPasswordAC = (message: string): RecoveryPasswordActionType => {
+//   return { type: 'PASSWORD-RECOVERY', message }
+// }
+
+export const changePasswordAC = (message: string) => {
+  return { type: 'PASSWORD-CHANGE', message } as const
 }
 
-export const changePasswordAC = (message: string): ChangePasswordActionType => {
-  return { type: 'PASSWORD-CHANGE', message }
+export const redirectToLoginAC = (value: boolean) => {
+  return { type: 'REDIRECT-TO-LOGIN', value } as const
 }
-
-export const isLoginAC = (value: boolean) => {
-  return { type: 'PASSWORD-LOGIN', value } as const
-}
-
-type isLoginACType = ReturnType<typeof isLoginAC>
 
 export const recoveryPasswordTC = (email: string) => async (dispatch: AppThunkDispatch) => {
   const res = await appAPI.recoveryPassword(email)
   if (!res.data.error) {
     // dispatch(recoveryPasswordAC(res.data.info))
-    dispatch(isLoginAC(true))
+    dispatch(redirectToLoginAC(true))
   } else {
     // dispatch(recoveryPasswordAC(res.data.error))
     throw new Error(res.data.error)

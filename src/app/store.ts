@@ -19,7 +19,7 @@ export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector
 export type RootReducerType = ReturnType<typeof rootReducer>
 export type AppThunkDispatch = ThunkDispatch<RootReducerType, any, AnyAction>
 
-export type AppActionsType = ForgotPasswordActionsType
+// export type AppActionsType = ForgotPasswordActionsType
 //thunkType
 // export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootReducerType, unknown, AppActionsType>
 
