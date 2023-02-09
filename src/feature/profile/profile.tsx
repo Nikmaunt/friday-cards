@@ -20,7 +20,7 @@ export const Profile = () => {
   }, []);
 
   if (!isSignUp) {
-    return <Navigate to={"/friday-cards/registration"} />;
+    return <Navigate to={"/friday-cards/login"} />;
   }
 
   return (
