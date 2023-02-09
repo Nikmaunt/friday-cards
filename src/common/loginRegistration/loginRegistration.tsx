@@ -95,7 +95,7 @@ export const LoginRegistration = () => {
               <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
               <Input
                 {...formik.getFieldProps("password")}
-                id="standard-adornment-password"
+                id="standard-adornment-password1"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
                   <InputAdornment position="end">
@@ -115,7 +115,7 @@ export const LoginRegistration = () => {
             )}
             {isSignUp && (
               <FormControl variant="standard" fullWidth>
-                <InputLabel htmlFor="standard-adornment-password">Confirm password</InputLabel>
+                <InputLabel htmlFor="standard-adornment-password2">Confirm password</InputLabel>
                 <Input
                   {...formik.getFieldProps("confirmPassword")}
                   id="standard-adornment-password"
@@ -147,7 +147,7 @@ export const LoginRegistration = () => {
                   checked={formik.values.rememberMe}
                 />
                 <div className={s.linkToPassword}>
-                  <NavLink to="">Forgot Password?</NavLink>
+                  <NavLink to="/friday-cards/forgot-password">Forgot Password?</NavLink>
                 </div>
               </div>
             )}

@@ -12,7 +12,6 @@ export const TestComponents = () => {
   return (
     <div className={s.wrapper}>
       <SuperSelect />
-
       <SuperInputText />
       <SuperCheckbox />
       <SuperEditableSpan />

@@ -12,9 +12,7 @@ export const CheckEmail = () => {
         alt="messageIcon not found"
         className={"messageIcon"}
       />
-      <div className={"description"}>
-        We’ve sent an Email with instructions to example@mail.com
-      </div>
+      <div className={"description"}>We’ve sent an Email with instructions to example@mail.com</div>
       <Button className={"button"} variant={"contained"}>
         Back to login
       </Button>

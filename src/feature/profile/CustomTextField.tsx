@@ -7,53 +7,48 @@ type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
 // здесь мы говорим что у нашего инпута будут такие же пропсы как у обычного инпута, кроме type
 // (чтоб не писать value: string, onChange: ...; они уже все описаны в DefaultInputPropsType)
 type SuperInputTextPropsType = Omit<DefaultInputPropsType, "type"> & {
-    // и + ещё пропсы которых нет в стандартном инпуте
-    onChangeText?: (value: string) => void;
-    onEnter?: () => void;
-    error?: ReactNode;
-    spanClassName?: string;
+  // и + ещё пропсы которых нет в стандартном инпуте
+  onChangeText?: (value: string) => void;
+  onEnter?: () => void;
+  error?: ReactNode;
+  spanClassName?: string;
 };
 
 const CustomInputText: React.FC<SuperInputTextPropsType> = ({
-                                                               onChange,
-                                                               onChangeText,
-                                                               onKeyDown,
-                                                               onEnter,
-                                                               error,
-                                                               className,
-                                                               spanClassName,
-                                                               id,
+  onChange,
+  onChangeText,
+  onKeyDown,
+  onEnter,
+  error,
+  className,
+  spanClassName,
+  id,
 
-                                                               ...restProps // все остальные пропсы попадут в объект restProps
-                                                           }) => {
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
-        onChange?.(e); // если есть пропс onChange, то передать ему е (поскольку onChange не обязателен)
-        onChangeText?.(e.currentTarget.value);
-    };
-    const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
-        onKeyDown?.(e);
-        onEnter && // если есть пропс onEnter
-        e.key === "Enter" && // и если нажата кнопка Enter
-        onEnter(); // то вызвать его
-    };
+  ...restProps // все остальные пропсы попадут в объект restProps
+}) => {
+  const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange?.(e); // если есть пропс onChange, то передать ему е (поскольку onChange не обязателен)
+    onChangeText?.(e.currentTarget.value);
+  };
+  const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
+    onKeyDown?.(e);
+    onEnter && // если есть пропс onEnter
+      e.key === "Enter" && // и если нажата кнопка Enter
+      onEnter(); // то вызвать его
+  };
 
-
-
-    return (
-        <div >
-            <input
-                id={id}
-                type={"text"}
-                onChange={onChangeCallback}
-                onKeyDown={onKeyPressCallback}
-
-                {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
-            />
-            <span id={id ? id + "-span" : undefined} >
-        {error}
-      </span>
-        </div>
-    );
+  return (
+    <div>
+      <input
+        id={id}
+        type={"text"}
+        onChange={onChangeCallback}
+        onKeyDown={onKeyPressCallback}
+        {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
+      />
+      <span id={id ? id + "-span" : undefined}>{error}</span>
+    </div>
+  );
 };
 
-export default  CustomInputText;
+export default CustomInputText;
