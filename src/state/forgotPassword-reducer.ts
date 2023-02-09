@@ -12,18 +12,33 @@ type ChangePasswordActionType = {
   message: string;
 };
 
+type forgotPasswordResponseType = {
+  info: string;
+  success: boolean;
+  answer: boolean;
+  html: boolean;
+};
+const initialState = {};
+type initialForgotPasswordStateType = typeof initialState;
+
 export type ForgotPasswordActionsType = RecoveryPasswordActionType | ChangePasswordActionType;
 
-export const forgotPasswordReducer = (state: any, action: ForgotPasswordActionsType): any => {
+export const forgotPasswordReducer = (
+  state: initialForgotPasswordStateType = initialState,
+  action: ForgotPasswordActionsType
+): initialForgotPasswordStateType => {
   switch (action.type) {
     case "PASSWORD-RECOVERY": {
       console.log(action.message);
       alert(action.message);
-      return;
+      return state;
     }
-    case "PASSWORD-CHANGE":
+    case "PASSWORD-CHANGE": {
       alert(action.message);
-      return;
+      return state;
+    }
+    default:
+      return state;
   }
 };
 
@@ -39,18 +54,23 @@ export const recoveryPasswordTC =
   (email: string): AppThunk =>
   async (dispatch) => {
     const res = await appAPI.recoveryPassword(email);
+    console.log(res);
     if (!res.data.error) {
       dispatch(recoveryPasswordAC(res.data.info));
     } else {
       dispatch(recoveryPasswordAC(res.data.error));
       throw new Error(res.data.error);
     }
+    alert(res.data);
   };
 
 export const changePasswordTC =
   (password: string): AppThunk =>
   async (dispatch) => {
-    const resetPasswordToken = "resetPasswordToken";
+    //url из строки браузера
+    const URL = window.location.href;
+    //токен
+    const resetPasswordToken = URL.replace(/^.*[\\\/]/, "");
     const res = await appAPI.setNewPassword(password, resetPasswordToken);
     if (!res.data.error) {
       dispatch(changePasswordAC(res.data.info));

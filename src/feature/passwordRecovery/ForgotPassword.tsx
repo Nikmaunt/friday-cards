@@ -1,3 +1,5 @@
+import React, { ChangeEvent, useState } from "react";
+import { Button, Input, TextField } from "@mui/material";
 import React from "react";
 import { TextField } from "@mui/material";
 import "./forgotPassword.css";
@@ -14,17 +16,27 @@ export type AppThunkType = ThunkDispatch<RootReducerType, void, Action>;
 export const ForgotPassword = () => {
   // let dispatch = useDispatch<AppThunkType>();
   let dispatch = useDispatch<AppThunkType>();
+  const [email, setEmail] = useState("");
+
+  //ввод email
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.currentTarget.value);
+  };
 
   //отправка инструкции восстановления пароля на email
   const sendRecoveryPasswordInstructions = () => {
-    const email = "vladimir817vk@gmail.com";
-    dispatch(recoveryPasswordTC(email));
+    //проверка корректности email
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
+      alert("Invalid email address");
+    } else {
+      dispatch(recoveryPasswordTC(email));
+    }
   };
 
   return (
     <div className={"forgotPassword"}>
       <div className={"title"}>Forgot your password?</div>
-      <TextField label="Email" variant="standard" className={"textField"} />
+      <TextField label="Email" variant="standard" className={"textField"} onChange={onChangeHandler} />
       <div className={"description"}>Enter your email address and we will send you further instructions</div>
       <SuperButton name={"Send Instructions"} callback={sendRecoveryPasswordInstructions} />
       <div className={"rememberPassword"}>Did you remember your password?</div>
