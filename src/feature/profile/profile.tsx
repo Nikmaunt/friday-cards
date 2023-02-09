@@ -64,7 +64,6 @@ export const Profile = () => {
                             onChange:changeName
                         }}
                     />
-                    {/*{error ?  <div style={{ color: "red" }}>{error}</div> : ''}*/}
                     <span>{userData?.email}</span>
                     <Button
                         type={"submit"}
