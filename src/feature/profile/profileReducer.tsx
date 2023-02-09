@@ -1,5 +1,5 @@
 import {AppThunkDispatch} from "../../app/store";
-import {profileAPI} from "./img/profileAPI";
+import {profileAPI} from "./profileAPI";
 import {AxiosError} from "axios/index";
 import {errorUtils} from "../../utils/errorUtils/errorUtils";
 
