@@ -66,14 +66,17 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     errorUtils(err, dispatch);
   } finally {
     dispatch(setIsInitialized(true));
+    dispatch(setAppStatus("succeeded"));
   }
 };
 
 export const logoutUser = () => (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatus('loading'))
     authAPI.logout()
         .then(res => {
             if (res.status === 200) {
                 dispatch(setLoginUser(false))
+                dispatch(setAppStatus('succeeded'))
             }
         })
         .catch((error) => {
