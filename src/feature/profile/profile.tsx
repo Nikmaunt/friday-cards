@@ -8,6 +8,7 @@ import EditableSpan from "./EditableSpan";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {logoutUser} from "../../common/loginRegistration/authReducer";
 import {Navigate} from "react-router-dom";
+import {UserType} from "../../common/loginRegistration/authAPI";
 
 export const Profile = () => {
     const dispatch = useAppDispatch()
@@ -15,7 +16,8 @@ export const Profile = () => {
     const logOutHandler = useCallback(() => {
         dispatch(logoutUser())
     }, [])
-    const userData = useAppSelector<any>((state) => state.auth.user)
+    const userData = useAppSelector<UserType>((state) => state.auth.user)
+    console.log(typeof userData)
     const userName = useAppSelector<string>((state) => state.profile.name)
     let [name, setName] = useState<string>(userName);
 
