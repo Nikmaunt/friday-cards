@@ -1,12 +1,13 @@
-import {AppThunkDispatch, RootReducerType} from "../../app/store";
-import {Dispatch} from "react";
+import {AppThunkDispatch} from "../../app/store";
 import {profileAPI} from "./img/profileAPI";
+import {AxiosError} from "axios/index";
+import {errorUtils} from "../../utils/errorUtils/errorUtils";
 
-const initialAuthState : InitialAuthStateType = {
+const initialState : InitialStateType = {
    name: ''
 };
 
-export const profileReducer = (state = initialAuthState, action: ActionsType) : InitialAuthStateType    => {
+export const profileReducer = (state =  initialState, action: ActionsType) : InitialStateType    => {
     switch (action.type) {
         case 'UPDATE-USER-NAME':
             return {...state, name: action.name}
@@ -26,39 +27,21 @@ export const updateUser = (name:string) => (dispatch: AppThunkDispatch) => {
     profileAPI.updateUserName(name)
         .then(res => {
             if (res.status === 200) {
-                console.log(res+'userNew');
                 dispatch(updateUserNameAC(name))
             }
         })
-        .catch((error) => {
-            console.log(error);
+        .catch((e) => {
+            const err = e as Error | AxiosError<{ error: string }>;
+            errorUtils(err, dispatch);
         })
 }
 
 
 //////////// types //////////////
 
-export type InitialAuthStateType = {
-    name: any
+export type InitialStateType = {
+    name: string
 };
-
-export type UserDataType =  {
-    _id: string;
-    email: string;
-    name: string;
-    avatar?: string;
-    publicCardPacksCount: number;
-// количество колод
-
-    created: Date;
-    updated: Date;
-    isAdmin: boolean;
-    verified: boolean; // подтвердил ли почту
-    rememberMe: boolean;
-
-    error?: string;
-}
-
 
 type ActionsType =
     | ReturnType<typeof updateUserNameAC
