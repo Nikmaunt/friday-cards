@@ -17,7 +17,6 @@ export const Profile = () => {
         dispatch(logoutUser())
     }, [])
     const userData = useAppSelector<UserType>((state) => state.auth.user)
-    console.log(typeof userData)
     const userName = useAppSelector<string>((state) => state.profile.name)
     let [name, setName] = useState<string>(userName);
 
