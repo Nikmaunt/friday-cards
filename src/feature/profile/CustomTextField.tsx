@@ -14,7 +14,7 @@ type SuperInputTextPropsType = Omit<DefaultInputPropsType, "type"> & {
   spanClassName?: string;
 };
 
-const SuperInputText: React.FC<SuperInputTextPropsType> = ({
+const CustomInputText: React.FC<SuperInputTextPropsType> = ({
   onChange,
   onChangeText,
   onKeyDown,
@@ -37,24 +37,18 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = ({
       onEnter(); // то вызвать его
   };
 
-  const finalSpanClassName = error ? s.error + (spanClassName ? " " + s[spanClassName] : " ") : " ";
-  const finalInputClassName = s.superInput + (error ? " " + s.errorInput : " "); // задача на смешивание классов
-
   return (
-    <div className={s.inputWrapper}>
+    <div>
       <input
         id={id}
         type={"text"}
         onChange={onChangeCallback}
         onKeyDown={onKeyPressCallback}
-        className={className ? className : finalInputClassName}
         {...restProps} // отдаём инпуту остальные пропсы если они есть (value например там внутри)
       />
-      <span id={id ? id + "-span" : undefined} className={finalSpanClassName}>
-        {error}
-      </span>
+      <span id={id ? id + "-span" : undefined}>{error}</span>
     </div>
   );
 };
 
-export default SuperInputText;
+export default CustomInputText;
