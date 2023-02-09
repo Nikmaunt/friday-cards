@@ -1,14 +1,14 @@
-import {Box, FormGroup, IconButton, Paper, Stack} from "@mui/material";
+import {Box , Paper, Stack} from "@mui/material";
 import BadgeAvatars from "./StyledBadge";
 import Button from "@mui/material/Button";
 import arrowIcon from './img/logOutArrow.png';
-import React, {ChangeEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, useCallback, useEffect, useState} from "react";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import EditableSpan from "./EditableSpan";
-import {RootReducerType, useAppDispatch, useAppSelector} from "../../app/store";
-import {logoutUser, UserDataType} from "../../common/loginRegistration/authReducer";
-import {updateUser} from "./profileReducer";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {logoutUser, setLoginUser} from "../../common/loginRegistration/authReducer";
 import {Navigate} from "react-router-dom";
+import {ErrorSnackbar} from "../../common/errorSnackbar/errorSnackbar";
 
 
 export const Profile = () => {
@@ -18,17 +18,23 @@ export const Profile = () => {
         dispatch(logoutUser())
     }, [])
     const userData = useAppSelector<any>((state) => state.auth.user)
-    let [name, setName] = useState<any>(userData?.name);
+    const userName = useAppSelector<any>((state) => state.profile.name)
+    let [name, setName] = useState<any>(userName);
 // console.log(userData)
     const changeName = (e: ChangeEvent<HTMLInputElement>) => {
       setName(e.currentTarget.value)
     }
+    useEffect(() => {
+        if (!isSignUp) return
+        dispatch(setLoginUser(true))
+    }, [])
 
     if(!isSignUp) {
       return <Navigate to={'/friday-cards/registration'}/>
     }
 
     return <div>
+        <ErrorSnackbar />
         <Stack ml={12} direction="row" spacing={1}>
             <KeyboardBackspaceIcon fontSize={"small"}/>
             <span>
@@ -59,7 +65,7 @@ export const Profile = () => {
                         value={name}
                         onChange={changeName}
                         spanProps={{
-                           defaultText:userData?.name,
+                            defaultText:userData?.email,
                             onChange:changeName
                         }}
                     />
@@ -86,5 +92,7 @@ export const Profile = () => {
                 </Stack>
             </Paper>
         </Box>
-    </div>;
+    </div> ;
+
+
 };
