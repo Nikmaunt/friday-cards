@@ -5,6 +5,8 @@ import thunkMiddleware, { ThunkDispatch, ThunkAction } from "redux-thunk";
 import { authReducer } from "../common/loginRegistration/authReducer";
 import { ForgotPasswordActionsType } from "../state/forgotPassword-reducer";
 import {profileReducer} from "../feature/profile/profileReducer";
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 
 export const rootReducer = combineReducers({
   app: appReducer,
@@ -12,7 +14,16 @@ export const rootReducer = combineReducers({
   profile: profileReducer
 });
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+
+export const store = createStore(persistedReducer, applyMiddleware(thunkMiddleware));
+export const persistor = persistStore(store)
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector;
 
