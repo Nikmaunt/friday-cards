@@ -4,7 +4,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppSelector } from "../../app/store";
 import Avatar from "@mui/material/Avatar";
@@ -14,9 +14,9 @@ import userPhoto from "../../feature/profile/img/userPhoto.png";
 export const Header = () => {
   const userName = useAppSelector<string>((state) => state.auth.user.name);
   const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
-
+  const navigate = useNavigate();
   const goToSignIn = () => {
-    return <Navigate to={"/friday-cards/login"} />;
+    return navigate("/friday-cards/login");
   };
 
   return (

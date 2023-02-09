@@ -3,16 +3,16 @@ import { UserDataType } from "./authReducer";
 
 export const authAPI = {
   registration(values: RegistrationRequestType) {
-    return instance.post("/auth/register", values);
+    return instance.post<ResponseRegistrationType>("/auth/register", values);
   },
   login(values: LoginRequestType) {
-    return instance.post("/auth/login", values);
+    return instance.post<UserDataType>("/auth/login", values);
   },
   authMe() {
     return instance.post<UserDataType>("/auth/me");
   },
   logout() {
-    return instance.delete("/auth/me", {});
+    return instance.delete<LogOutResponse>("/auth/me", {});
   },
 };
 ////////////////////////// types /////////////////////////////
@@ -32,16 +32,7 @@ export type LoginRequestType = {
   rememberMe: boolean;
 };
 
-// export type UserType = {
-//   _id: string;
-//   email: string;
-//   name: string;
-//   avatar?: string;
-//   publicCardPacksCount: number;
-//   created: Date;
-//   updated: Date;
-//   isAdmin: boolean;
-//   verified: boolean; // подтвердил ли почту
-//   rememberMe: boolean;
-//   error?: string;
-// };
+type LogOutResponse = {
+  info: string;
+  error: string;
+};

@@ -93,6 +93,7 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
 };
 
 export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
   try {
     await authAPI.logout();
     dispatch(setLoginUser(false));
@@ -101,6 +102,7 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
     errorUtils(err, dispatch);
   } finally {
     dispatch(setIsInitialized(true));
+    dispatch(setAppStatus("succeeded"));
   }
 };
 
@@ -114,6 +116,7 @@ export const updateUser = (name: string) => async (dispatch: AppThunkDispatch) =
     errorUtils(err, dispatch);
   } finally {
     dispatch(setIsInitialized(true));
+    dispatch(setAppStatus("succeeded"));
   }
 };
 

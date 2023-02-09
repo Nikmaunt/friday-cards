@@ -91,6 +91,7 @@ export const LoginRegistration = () => {
           <FormControl fullWidth className={s.formWrapper}>
             <TextField variant="standard" label="Email" fullWidth {...formik.getFieldProps("email")} />
             {formik.touched.email && formik.errors.email && <div style={{ color: "red" }}>{formik.errors.email}</div>}
+
             <FormControl variant="standard" fullWidth>
               <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
               <Input

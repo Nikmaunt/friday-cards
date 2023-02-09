@@ -1,9 +1,9 @@
 import { AnyAction, applyMiddleware, combineReducers, createStore } from "redux";
 import { appReducer } from "./appReducer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import thunkMiddleware, { ThunkDispatch, ThunkAction } from "redux-thunk";
+import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
 import { authReducer } from "../common/loginRegistration/authReducer";
-import { ForgotPasswordActionsType, forgotPasswordReducer } from "../state/forgotPassword-reducer";
+import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPassword-reducer";
 
 export const rootReducer = combineReducers({
   app: appReducer,
@@ -18,10 +18,6 @@ export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector
 ////types
 export type RootReducerType = ReturnType<typeof rootReducer>;
 export type AppThunkDispatch = ThunkDispatch<RootReducerType, any, AnyAction>;
-
-export type AppActionsType = ForgotPasswordActionsType;
-//thunkType
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootReducerType, unknown, AppActionsType>;
 
 // @ts-ignore
 window.store = store;

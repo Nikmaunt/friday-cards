@@ -1,13 +1,15 @@
 import React, { ChangeEvent, useState, KeyboardEvent } from "react";
-import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import { FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import "./createPassword.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { changePasswordTC, recoveryPasswordTC } from "../../state/forgotPassword-reducer";
-import { useDispatch } from "react-redux";
-import { AppThunkType } from "./ForgotPassword";
+import { changePasswordTC } from "./forgotPassword-reducer";
+import { SuperButton } from "../../common/superButton/superButton";
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { Navigate } from "react-router-dom";
 
 export const CreatePassword = () => {
-  let dispatch = useDispatch<AppThunkType>();
+  const isNewPasswordSet = useAppSelector<boolean>((state) => state.recoveryPassword.isNewPasswordSet);
+  let dispatch = useAppDispatch();
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState<null | string>("");
@@ -45,12 +47,14 @@ export const CreatePassword = () => {
       dispatch(changePasswordTC(password));
     }
   };
-
+  if (isNewPasswordSet) {
+    return <Navigate to={"/friday-cards/login"} />;
+  }
   return (
     <div className={"createPassword"}>
       <div className={"title"}>Create new password</div>
-      <div>
-        <FormControl sx={{ m: 1, width: "25ch" }} variant="standard" className={"textField"}>
+      <form>
+        <FormControl fullWidth variant="standard" className={"textField"}>
           <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
           <Input
             id="standard-adornment-password"
@@ -72,12 +76,10 @@ export const CreatePassword = () => {
             }
           />
         </FormControl>
-      </div>
-      {error && <div className="error-message">{error}</div>}
-      <div className={"description"}>Create new password and we will send you further instructions to email</div>
-      <Button className={"button"} variant={"contained"} onClick={sendNewPassword}>
-        Create new password
-      </Button>
+        {error && <div className="error-message">{error}</div>}
+        <div className={"description"}>Create new password and we will send you further instructions to email</div>
+        <SuperButton name={"Create new password"} callback={sendNewPassword} />
+      </form>
     </div>
   );
 };
