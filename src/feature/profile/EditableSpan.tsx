@@ -36,27 +36,37 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     const [editMode, setEditMode] = useState<boolean>(false);
     const {children, onDoubleClick, className, defaultText, ...restSpanProps} = spanProps || {};
     const dispatch = useAppDispatch()
-
+    let [errors, setErrors] = useState<string>('')
     const onButtonClickHandler =  () => {
-        dispatch(updateUser(restProps.value as string))
-        console.log('Button')
-        setEditMode(!editMode)
+        if (restProps.value  !== '' ) {
+            dispatch(updateUser(restProps.value as string))
+            setEditMode(!editMode)
+        } else {
+            setErrors('Name is required!');
+        }
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && restProps.value  !== '' ) {
             dispatch(updateUser(restProps.value as string))
-            console.log('Button')
             setEditMode(!editMode)
+        }
+        else {
+            setErrors('Name is required!');
         }
     }
 
     const onBlurHandler = () => {
-        setEditMode(!editMode);
+        if (restProps.value  !== '' )
+         setEditMode(!editMode);
+        else {
+            setErrors('Name is required!');
+        }
     };
 
     const onDoubleClickCallBack = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         setEditMode(!editMode);
         onDoubleClick?.(e);
+
     };
 
 
@@ -68,6 +78,8 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                     variant="standard"
                     style={{width: 347}}
                     label="Nickname"
+                    error={restProps.value === '' }
+                    helperText={restProps.value === ''  ? errors : ' '}
                     onKeyPress={onKeyPressHandler}
                     onChange={spanProps?.onChange}
                     {...restProps}
