@@ -8,7 +8,7 @@ import React, {
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import {useAppDispatch, useAppSelector} from "../../app/store";
+import {useAppDispatch} from "../../app/store";
 import {updateUser} from "./profileReducer";
 
 
@@ -60,6 +60,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     };
 
 
+
     return (
         <>
             {editMode ? (
@@ -71,7 +72,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                     onChange={spanProps?.onChange}
                     {...restProps}
                     InputProps={{
-                        // onBlur:onBlurHandler,
+                        onBlur:onBlurHandler,
                         endAdornment:
                             <Button
                                 onClick={onButtonClickHandler}
