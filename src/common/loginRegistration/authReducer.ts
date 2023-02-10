@@ -3,7 +3,8 @@ import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
 import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { profileAPI } from "../../feature/profile/img/profileAPI";
+import {profileAPI} from "../../feature/profile/profileAPI";
+
 
 const initialAuthState = {
   isLogin: false,
