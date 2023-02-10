@@ -9,7 +9,7 @@ import { Navigate } from "react-router-dom";
 
 export const CreatePassword = () => {
   const isNewPasswordSet = useAppSelector<boolean>((state) => state.recoveryPassword.isNewPasswordSet);
-  let dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState<null | string>("");

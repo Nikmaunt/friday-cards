@@ -6,16 +6,19 @@ import Toolbar from "@mui/material/Toolbar";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
-import { useAppSelector } from "../../app/store";
+import { useAppDispatch, useAppSelector } from "../../app/store";
 import Avatar from "@mui/material/Avatar";
 import { Stack, Tooltip } from "@mui/material";
 import userPhoto from "../../feature/profile/img/userPhoto.png";
+import { toggleIsSignUp } from "../../app/appReducer";
 
 export const Header = () => {
   const userName = useAppSelector<string>((state) => state.auth.user.name);
   const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const goToSignIn = () => {
+    dispatch(toggleIsSignUp(false));
     return navigate("/friday-cards/login");
   };
 
