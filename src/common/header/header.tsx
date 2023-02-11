@@ -10,10 +10,13 @@ import {SuperButton} from "../superButton/superButton";
 export const  Header = () => {
   const userName = useAppSelector<string>((state) => state.auth.user.name)
   const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const goToSignIn = () => {
+    dispatch(toggleIsSignUp(false));
     return navigate("/friday-cards/login");
   };
+
   return (
       <div className={s.topnav}>
           <img className={s.main_logo} src="https://static.tildacdn.com/tild3064-6361-4562-a539-303563643237/logo-big-blue.png" alt="header_logo"/>
@@ -31,4 +34,4 @@ export const  Header = () => {
           </div>
       </div>
   );
-}
+};

@@ -36,6 +36,7 @@ export const authReducer = (state = initialAuthState, action: AuthActionCreators
     //
   }
 };
+
 /////////////////// ACTION CREATORS ///////////////////////
 export const setLoginUser = (value: boolean, data?: UserDataType) =>
   ({ type: AuthActions.SetAuthUser, payload: { value, data } } as const);

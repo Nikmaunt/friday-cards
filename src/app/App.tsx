@@ -45,7 +45,7 @@ const App = () => {
             <Route path={"/friday-cards/forgot-password"} element={<ForgotPassword />}></Route>
             <Route path={"/friday-cards"} element={<LoginRegistration />}></Route>
             <Route path={"/friday-cards/check-email"} element={<CheckEmail />}></Route>
-            <Route path={"/friday-cards/set-new-password:token"} element={<CreatePassword />}></Route>
+            <Route path={"/friday-cards/set-new-password/:token"} element={<CreatePassword />}></Route>
           </Routes>
         </div>
       </>
