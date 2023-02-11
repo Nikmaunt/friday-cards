@@ -10,8 +10,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { updateUser } from "../../common/loginRegistration/authReducer";
-import { setAppStatus } from "../../app/appReducer";
+import { updateUser } from "../loginRegistration/authReducer";
 
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 

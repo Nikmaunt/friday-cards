@@ -41,9 +41,9 @@ export type AppActionCreatorsType =
   | ReturnType<typeof setAppStatus>
   | SetAppErrorType;
 
-export enum AppActions {
-  ToggleIsSignUp = "TOGGLE-IS-SIGN-UP",
-  SetInitialized = "SET-INITIALIZED",
-  SetStatus = "SET-STATUS",
-  SetError = "SET-ERROR",
-}
+export const AppActions = {
+  ToggleIsSignUp: "TOGGLE-IS-SIGN-UP",
+  SetInitialized: "SET-INITIALIZED",
+  SetStatus: "SET-STATUS",
+  SetError: "SET-ERROR",
+} as const;

@@ -2,13 +2,15 @@ import React, { ChangeEvent, useState, KeyboardEvent } from "react";
 import { FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import "./createPassword.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { changePasswordTC } from "./forgotPassword-reducer";
+import { changePasswordTC } from "./forgotPasswordReducer";
 import { SuperButton } from "../../common/superButton/superButton";
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useAppDispatch } from "../../app/store";
 import { Navigate } from "react-router-dom";
-
+import PATH from "../../common/constans/path/path";
+import { useSelector } from "react-redux";
+import { selectorSetNewPassword } from "./selectors";
 export const CreatePassword = () => {
-  const isNewPasswordSet = useAppSelector<boolean>((state) => state.recoveryPassword.isNewPasswordSet);
+  const isNewPasswordSet = useSelector(selectorSetNewPassword);
   const dispatch = useAppDispatch();
 
   const [password, setPassword] = useState("");
@@ -48,7 +50,7 @@ export const CreatePassword = () => {
     }
   };
   if (isNewPasswordSet) {
-    return <Navigate to={"/friday-cards/login"} />;
+    return <Navigate to={PATH.LOGIN} />;
   }
   return (
     <div className={"createPassword"}>
