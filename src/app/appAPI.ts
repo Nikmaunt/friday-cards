@@ -23,15 +23,15 @@ export const appAPI = {
 };
 
 /////////////////// types ////////////////////
-type RecoveryResponseType = {
-  info: string;
-  error: string;
-};
-
 type ForgotRequestType = {
   email: string;
   from: string;
   message: string;
+};
+
+type RecoveryResponseType = {
+  info: string;
+  error: string;
 };
 
 type NewPasswordRequestType = {
