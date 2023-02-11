@@ -6,7 +6,7 @@ import React, { useCallback } from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditableSpan from "./EditableSpan";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { logoutUser } from "../../common/loginRegistration/authReducer";
+import { logoutUser } from "../loginRegistration/authReducer";
 import { Navigate } from "react-router-dom";
 
 export const Profile = () => {

@@ -1,10 +1,12 @@
 body {
-  margin: 0;
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 500;
   background-color: #faf7f8;
+  width: 1300px;
+  margin: 0 auto;
+  padding: 0 10px;
 }
 
 code {
