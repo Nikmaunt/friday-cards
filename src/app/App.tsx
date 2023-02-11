@@ -12,6 +12,7 @@ import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
 import { authMe } from "../common/loginRegistration/authReducer";
 import { RequestStatusType } from "./appReducer";
 import { useAppDispatch, useAppSelector } from "./store";
+import { PacksList } from "../feature/packs/PacksList";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +47,8 @@ const App = () => {
             <Route path={"/friday-cards"} element={<LoginRegistration />}></Route>
             <Route path={"/friday-cards/check-email"} element={<CheckEmail />}></Route>
             <Route path={"/friday-cards/set-new-password/:token"} element={<CreatePassword />}></Route>
+
+            <Route path={"/friday-cards/packs-list"} element={<PacksList PageTitle={"Packs list"} />}></Route>
           </Routes>
         </div>
       </>
