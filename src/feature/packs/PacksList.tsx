@@ -2,23 +2,37 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { fetchPacksTC } from "./packsReducer";
 import { PacksTable } from "./PacksTable";
+import { SuperButton } from "../../common/superButton/superButton";
+import s from "./Packs.module.css";
 
 type PacksListPropsType = {
   PageTitle: string;
 };
 
 export const PacksList = (props: PacksListPropsType) => {
+  let packs = useAppSelector((state) => state.packs);
+
   let dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchPacksTC());
   }, []);
 
-  let packs = useAppSelector((state) => state.packs);
-  console.log("PacksList, packs:", packs);
   return (
     <div>
-      <div>{props.PageTitle}</div>
-      <PacksTable packs={packs} />
+      <div className={s.wrapper}>
+        <div className={s.title}>{props.PageTitle}</div>
+        <div className={s.button}>
+          <SuperButton
+            name={"Add new pack"}
+            callback={() => {
+              alert("Add new pack");
+            }}
+          />
+        </div>
+      </div>
+      <div className={s.table}>
+        <PacksTable packs={packs} />
+      </div>
     </div>
   );
 };

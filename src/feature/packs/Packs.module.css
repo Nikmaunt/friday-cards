@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  margin-top: 36px;
+  align-content: space-between;
+}
+
+.title {
+  text-align: center;
+  margin-left: 136px;
+  font-size: 27px;
+}
+
+.button {
+  width: 175px;
+  height: 36px;
+}
+
+.table {
+
+}

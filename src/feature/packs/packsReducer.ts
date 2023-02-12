@@ -1,17 +1,8 @@
 import { AppThunkDispatch } from "../../app/store";
-import { setAppStatus, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { PackReturnType, packsAPI } from "./packsAPI";
-
-export type PackType = {
-  _id: string;
-  user_id: string;
-  name: string;
-  cardsCount: number;
-  created: string;
-  updated: string;
-};
 
 export type PacksResponseType = {
   cardPacks: Array<PackReturnType>;
@@ -45,7 +36,6 @@ export const packsReducer = (state = initialPacksState, action: PacksActionCreat
   switch (action.type) {
     case PacksActions.SetPacks:
       let stateCopy = { ...state };
-      console.log("action.packs:", action.packs);
       stateCopy = action.packs;
       return stateCopy;
 

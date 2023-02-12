@@ -10,7 +10,6 @@ import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -19,6 +18,7 @@ import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { PacksResponseType } from "./packsReducer";
+import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 
 interface Data {
   name: string;
@@ -28,13 +28,12 @@ interface Data {
   actions: string;
 }
 
-type PacksTablePropsType = {
+type TablePropsType = {
   packs: PacksResponseType;
 };
 
-export const PacksTable = (props: PacksTablePropsType) => {
-  console.log("props PacksTable:", props);
-  console.log("props.cardPacks:", props.packs.cardPacks);
+export const PacksTable = (props: TablePropsType) => {
+  // console.log("props PacksTable:", props);
 
   let rows: any = [];
 
@@ -178,7 +177,6 @@ export const PacksTable = (props: PacksTablePropsType) => {
   interface EnhancedTableToolbarProps {
     numSelected: number;
   }
-
   function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
     return (
@@ -198,7 +196,7 @@ export const PacksTable = (props: PacksTablePropsType) => {
 
           <Tooltip title="Clear filter">
             <IconButton>
-              <FilterListIcon />
+              <FilterAltOffOutlinedIcon />
             </IconButton>
           </Tooltip>
         </Toolbar>
