@@ -242,6 +242,7 @@ export const PacksTable = (props: TablePropsType) => {
 
     //пагинация
     const handleChangePage = (event: unknown, newPage: number) => {
+      // setPage(newPage);
       setPage(newPage);
     };
 
