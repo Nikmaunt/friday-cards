@@ -1,7 +1,6 @@
-import axios from "axios/index";
 import { instance } from "../../app/appAPI";
 
-type ValuesType = {
+type ParamsType = {
   packName?: string;
   min?: number;
   max?: number;
@@ -12,6 +11,7 @@ type ValuesType = {
   block?: boolean;
 };
 
+//pack type from response
 export type PackReturnType = {
   _id: string;
   user_id: string;
@@ -31,6 +31,7 @@ export type PackReturnType = {
   __v: number;
 };
 
+//packsData object from response
 export type PacksReturnType = {
   cardPacks: PackReturnType[];
   page: number;
@@ -43,10 +44,17 @@ export type PacksReturnType = {
 };
 
 export const packsAPI = {
-  getPacks(user_id?: string) {
-    const values: ValuesType = {
-      user_id,
-    };
-    return instance.get<PacksReturnType>("/cards/pack");
+  getPacks(
+    pageCount?: number,
+    page?: number,
+    packName?: string,
+    min?: number,
+    max?: number,
+    sortPacks?: string, // формат 0updated (0 или 1) и название критерия сортировки
+    user_id?: string,
+    block?: boolean
+  ) {
+    const params: ParamsType = { pageCount, page, packName, min, max, sortPacks, user_id, block };
+    return instance.get<PacksReturnType>("/cards/pack", { params });
   },
 };
