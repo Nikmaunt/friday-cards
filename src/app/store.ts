@@ -4,11 +4,13 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
 import { authReducer } from "../common/loginRegistration/authReducer";
 import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPassword-reducer";
+import { packsReducer } from "../feature/packs/packsReducer";
 
 export const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   recoveryPassword: forgotPasswordReducer,
+  packs: packsReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));

@@ -20,6 +20,10 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { useEffect } from "react";
+import { fetchPacksTC } from "./packsReducer";
+import { useAppDispatch } from "../../app/store";
+import { PackReturnType } from "./packsAPI";
 
 interface Data {
   name: string;
@@ -38,6 +42,8 @@ function createData(name: string, cards: number, createdBy: string, lastUpdated:
     actions,
   };
 }
+
+// let rows: any = [];
 
 const rows = [
   createData("Cupcake", 305, "Ivan Ivanov", "01.01.2021", 4.3),
@@ -132,7 +138,6 @@ const headCells: readonly HeadCell[] = [
 interface EnhancedTableProps {
   numSelected: number;
   onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
-  // onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
   rowCount: number;
@@ -148,17 +153,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-          {/*<Checkbox*/}
-          {/*  color="primary"*/}
-          {/*  indeterminate={numSelected > 0 && numSelected < rowCount}*/}
-          {/*  checked={rowCount > 0 && numSelected === rowCount}*/}
-          {/*  onChange={onSelectAllClick}*/}
-          {/*  inputProps={{*/}
-          {/*    "aria-label": "select all desserts",*/}
-          {/*  }}*/}
-          {/*/>*/}
-        </TableCell>
+        <TableCell padding="normal"></TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -191,7 +186,6 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   const { numSelected } = props;
-
   return (
     <div>
       <Toolbar
@@ -217,7 +211,7 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
   );
 }
 
-export default function EnhancedTable() {
+export default function EnhancedTable(cardPacks: PackReturnType[]) {
   //направление стрелочек фильтрации
   const [order, setOrder] = React.useState<Order>("asc");
 
@@ -234,15 +228,6 @@ export default function EnhancedTable() {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
   };
 
   const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
@@ -306,12 +291,14 @@ export default function EnhancedTable() {
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
+                  // @ts-ignore
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
+                      // @ts-ignore
                       onClick={(event) => handleClick(event, row.name)}
                       // role="checkbox"
                       aria-checked={isItemSelected}
