@@ -1,6 +1,8 @@
 .wrapper {
     display: flex;
     align-items: center;
-    gap:25px
+    gap:25px;
+    /*test*/
+    margin-bottom: 500px;
     /*justify-content: space-between;*/
 }
