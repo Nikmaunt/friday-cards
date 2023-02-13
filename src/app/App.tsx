@@ -3,15 +3,17 @@ import "./App.css";
 import { Header } from "../common/header/header";
 import { Route, Routes } from "react-router-dom";
 import { Profile } from "../feature/profile/profile";
-import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
-import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
-import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
-import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
+
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
-import { authMe } from "../common/loginRegistration/authReducer";
+
 import { RequestStatusType } from "./appReducer";
 import { useAppDispatch, useAppSelector } from "./store";
+import {authMe} from "../feature/loginRegistration/authReducer";
+import {LoginRegistration} from "../feature/loginRegistration/loginRegistration";
+import {ForgotPassword} from "../feature/passwordRecovery/forgotPassword";
+import {CreatePassword} from "../feature/passwordRecovery/createPassword";
+import {CheckEmail} from "../feature/passwordRecovery/checkEmail";
 
 const App = () => {
   const dispatch = useAppDispatch();
