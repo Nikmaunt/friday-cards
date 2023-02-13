@@ -6,7 +6,6 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import { visuallyHidden } from "@mui/utils";
 import Toolbar from "@mui/material/Toolbar";
-import { alpha } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -19,6 +18,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
+import s from "./Packs.module.css";
 
 interface Data {
   name: string;
@@ -110,13 +110,13 @@ export const PacksTable = (props: TablePropsType) => {
       label: "Cards",
     },
     {
-      id: "createdBy",
+      id: "lastUpdated",
       numeric: true,
       disablePadding: false,
       label: "Last Updated",
     },
     {
-      id: "lastUpdated",
+      id: "createdBy",
       numeric: true,
       disablePadding: false,
       label: "Created by",
@@ -147,12 +147,12 @@ export const PacksTable = (props: TablePropsType) => {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="normal"></TableCell>
+          <TableCell padding="none"></TableCell>
           {headCells.map((headCell) => (
             <TableCell
               key={headCell.id}
-              align={headCell.numeric ? "right" : "left"}
-              padding={headCell.disablePadding ? "none" : "normal"}
+              className={s.headCell}
+              sx={{ paddingRight: "36px", textAlign: "left" }}
               sortDirection={orderBy === headCell.id ? order : false}
             >
               <TableSortLabel
@@ -160,7 +160,7 @@ export const PacksTable = (props: TablePropsType) => {
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
-                {headCell.label}
+                <span className={s.headCell}>{headCell.label}</span>
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>
                     {order === "desc" ? "sorted descending" : "sorted ascending"}
@@ -181,15 +181,7 @@ export const PacksTable = (props: TablePropsType) => {
     const { numSelected } = props;
     return (
       <div>
-        <Toolbar
-          sx={{
-            pl: { sm: 2 },
-            pr: { xs: 1, sm: 1 },
-            ...(numSelected > 0 && {
-              bgcolor: (theme) => alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-            }),
-          }}
-        >
+        <Toolbar>
           <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
             СЮДА ДОБАВИТЬ И ПОИСК ФИЛЬТРАЦИЮ
           </Typography>
@@ -256,8 +248,6 @@ export const PacksTable = (props: TablePropsType) => {
       setDense(event.target.checked);
     };
 
-    const isSelected = (name: string) => selected.indexOf(name) !== -1;
-
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -284,8 +274,6 @@ export const PacksTable = (props: TablePropsType) => {
                 {stableSort(rows, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
-                    // @ts-ignore
-                    const isItemSelected = isSelected(row.name);
                     const labelId = `enhanced-table-checkbox-${index}`;
 
                     return (
@@ -293,19 +281,22 @@ export const PacksTable = (props: TablePropsType) => {
                         hover
                         // @ts-ignore
                         onClick={(event) => handleClick(event, row.name)}
-                        aria-checked={isItemSelected}
                         tabIndex={-1}
                         key={row.name}
-                        selected={isItemSelected}
                       >
                         <TableCell align={"center"} padding={"none"} />
-                        <TableCell component="th" id={labelId} scope="row" padding="none">
+                        <TableCell
+                          component="th"
+                          id={labelId}
+                          scope="row"
+                          sx={{ paddingRight: "36px", textAlign: "left" }}
+                        >
                           {row.name}
                         </TableCell>
-                        <TableCell align="right">{row.cards}</TableCell>
-                        <TableCell align="right">{row.lastUpdated}</TableCell>
-                        <TableCell align="right">{row.createdBy}</TableCell>
-                        <TableCell align="right">{row.actions}</TableCell>
+                        <TableCell align="left">{row.cards}</TableCell>
+                        <TableCell align="left">{row.lastUpdated}</TableCell>
+                        <TableCell align="left">{row.createdBy}</TableCell>
+                        <TableCell align="left">{row.actions}</TableCell>
                       </TableRow>
                     );
                   })}

@@ -1,12 +1,12 @@
 .wrapper {
   display: flex;
+  justify-content: space-between;
   margin-top: 36px;
   align-content: space-between;
 }
 
 .title {
   text-align: center;
-  margin-left: 136px;
   font-size: 27px;
 }
 
@@ -16,5 +16,10 @@
 }
 
 .table {
+  margin-top: 120px;
+}
 
+.headCell {
+  background-color: #EFEFEF;
+  /*padding-left: 36px;*/
 }
