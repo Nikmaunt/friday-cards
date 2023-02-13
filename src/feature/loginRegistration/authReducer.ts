@@ -3,7 +3,7 @@ import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
 import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import {profileAPI} from "../../feature/profile/profileAPI";
+import {profileAPI} from "../profile/profileAPI";
 
 
 const initialAuthState = {
@@ -123,14 +123,14 @@ export const updateUser = (name: string) => async (dispatch: AppThunkDispatch) =
 };
 
 //////////// types //////////////
+export const AuthActions = {
+  SetAuthUser: "SET-AUTH-USER",
+  SetCurrentUser: "SET-CURRENT-USER",
+  UpdateUserName: "UPDATE-NAME",
+} as const;
 
 type InitialAuthStateType = typeof initialAuthState;
 
-export enum AuthActions {
-  SetAuthUser = "SET-AUTH-USER",
-  SetCurrentUser = "SET-CURRENT-USER",
-  UpdateUserName = "UPDATE-NAME",
-}
 
 export type AuthActionCreatorsType =
   | ReturnType<typeof setLoginUser>

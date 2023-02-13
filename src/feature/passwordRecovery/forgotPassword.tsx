@@ -1,13 +1,16 @@
 import React, { ChangeEvent, useState } from "react";
 import { TextField } from "@mui/material";
 import "./forgotPassword.css";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { recoveryPasswordTC } from "./forgotPassword-reducer";
+import { useAppDispatch } from "../../app/store";
+import { recoveryPasswordTC } from "./forgotPasswordReducer";
 import { SuperButton } from "../../common/superButton/superButton";
 import { Navigate, NavLink } from "react-router-dom";
+import PATH from "../../common/constans/path/path";
+import { useSelector } from "react-redux";
+import { selectorEmailSend } from "./selectors";
 
 export const ForgotPassword = () => {
-  const isEmailSend = useAppSelector<boolean>((state) => state.recoveryPassword.isEmailSend);
+  const isEmailSend = useSelector(selectorEmailSend);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<null | string>("");
@@ -26,7 +29,7 @@ export const ForgotPassword = () => {
     }
   };
   if (isEmailSend) {
-    return <Navigate to={"/friday-cards/check-email"} />;
+    return <Navigate to={PATH.CHECK_EMAIL} />;
   }
   return (
     <div className={"forgotPassword"}>

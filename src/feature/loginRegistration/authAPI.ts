@@ -12,7 +12,7 @@ export const authAPI = {
     return instance.post<UserDataType>("/auth/me");
   },
   logout() {
-    return instance.delete<LogOutResponse>("/auth/me", {});
+    return instance.delete<LogOutResponse>("/auth/me");
   },
 };
 ////////////////////////// types /////////////////////////////

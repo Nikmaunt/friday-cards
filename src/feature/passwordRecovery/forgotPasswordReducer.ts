@@ -74,7 +74,7 @@ type InitialForgotPasswordStateType = typeof initialState;
 
 export type ForgotPasswordActionsType = ReturnType<typeof isEmailSend> | ReturnType<typeof setNewPassword>;
 
-enum ForgotPasswordActionType {
-  IsEmailSend = "IS-EMAIL-SEND",
-  SetNewPassword = "SET-NEW-PASSWORD",
-}
+const ForgotPasswordActionType = {
+  IsEmailSend: "IS-EMAIL-SEND",
+  SetNewPassword: "SET-NEW-PASSWORD",
+} as const;

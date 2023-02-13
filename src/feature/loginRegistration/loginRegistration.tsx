@@ -12,15 +12,19 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
 import { Navigate, NavLink } from "react-router-dom";
-import { SuperButton } from "../superButton/superButton";
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useAppDispatch } from "../../app/store";
 import { toggleIsSignUp } from "../../app/appReducer";
 import { loginUser, registrationUser } from "./authReducer";
+import { SuperButton } from "../../common/superButton/superButton";
+import PATH from "../../common/constans/path/path";
+import { useSelector } from "react-redux";
+import { selectorSignUp } from "../../app/appSelectors";
+import { selectorLogin } from "./selectors";
 
 export const LoginRegistration = () => {
   const dispatch = useAppDispatch();
-  const isSignUp = useAppSelector<boolean>((state) => state.app.isSignUp);
-  const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const isSignUp = useSelector(selectorSignUp);
+  const isLogin = useSelector(selectorLogin);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
@@ -47,8 +51,8 @@ export const LoginRegistration = () => {
       if (!values.password) {
         errors.password = "Required";
       }
-      if (values.password.length < 8) {
-        errors.password = "Min length password have to 8 symbol";
+      if (values.password.length < 7) {
+        errors.password = "Password must be more than 7 characters...";
       }
       if (!values.confirmPassword && isSignUp) {
         errors.confirmPassword = "Required";
@@ -67,7 +71,6 @@ export const LoginRegistration = () => {
         const { confirmPassword, ...restValues } = values;
         await dispatch(loginUser(restValues));
       }
-      formik.resetForm();
     },
   });
 
@@ -80,7 +83,7 @@ export const LoginRegistration = () => {
   };
 
   if (isLogin) {
-    return <Navigate to={"/friday-cards/profile"} />;
+    return <Navigate to={PATH.PROFILE} />;
   }
 
   return (

@@ -35,7 +35,6 @@ const App = () => {
       <>
         <ErrorSnackbar />
         <Header />
-        {status === "loading" && <LinearProgress sx={{ marginBottom: "40px" }} />}
         <div className={'container'}>
           <Routes>
             <Route path={"/friday-cards/login"} element={<LoginRegistration />}></Route>

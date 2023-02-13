@@ -10,7 +10,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { updateUser } from "../../common/loginRegistration/authReducer";
+import { updateUser } from "../loginRegistration/authReducer";
 
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
@@ -67,6 +67,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     }
   };
 
+
   const onDoubleClickCallBack = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     setEditMode(!editMode);
     onDoubleClick?.(e);
@@ -92,6 +93,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                 size="small"
                 style={{ marginBottom: "3px" }}
                 variant="contained"
+                //disableElevation
               >
                 SAVE
               </Button>
