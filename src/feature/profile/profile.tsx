@@ -2,19 +2,20 @@ import { Box, Paper, Stack } from "@mui/material";
 import BadgeAvatars from "./StyledBadge";
 import Button from "@mui/material/Button";
 import arrowIcon from "./img/logOutArrow.png";
-import React, { useCallback } from "react";
+import React, {useCallback, useEffect} from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditableSpan from "./EditableSpan";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { logoutUser } from "../../common/loginRegistration/authReducer";
 import { Navigate } from "react-router-dom";
+import Cards from "../cards/cards";
+import {getUserCards} from "../cards/cardsReducer";
 
 export const Profile = () => {
     const dispatch = useAppDispatch();
     const isSignUp = useAppSelector<boolean>((state) => state.auth.isLogin);
     const userName = useAppSelector<string>((state) => state.auth.user.name);
     const userEmail = useAppSelector<string>((state) => state.auth.user.email);
-
     const logOutHandler = useCallback(() => {
         dispatch(logoutUser());
     }, []);
@@ -71,6 +72,7 @@ export const Profile = () => {
                     </Stack>
                 </Paper>
             </Box>
+            <Cards/>
         </div>
     );
 };
