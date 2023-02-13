@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { fetchPacksTC } from "./packsReducer";
+import { addPackTC, fetchPacksTC } from "./packsReducer";
 import { PacksTable } from "./PacksTable";
 import { SuperButton } from "../../common/superButton/superButton";
 import s from "./Packs.module.css";
@@ -14,7 +14,7 @@ export const PacksList = (props: PacksListPropsType) => {
 
   let dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchPacksTC());
+    dispatch(fetchPacksTC(10));
   }, []);
 
   return (
@@ -25,6 +25,7 @@ export const PacksList = (props: PacksListPropsType) => {
           <SuperButton
             name={"Add new pack"}
             callback={() => {
+              dispatch(addPackTC());
               alert("Add new pack");
             }}
           />

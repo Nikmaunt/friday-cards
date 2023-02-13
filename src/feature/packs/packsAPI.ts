@@ -1,6 +1,6 @@
 import { instance } from "../../app/appAPI";
 
-type ParamsType = {
+type GetPacksParamsType = {
   packName?: string;
   min?: number;
   max?: number;
@@ -9,6 +9,10 @@ type ParamsType = {
   pageCount?: number;
   user_id?: string;
   block?: boolean;
+};
+type AddPackParamsType = {
+  name?: string;
+  deckCover?: string;
 };
 
 //pack type from response
@@ -29,6 +33,12 @@ export type PackReturnType = {
   created: string;
   updated: string;
   __v: number;
+};
+
+export type AddPackResponseType = {
+  newCardsPack: PackReturnType;
+  token: string;
+  tokenDeathTime: number;
 };
 
 //packsData object from response
@@ -54,7 +64,11 @@ export const packsAPI = {
     user_id?: string,
     block?: boolean
   ) {
-    const params: ParamsType = { pageCount, page, packName, min, max, sortPacks, user_id, block };
+    const params: GetPacksParamsType = { pageCount, page, packName, min, max, sortPacks, user_id, block };
     return instance.get<PacksReturnType>("/cards/pack", { params });
+  },
+  addPack(name?: string, deckCover?: string) {
+    const cardsPack: AddPackParamsType = { name, deckCover };
+    return instance.post<AddPackResponseType>("/cards/pack", { cardsPack });
   },
 };

@@ -16,9 +16,10 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { PacksResponseType } from "./packsReducer";
+import { fetchPacksTC, PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
+import { useAppDispatch } from "../../app/store";
 
 interface Data {
   name: string;
@@ -33,6 +34,7 @@ type TablePropsType = {
 };
 
 export const PacksTable = (props: TablePropsType) => {
+  let dispatch = useAppDispatch();
   // console.log("props PacksTable:", props);
 
   let rows: any = [];
@@ -239,7 +241,9 @@ export const PacksTable = (props: TablePropsType) => {
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
+      dispatch(fetchPacksTC(+event.target.value));
+      console.log(event.target.value);
+      setRowsPerPage(+event.target.value);
       setPage(0);
     };
 
