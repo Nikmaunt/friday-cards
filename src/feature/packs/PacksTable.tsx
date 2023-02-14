@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -19,6 +19,10 @@ import Switch from "@mui/material/Switch";
 import { PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
+import {Navigate, useNavigate} from "react-router-dom";
+import {toggleIsSignUp} from "../../app/appReducer";
+import {getUserCards} from "../cards/cardsReducer";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 
 interface Data {
   name: string;
@@ -26,6 +30,7 @@ interface Data {
   lastUpdated: string;
   createdBy: string;
   actions: string;
+  packID:number
 }
 
 type TablePropsType = {
@@ -38,19 +43,20 @@ export const PacksTable = (props: TablePropsType) => {
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: string): Data {
+  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: string, packID:number): Data {
     return {
       name,
       cards,
       lastUpdated,
       createdBy,
       actions,
+      packID
     };
   }
 
   if (props.packs.cardPacks) {
-    props.packs.cardPacks.map((pack) => {
-      rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action"));
+    props.packs.cardPacks.map((pack,packID) => {
+      rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
       return rows;
     });
   }
@@ -250,8 +256,17 @@ export const PacksTable = (props: TablePropsType) => {
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const navigate = useNavigate();
+    let packs = useAppSelector((state) => state.packs.cardPacks);
+    let dispatch = useAppDispatch();
+    const goToCardsList = (packID:any) => {
+      dispatch(getUserCards(packs[packID]._id))
+      return navigate("/friday-cards/cards-list");
+    }
 
     return (
+
+
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           {/*в тулбаре будет фильтрация и поиск*/}
@@ -284,18 +299,21 @@ export const PacksTable = (props: TablePropsType) => {
                         tabIndex={-1}
                         key={row.name}
                       >
-                        <TableCell align={"center"} padding={"none"} />
                         <TableCell
+                                            align={"center"} padding={"none"} />
+                        <TableCell
+
                           component="th"
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
+                          onClick={()=> goToCardsList(row.packID)}
                         >
                           {row.name}
                         </TableCell>
                         <TableCell align="left">{row.cards}</TableCell>
                         <TableCell align="left">{row.lastUpdated}</TableCell>
-                        <TableCell align="left">{row.createdBy}</TableCell>
+                        <TableCell  onClick={()=>goToCardsList(row.packID)} align="left">{row.createdBy}</TableCell>
                         <TableCell align="left">{row.actions}</TableCell>
                       </TableRow>
                     );
