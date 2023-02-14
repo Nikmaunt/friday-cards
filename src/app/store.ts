@@ -13,6 +13,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   recoveryPassword: forgotPasswordReducer,
   cards:cardsReducer
+  packs: packsReducer,
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
