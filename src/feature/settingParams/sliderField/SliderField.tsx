@@ -20,8 +20,7 @@ export const SliderField = () => {
     dispatch(getPackTC({}));
     setValue(restoreState<number[]>("slider", [minValueCards, maxValueCards]));
   }, [minValueCards, maxValueCards]);
-  console.log(minValueCards);
-  console.log(maxValueCards);
+
   const [value, setValue] = useState(restoreState<number[]>("slider", [minValueCards, maxValueCards]));
 
   const handlerChange = (event: Event, newValue: number | number[]) => {
