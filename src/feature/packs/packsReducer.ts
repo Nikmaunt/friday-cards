@@ -2,20 +2,20 @@ import { AppThunkDispatch } from "../../app/store";
 import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { AddPackParamsType, AddPackResponseType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
+import { AddPackParamsType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
 
-export type PacksResponseType = {
-  cardPacks: Array<PackReturnType>;
-  page: number;
-  pageCount: number;
-  cardPacksTotalCount: number;
-  minCardsCount: number;
-  maxCardsCount: number;
-  token: string;
-  tokenDeathTime: number;
-};
+// export type PacksResponseType = {
+//   cardPacks: Array<PackReturnType>;
+//   page: number;
+//   pageCount: number;
+//   cardPacksTotalCount: number;
+//   minCardsCount: number;
+//   maxCardsCount: number;
+//   token: string;
+//   tokenDeathTime: number;
+// };
 
-const initialPacksState: PacksResponseType = {
+const initialPacksState = {
   cardPacks: [],
   page: 0,
   pageCount: 4,
@@ -26,6 +26,8 @@ const initialPacksState: PacksResponseType = {
   tokenDeathTime: 0,
 };
 
+export type PacksResponseType = typeof initialPacksState;
+
 export const PacksActions = {
   SetPacks: "SET-PACKS",
   AddPack: "ADD-PACK",
@@ -33,7 +35,10 @@ export const PacksActions = {
 
 export type PacksActionCreatorsType = ReturnType<typeof setPacksAC> | ReturnType<typeof addPackAC>;
 
-export const packsReducer = (state = initialPacksState, action: PacksActionCreatorsType): PacksResponseType => {
+export const packsReducer = (
+  state: PacksResponseType = initialPacksState,
+  action: PacksActionCreatorsType
+): PacksResponseType => {
   switch (action.type) {
     case PacksActions.SetPacks:
       return { ...state, ...action.payload.packs };
@@ -60,7 +65,7 @@ export const packsReducer = (state = initialPacksState, action: PacksActionCreat
 };
 
 /////////////////// ACTION CREATORS ///////////////////////
-export const setPacksAC = (packs: PacksResponseType) => {
+export const setPacksAC = (packs: GetPacksParamsType) => {
   return { type: PacksActions.SetPacks, payload: { packs } as const };
 };
 
@@ -106,19 +111,6 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
 //   try {
 //     const res = await packsAPI.getPacks(pageCount);
 //     dispatch(setPacksAC(res.data));
-//   } catch (e) {
-//     const err = e as Error | AxiosError<{ error: string }>;
-//     errorUtils(err, dispatch);
-//   } finally {
-//     dispatch(setAppStatus("succeeded"));
-//   }
-// };
-
-// export const addPackTC = () => async (dispatch: AppThunkDispatch) => {
-//   dispatch(setAppStatus("loading"));
-//   try {
-//     const res = await packsAPI.addPack("New Pack");
-//     dispatch(addPackAC(res.data));
 //   } catch (e) {
 //     const err = e as Error | AxiosError<{ error: string }>;
 //     errorUtils(err, dispatch);

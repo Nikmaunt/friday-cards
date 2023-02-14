@@ -16,12 +16,17 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { fetchPacksTC, PacksResponseType } from "./packsReducer";
+import { addPackTC, fetchPacksTC, PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
-import { useAppDispatch } from "../../app/store";
+import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPage, selectorRowsPerPage } from "./selectors";
+import { selectorPage, selectorRowsPerPage, userId } from "./selectors";
+import { SuperButton } from "../../common/superButton/superButton";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 
 interface Data {
   name: string;
@@ -38,12 +43,18 @@ type TablePropsType = {
 export const PacksTable = (props: TablePropsType) => {
   let dispatch = useAppDispatch();
   // console.log("props PacksTable:", props);
-  const rowPerPage = useSelector(selectorRowsPerPage);
+
+  useEffect(() => {
+    dispatch(fetchPacksTC({}));
+  }, []);
+
+  const rowPerPage = useAppSelector(selectorRowsPerPage);
   //const selectPage = useSelector(selectorPage);
+
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: string): Data {
+  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: any): Data {
     return {
       name,
       cards,
@@ -55,7 +66,10 @@ export const PacksTable = (props: TablePropsType) => {
 
   if (props.packs.cardPacks) {
     props.packs.cardPacks.map((pack) => {
-      rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action"));
+      rows.push(
+        // @ts-ignore
+        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id} />)
+      );
       return rows;
     });
   }
@@ -345,9 +359,23 @@ export const PacksTable = (props: TablePropsType) => {
     );
   }
 
+  const addNewPacksHandler = () => {
+    const newPacks = { cardsPack: { name: "newName" } };
+    dispatch(addPackTC(newPacks));
+    alert("Add new pack");
+  };
+
   return (
     <div>
-      <EnhancedTable />
+      <div className={s.wrapper}>
+        <div className={s.title}>{"PacksList"}</div>
+        <div className={s.button}>
+          <SuperButton name={"Add new pack"} callback={addNewPacksHandler} />
+        </div>
+      </div>
+      <div className={s.table}>
+        <EnhancedTable />
+      </div>
     </div>
   );
 };
