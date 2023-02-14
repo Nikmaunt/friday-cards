@@ -5,10 +5,13 @@ import { SliderField } from "./sliderField/SliderField";
 
 export const SettingsParams = () => {
   return (
-    <div className={s.wrapper}>
-      <SearchField />
-      <GroupButtons />
-      <SliderField />
+    <div>
+      <div className={s.wrapper}>
+        <SearchField />
+        <GroupButtons />
+        <SliderField />
+      </div>
+      <div>Result Test </div>
     </div>
   );
 };

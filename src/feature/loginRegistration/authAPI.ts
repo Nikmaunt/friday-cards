@@ -1,4 +1,4 @@
-import { instance } from "../../app/appAPI";
+import { instance, instanceHeroku } from "../../app/appAPI";
 import { UserDataType } from "./authReducer";
 
 export const authAPI = {
@@ -6,13 +6,13 @@ export const authAPI = {
     return instance.post<ResponseRegistrationType>("/auth/register", values);
   },
   login(values: LoginRequestType) {
-    return instance.post<UserDataType>("/auth/login", values);
+    return instanceHeroku.post<UserDataType>("/auth/login", values);
   },
   authMe() {
-    return instance.post<UserDataType>("/auth/me");
+    return instanceHeroku.post<UserDataType>("/auth/me");
   },
   logout() {
-    return instance.delete<LogOutResponse>("/auth/me");
+    return instanceHeroku.delete<LogOutResponse>("/auth/me");
   },
 };
 ////////////////////////// types /////////////////////////////

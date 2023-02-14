@@ -3,11 +3,26 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import s from "../searchField/SearchField.module.css";
 import styles from "./SliderField.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { restoreState, saveState } from "../../../common/functions/localStorage/localStorage";
+import { useSelector } from "react-redux";
+import { selectSettingMaxValue, selectSettingMinValue } from "../selectors";
+import { getPackTC } from "../settingsReducer";
+import { useAppDispatch } from "../../../app/store";
 
 export const SliderField = () => {
-  const [value, setValue] = useState(restoreState<number[]>("slider", [0, 100]));
+  const dispatch = useAppDispatch();
+
+  const minValueCards = useSelector(selectSettingMinValue);
+
+  const maxValueCards = useSelector(selectSettingMaxValue);
+  useEffect(() => {
+    dispatch(getPackTC({}));
+    setValue(restoreState<number[]>("slider", [minValueCards, maxValueCards]));
+  }, [minValueCards, maxValueCards]);
+  console.log(minValueCards);
+  console.log(maxValueCards);
+  const [value, setValue] = useState(restoreState<number[]>("slider", [minValueCards, maxValueCards]));
 
   const handlerChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
