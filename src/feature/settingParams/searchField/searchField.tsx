@@ -41,6 +41,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const SearchField = () => {
   const [searchText, setSearchText] = useState<string>("");
   const dispatch = useAppDispatch();
+
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
     const params = { packName: e.currentTarget.value };

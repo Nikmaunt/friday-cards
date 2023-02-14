@@ -1,6 +1,6 @@
-import { instance } from "../../app/appAPI";
+import { instance, instanceHeroku } from "../../app/appAPI";
 
-type GetPacksParamsType = {
+export type GetPacksParamsType = {
   packName?: string;
   min?: number;
   max?: number;
@@ -10,9 +10,12 @@ type GetPacksParamsType = {
   user_id?: string;
   block?: boolean;
 };
-type AddPackParamsType = {
-  name?: string;
-  deckCover?: string;
+export type AddPackParamsType = {
+  cardsPack: {
+    name?: string;
+    deckCover?: string;
+    private?: boolean; // добавил
+  };
 };
 
 //pack type from response
@@ -53,22 +56,34 @@ export type PacksReturnType = {
   tokenDeathTime: number;
 };
 
+// export const packsAPI = {
+//   getPacks(
+//     pageCount?: number,
+//     page?: number,
+//     packName?: string,
+//     min?: number,
+//     max?: number,
+//     sortPacks?: string, // формат 0updated (0 или 1) и название критерия сортировки
+//     user_id?: string,
+//     block?: boolean
+//   ) {
+//     const params: GetPacksParamsType = { pageCount, page, packName, min, max, sortPacks, user_id, block };
+//     return instance.get<PacksReturnType>("/cards/pack", { params });
+//   },
+//   addPack(name?: string, deckCover?: string) {
+//     const cardsPack: AddPackParamsType = { name, deckCover };
+//     return instance.post<AddPackResponseType>("/cards/pack", { cardsPack });
+//   },
+// };
+
 export const packsAPI = {
-  getPacks(
-    pageCount?: number,
-    page?: number,
-    packName?: string,
-    min?: number,
-    max?: number,
-    sortPacks?: string, // формат 0updated (0 или 1) и название критерия сортировки
-    user_id?: string,
-    block?: boolean
-  ) {
-    const params: GetPacksParamsType = { pageCount, page, packName, min, max, sortPacks, user_id, block };
-    return instance.get<PacksReturnType>("/cards/pack", { params });
+  getPacks(params: GetPacksParamsType) {
+    return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
   },
-  addPack(name?: string, deckCover?: string) {
-    const cardsPack: AddPackParamsType = { name, deckCover };
-    return instance.post<AddPackResponseType>("/cards/pack", { cardsPack });
+  addPack(newPack: AddPackParamsType) {
+    return instanceHeroku.post<PackReturnType>("/cards/pack", newPack);
+  },
+  deletePack(id: string) {
+    return instanceHeroku.delete(`/cards/pack?${id}`);
   },
 };

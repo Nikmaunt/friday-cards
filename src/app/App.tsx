@@ -9,6 +9,7 @@ import { StatusLoader } from "../feature/statusLoader/statusLoader";
 import { useSelector } from "react-redux";
 import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
 import { SettingsParams } from "../feature/settingParams/settingsParams";
+import { PacksList } from "../feature/packs/PacksList";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <PacksList PageTitle={"PacksList"} />
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />

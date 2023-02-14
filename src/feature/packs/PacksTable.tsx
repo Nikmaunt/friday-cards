@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -20,6 +20,8 @@ import { fetchPacksTC, PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch } from "../../app/store";
+import { useSelector } from "react-redux";
+import { selectorPage, selectorRowsPerPage } from "./selectors";
 
 interface Data {
   name: string;
@@ -36,7 +38,8 @@ type TablePropsType = {
 export const PacksTable = (props: TablePropsType) => {
   let dispatch = useAppDispatch();
   // console.log("props PacksTable:", props);
-
+  const rowPerPage = useSelector(selectorRowsPerPage);
+  //const selectPage = useSelector(selectorPage);
   let rows: any = [];
 
   //создание строки
@@ -179,6 +182,7 @@ export const PacksTable = (props: TablePropsType) => {
   interface EnhancedTableToolbarProps {
     numSelected: number;
   }
+
   function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
     return (
@@ -206,10 +210,11 @@ export const PacksTable = (props: TablePropsType) => {
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
 
+    console.log("page", page);
     // для переключения размеров страницы
     const [dense, setDense] = React.useState(false);
-
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage); // изменил захордкодженное значение 6 можно убрать useState вообще только изменить значение
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
       const isAsc = orderBy === property && order === "asc";
@@ -237,14 +242,18 @@ export const PacksTable = (props: TablePropsType) => {
     //пагинация
     const handleChangePage = (event: unknown, newPage: number) => {
       // setPage(newPage);
-      setPage(newPage);
+      // console.log("funcNEWPAGE", newPage);
+      const params = { page: newPage };
+      dispatch(fetchPacksTC(params));
     };
 
     const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(fetchPacksTC(+event.target.value));
+      // dispatch(fetchPacksTC(+event.target.value));
+      const params = { pageCount: +event.target.value };
+      dispatch(fetchPacksTC(params));
       console.log(event.target.value);
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+      //setRowsPerPage(+event.target.value);
+      //setPage(0);
     };
 
     //изменение размеров таблицы
@@ -253,7 +262,7 @@ export const PacksTable = (props: TablePropsType) => {
     };
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    //const emptyRows = selectPage > 0 ? Math.max(0, (1 + selectPage) * rowsPerPage - rows.length) : 0;
 
     return (
       <Box sx={{ width: "100%" }}>
@@ -304,22 +313,23 @@ export const PacksTable = (props: TablePropsType) => {
                       </TableRow>
                     );
                   })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
+                {/*зачем ЭТО?*/}
+                {/*{emptyRows > 0 && (*/}
+                {/*  <TableRow*/}
+                {/*    style={{*/}
+                {/*      height: (dense ? 33 : 53) * emptyRows,*/}
+                {/*    }}*/}
+                {/*  >*/}
+                {/*    <TableCell colSpan={6} />*/}
+                {/*  </TableRow>*/}
+                {/*)}*/}
               </TableBody>
             </Table>
           </TableContainer>
 
           {/*Пагинация*/}
           <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
+            rowsPerPageOptions={[4, 10, 25]}
             component="div"
             count={props.packs.cardPacksTotalCount}
             rowsPerPage={rowsPerPage}
@@ -334,6 +344,7 @@ export const PacksTable = (props: TablePropsType) => {
       </Box>
     );
   }
+
   return (
     <div>
       <EnhancedTable />

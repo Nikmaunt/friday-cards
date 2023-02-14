@@ -14,21 +14,21 @@ export const PacksList = (props: PacksListPropsType) => {
 
   let dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchPacksTC(10));
+    // dispatch(fetchPacksTC(10));
+    dispatch(fetchPacksTC({}));
   }, []);
 
+  const addNewPacksHandler = () => {
+    const newPacks = { cardsPack: { name: "newName" } };
+    dispatch(addPackTC(newPacks));
+    alert("Add new pack");
+  };
   return (
     <div>
       <div className={s.wrapper}>
         <div className={s.title}>{props.PageTitle}</div>
         <div className={s.button}>
-          <SuperButton
-            name={"Add new pack"}
-            callback={() => {
-              dispatch(addPackTC());
-              alert("Add new pack");
-            }}
-          />
+          <SuperButton name={"Add new pack"} callback={addNewPacksHandler} />
         </div>
       </div>
       <div className={s.table}>
