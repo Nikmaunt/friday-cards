@@ -1,57 +1,36 @@
 import React, { useEffect } from "react";
-import "./App.css";
 import { Header } from "../common/header/header";
-import { Route, Routes } from "react-router-dom";
-import { Profile } from "../feature/profile/profile";
-import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
-import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
-import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
-import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
-import { CircularProgress, LinearProgress } from "@mui/material";
 import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
-import { authMe } from "../common/loginRegistration/authReducer";
-import { RequestStatusType } from "./appReducer";
-import { useAppDispatch, useAppSelector } from "./store";
-import { PacksList } from "../feature/packs/PacksList";
+import { authMe } from "../feature/loginRegistration/authReducer";
+import { useAppDispatch } from "./store";
+import { Pages } from "./routes";
+import { InitializedLoader } from "../feature/initializedLoader/InitializedLoader";
+import { StatusLoader } from "../feature/statusLoader/statusLoader";
+import { useSelector } from "react-redux";
+import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
+import { SettingsParams } from "../feature/settingParams/settingsParams";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector<boolean>((state) => state.app.isInitialized);
-  const status = useAppSelector<RequestStatusType>((state) => state.app.status);
+  const isInitialized = useSelector(selectorAppInitialized);
+  const status = useSelector(selectAppStatus);
 
   useEffect(() => {
     dispatch(authMe());
   }, []);
 
   if (!isInitialized) {
-    return (
-      <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
-        <CircularProgress />
-      </div>
-    );
+    return <InitializedLoader />;
   }
 
   return (
-    <div className="App">
-      <>
-        <ErrorSnackbar />
-        <Header />
-        {status === "loading" && <LinearProgress sx={{ marginBottom: "40px" }} />}
-        <div>
-          <Routes>
-            <Route path={"/friday-cards/login"} element={<LoginRegistration />}></Route>
-            <Route path={"/friday-cards/registration"} element={<LoginRegistration />}></Route>
-            <Route path={"/friday-cards/profile"} element={<Profile />}></Route>
-            <Route path={"/friday-cards/"} element={<Profile />}></Route>
-            <Route path={"/friday-cards/forgot-password"} element={<ForgotPassword />}></Route>
-            <Route path={"/friday-cards"} element={<LoginRegistration />}></Route>
-            <Route path={"/friday-cards/check-email"} element={<CheckEmail />}></Route>
-            <Route path={"/friday-cards/set-new-password/:token"} element={<CreatePassword />}></Route>
-            <Route path={"/friday-cards/packs-list"} element={<PacksList PageTitle={"Packs list"} />}></Route>
-          </Routes>
-        </div>
-      </>
-    </div>
+    <>
+      <Header />
+      {status === "loading" && <StatusLoader />}
+      <Pages />
+      <ErrorSnackbar />
+      <SettingsParams />
+    </>
   );
 };
 
