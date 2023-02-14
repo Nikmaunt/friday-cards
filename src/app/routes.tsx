@@ -2,10 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import PATH from "../common/constans/path/path";
 import { LoginRegistration } from "../feature/loginRegistration/loginRegistration";
 import { Profile } from "../feature/profile/profile";
-import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
 import { CheckEmail } from "../feature/passwordRecovery/checkEmail";
 import { CreatePassword } from "../feature/passwordRecovery/createPassword";
 import React from "react";
+import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
 
 export const Pages = () => {
   return (

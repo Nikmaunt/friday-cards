@@ -8,6 +8,7 @@ import { InitializedLoader } from "../feature/initializedLoader/InitializedLoade
 import { StatusLoader } from "../feature/statusLoader/statusLoader";
 import { useSelector } from "react-redux";
 import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
+import { SettingsParams } from "../feature/settingParams/settingsParams";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ const App = () => {
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />
+      <SettingsParams />
     </>
   );
 };
