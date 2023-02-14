@@ -22,6 +22,11 @@ export const Header = () => {
     return navigate("/friday-cards/login");
   };
 
+  //для тестирования
+  const goToPacksList = () => {
+    return navigate("/friday-cards/packs-list");
+  };
+
   return (
     <>
       <AppBar style={{ backgroundColor: "white", marginBottom: "60px" }} position="static">
@@ -48,6 +53,7 @@ export const Header = () => {
                   ) : (
                     <div className={s.button}>
                       <SuperButton name={"Sign in"} callback={goToSignIn} />
+                      <SuperButton name={"Packs"} callback={goToPacksList} />
                     </div>
                   )}
                 </div>
