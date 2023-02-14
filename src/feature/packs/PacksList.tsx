@@ -17,6 +17,7 @@ export const PacksList = (props: PacksListPropsType) => {
     dispatch(fetchPacksTC());
   }, []);
 
+
   return (
     <div>
       <div className={s.wrapper}>
