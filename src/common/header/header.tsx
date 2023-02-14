@@ -1,9 +1,5 @@
 import * as React from "react";
-import s from "./Header.module.css";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Container from "@mui/material/Container";
+import './Header.css'
 import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppDispatch, useAppSelector } from "../../app/store";

@@ -7,12 +7,13 @@ import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
 import {cardsReducer} from "../feature/cards/cardsReducer";
 import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPasswordReducer";
 import {authReducer} from "../feature/loginRegistration/authReducer";
+import { packsReducer } from "../feature/packs/packsReducer";
 
 export const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   recoveryPassword: forgotPasswordReducer,
-  cards:cardsReducer
+  cards:cardsReducer,
   packs: packsReducer,
 });
 
