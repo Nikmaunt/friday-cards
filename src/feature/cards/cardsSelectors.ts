@@ -1,3 +1,3 @@
 import { RootReducerType } from "../../app/store";
 
-export const selectorLogin = (state: RootReducerType) => state.auth.isLogin;
+export const selectorCards = (state: RootReducerType) => state.cards

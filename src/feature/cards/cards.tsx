@@ -1,10 +1,10 @@
 import React from 'react';
-import EnhancedTable from "./cardsTable";
+import {CardsTable} from "./cardsTable";
 
 const Cards = () => {
     return (
         <div>
-            < EnhancedTable/>
+            < CardsTable/>
         </div>
     );
 };

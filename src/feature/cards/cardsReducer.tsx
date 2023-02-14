@@ -2,46 +2,42 @@ import { AppThunkDispatch } from "../../app/store";
 import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import {profileAPI} from "../../feature/profile/profileAPI";
-import {cardsAPI} from "./cardsAPI";
+import {cardsAPI, CardsReturnType} from "./cardsAPI";
 
 
-const initialCardsState = {
-    cards: []
-};
+const initialCardsState = {} as CardsReturnType;
 
 export const cardsReducer = (state = initialCardsState, action:CardsActionCreatorsType): InitialCardsStateType => {
     switch (action.type) {
         case CardsActions.GetCards:
-            return { ...state, cards: action.payload.packID};
+            return { ...state,...action.payload.cards};
         default:
-            return state;
+            return state ;
         //
     }
 };
 
 /////////////////// ACTION CREATORS ///////////////////////
 
-export const getCards = (packID:any) => {
+export const getCards = (cards:any) => {
     return {
         type: CardsActions.GetCards,
         payload: {
-            packID
-        }
+            cards,
+        },
     } as const;
 };
 
 /////////////////// THUNK CREATORS ////////////////////////
 
 
-export const getUserCards = (packID:string) => async (dispatch: AppThunkDispatch) => {
+export const getUserCards = (packID:any) => async (dispatch: AppThunkDispatch) => {
     dispatch(setAppStatus("loading"));
     try {
         await cardsAPI.getCards(packID);
         const res =  await cardsAPI.getCards(packID);
-        dispatch(getCards(packID));
-        // console.log(res)
-        console.log(cardsAPI)
+        dispatch(getCards(res.data.cards));
+        console.log(res.data.cards)
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>;
         errorUtils(err, dispatch);

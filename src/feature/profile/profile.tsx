@@ -10,6 +10,7 @@ import { logoutUser } from "../loginRegistration/authReducer";
 import { Navigate } from "react-router-dom";
 import Cards from "../cards/cards";
 import {getUserCards} from "../cards/cardsReducer";
+import {PacksList} from "../packs/PacksList";
 
 export const Profile = () => {
     const dispatch = useAppDispatch();
@@ -73,6 +74,7 @@ export const Profile = () => {
                 </Paper>
             </Box>
             <Cards/>
+            <PacksList PageTitle={'123'}/>
         </div>
     );
 };
