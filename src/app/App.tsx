@@ -10,11 +10,8 @@ import { useSelector } from "react-redux";
 import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
 import { SettingsParams } from "../feature/settingParams/settingsParams";
 import { PacksTable } from "../feature/packs/PacksTable";
-import { packs } from "../feature/packs/selectors";
 
 const App = () => {
-  const tablePacks = useSelector(packs);
-
   const dispatch = useAppDispatch();
   const isInitialized = useSelector(selectorAppInitialized);
   const status = useSelector(selectAppStatus);
@@ -30,7 +27,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <PacksTable packs={tablePacks} />
+      <PacksTable />
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />

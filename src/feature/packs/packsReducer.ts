@@ -4,16 +4,16 @@ import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { AddPackParamsType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
 
-// export type PacksResponseType = {
-//   cardPacks: Array<PackReturnType>;
-//   page: number;
-//   pageCount: number;
-//   cardPacksTotalCount: number;
-//   minCardsCount: number;
-//   maxCardsCount: number;
-//   token: string;
-//   tokenDeathTime: number;
-// };
+export type PacksResponseType = {
+  cardPacks: Array<PackReturnType>;
+  page: number;
+  pageCount: number;
+  cardPacksTotalCount: number;
+  minCardsCount: number;
+  maxCardsCount: number;
+  token: string;
+  tokenDeathTime: number;
+};
 
 const initialPacksState = {
   cardPacks: [],
@@ -26,7 +26,7 @@ const initialPacksState = {
   tokenDeathTime: 0,
 };
 
-export type PacksResponseType = typeof initialPacksState;
+//export type PacksResponseType = typeof initialPacksState;
 
 export const PacksActions = {
   SetPacks: "SET-PACKS",

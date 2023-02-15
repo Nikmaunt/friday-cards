@@ -21,12 +21,13 @@ import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPage, selectorRowsPerPage, userId } from "./selectors";
+import { selectorPacks, selectorPage, selectorRowsPerPage } from "./selectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
+import { PackReturnType } from "./packsAPI";
 
 interface Data {
   name: string;
@@ -34,13 +35,14 @@ interface Data {
   lastUpdated: string;
   createdBy: string;
   actions: string;
+  id: string;
 }
 
-type TablePropsType = {
-  packs: PacksResponseType;
-};
+// type TablePropsType = {
+//   packs: PacksResponseType;
+// };
 
-export const PacksTable = (props: TablePropsType) => {
+export const PacksTable = () => {
   let dispatch = useAppDispatch();
   // console.log("props PacksTable:", props);
 
@@ -48,27 +50,49 @@ export const PacksTable = (props: TablePropsType) => {
     dispatch(fetchPacksTC({}));
   }, []);
 
-  const rowPerPage = useAppSelector(selectorRowsPerPage);
+  const packs = useSelector(selectorPacks);
+  const rowPerPage = useSelector(selectorRowsPerPage);
   //const selectPage = useSelector(selectorPage);
-
+  type DataRows = {
+    name: string;
+    cards: number;
+    createdBy: string;
+    lastUpdated: string;
+    id: string;
+    actions: any;
+  };
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: any): Data {
+  function createData(
+    name: string,
+    cards: number,
+    createdBy: string,
+    lastUpdated: string,
+    id: string,
+    actions: any
+  ): DataRows {
     return {
       name,
       cards,
       lastUpdated,
       createdBy,
+      id,
       actions,
     };
   }
 
-  if (props.packs.cardPacks) {
-    props.packs.cardPacks.map((pack) => {
+  if (packs.cardPacks) {
+    packs.cardPacks.map((pack) => {
       rows.push(
-        // @ts-ignore
-        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id} />)
+        createData(
+          pack.name,
+          pack.cardsCount,
+          pack.user_name,
+          pack.updated,
+          pack._id,
+          <ActionsIconPack user_id={pack.user_id} />
+        )
       );
       return rows;
     });
@@ -302,17 +326,19 @@ export const PacksTable = (props: TablePropsType) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
-
+                    const onClickHandler = (id: string) => {
+                      console.log(id);
+                    };
                     return (
                       <TableRow
                         hover
-                        // @ts-ignore
-                        onClick={(event) => handleClick(event, row.name)}
+                        onClick={(event) => handleClick(event, row.name as string)}
                         tabIndex={-1}
                         key={row.name}
                       >
                         <TableCell align={"center"} padding={"none"} />
                         <TableCell
+                          onClick={() => onClickHandler(row.id as string)}
                           component="th"
                           id={labelId}
                           scope="row"
@@ -345,7 +371,7 @@ export const PacksTable = (props: TablePropsType) => {
           <TablePagination
             rowsPerPageOptions={[4, 10, 25]}
             component="div"
-            count={props.packs.cardPacksTotalCount}
+            count={packs.cardPacksTotalCount}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
