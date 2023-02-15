@@ -16,16 +16,16 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { addPackTC, fetchPacksTC } from "./packsReducer";
+import { fetchPacksTC } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useSelector } from "react-redux";
 import { selectorPacks, selectorRowsPerPage } from "./selectors";
-import { SuperButton } from "../../common/superButton/superButton";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
-import { useNavigate } from "react-router-dom";
-
+import { Navigate, useNavigate } from "react-router-dom";
+import PATH from "../../common/constans/path/path";
+import { getUserCards } from "../cards/cardsReducer";
 interface Data {
   name: string;
   cards: number;
@@ -36,13 +36,16 @@ interface Data {
 }
 
 export const PacksTable = () => {
-  let dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(fetchPacksTC({}));
   }, []);
 
   const packs = useSelector(selectorPacks);
   const rowPerPage = useSelector(selectorRowsPerPage);
+  const iDPacks = useAppSelector<string>((state) => state.cards.cardsPack_id);
   //const selectPage = useSelector(selectorPage);
 
   type DataRows = {
@@ -209,29 +212,6 @@ export const PacksTable = () => {
     );
   }
 
-  interface EnhancedTableToolbarProps {
-    numSelected: number;
-  }
-
-  function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
-    return (
-      <div>
-        <Toolbar>
-          <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
-            СЮДА ДОБАВИТЬ И ПОИСК ФИЛЬТРАЦИЮ
-          </Typography>
-
-          <Tooltip title="Clear filter">
-            <IconButton>
-              <FilterAltOffOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        </Toolbar>
-      </div>
-    );
-  }
-
   function EnhancedTable() {
     //направление стрелочек фильтрации
     const [order, setOrder] = React.useState<Order>("asc");
@@ -240,7 +220,6 @@ export const PacksTable = () => {
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
 
-    console.log("page", page);
     // для переключения размеров страницы
     const [dense, setDense] = React.useState(false);
     // const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -265,7 +244,6 @@ export const PacksTable = () => {
       } else if (selectedIndex > 0) {
         newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
       }
-
       setSelected(newSelected);
     };
 
@@ -291,24 +269,9 @@ export const PacksTable = () => {
       setDense(event.target.checked);
     };
 
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-    const navigate = useNavigate();
-    let packs2 = useAppSelector((state) => state.packs.cardPacks);
-    let dispatch = useAppDispatch();
-    const goToCardsList = (packID: any) => {
-      // dispatch(getCards(packs[packID]._id))
-      // @ts-ignore
-      navigate("friday-cards/cards-list/");
-    };
-
     return (
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          {/*в тулбаре будет фильтрация и поиск*/}
-          <EnhancedTableToolbar numSelected={selected.length} />
-
-          {/*Таблица*/}
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
               {/*заголовки таблицы Name Cards Last Updated Created bt Actions*/}
@@ -326,8 +289,10 @@ export const PacksTable = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
-                    const onClickHandler = (id: string) => {
-                      console.log(id);
+                    const goToCardsList = (id: string) => {
+                      dispatch(getUserCards(id));
+                      // navigate(`${PATH.CARDS_LIST}:${id}`);
+                      // navigate(`/friday-cards/cards-list/:${id}`);
                     };
                     return (
                       <TableRow
@@ -338,7 +303,7 @@ export const PacksTable = () => {
                       >
                         <TableCell align={"center"} padding={"none"} />
                         <TableCell
-                          onClick={() => onClickHandler(row.id as string)}
+                          onClick={() => goToCardsList(row.id as string)}
                           component="th"
                           id={labelId}
                           scope="row"
@@ -371,20 +336,11 @@ export const PacksTable = () => {
       </Box>
     );
   }
-  const addNewPacksHandler = () => {
-    const newPacks = { cardsPack: { name: "newName" } };
-    dispatch(addPackTC(newPacks));
-    alert("Add new pack");
-  };
-
+  if (iDPacks) {
+    return <Navigate to={PATH.CARDS_LIST} />;
+  }
   return (
     <div>
-      <div className={s.wrapper}>
-        <div className={s.title}>{"PacksList"}</div>
-        <div className={s.button}>
-          <SuperButton name={"Add new pack"} callback={addNewPacksHandler} />
-        </div>
-      </div>
       <div className={s.table}>
         <EnhancedTable />
       </div>

@@ -91,16 +91,3 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
     dispatch(setAppStatus("succeeded"));
   }
 };
-
-// export const fetchPacksTC = (pageCount?: number) => async (dispatch: AppThunkDispatch) => {
-//   dispatch(setAppStatus("loading"));
-//   try {
-//     const res = await packsAPI.getPacks(pageCount);
-//     dispatch(setPacksAC(res.data));
-//   } catch (e) {
-//     const err = e as Error | AxiosError<{ error: string }>;
-//     errorUtils(err, dispatch);
-//   } finally {
-//     dispatch(setAppStatus("succeeded"));
-//   }
-// };

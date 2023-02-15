@@ -10,11 +10,15 @@ import { useSelector } from "react-redux";
 import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
 import { SettingsParams } from "../feature/settingParams/settingsParams";
 import { PacksTable } from "../feature/packs/PacksTable";
+import { selectorLogin } from "../feature/loginRegistration/selectors";
+import { Navigate } from "react-router-dom";
+import PATH from "../common/constans/path/path";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const isInitialized = useSelector(selectorAppInitialized);
   const status = useSelector(selectAppStatus);
+  const isLogin = useSelector(selectorLogin);
 
   useEffect(() => {
     dispatch(authMe());
@@ -23,15 +27,18 @@ const App = () => {
   if (!isInitialized) {
     return <InitializedLoader />;
   }
+  // if (!isLogin) {
+  //   return <Navigate to={PATH.LOGIN} />;
+  // }
 
   return (
     <>
       <Header />
-      <PacksTable />
+      {/*<SettingsParams />*/}
+      {/*<PacksTable />*/}
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />
-      <SettingsParams />
     </>
   );
 };

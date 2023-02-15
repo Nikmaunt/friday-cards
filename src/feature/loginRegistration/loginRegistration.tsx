@@ -83,7 +83,7 @@ export const LoginRegistration = () => {
   };
 
   if (isLogin) {
-    return <Navigate to={PATH.PROFILE} />;
+    return <Navigate to={PATH.PACKS} />;
   }
 
   return (
