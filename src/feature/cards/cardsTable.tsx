@@ -33,8 +33,6 @@ interface Data {
     grade: string;
 
 }
-
-
 export const CardsList = () => {
 
     let cards = useSelector(selectorCards);
@@ -67,7 +65,6 @@ export const CardsList = () => {
     const addNewCardHandler = () => {
        // dispatch(createNewCard(cards.cardsPack_id))
     }
-
     function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
         if (b[orderBy] < a[orderBy]) {
             return -1;
@@ -77,7 +74,6 @@ export const CardsList = () => {
         }
         return 0;
     }
-
     // направление сортировки
     type Order = "asc" | "desc";
 
@@ -108,7 +104,6 @@ export const CardsList = () => {
         label: string;
         numeric: boolean;
     }
-
     const headCells: readonly HeadCell[] = [
         {
             id: "question",
@@ -136,7 +131,6 @@ export const CardsList = () => {
         },
 
     ];
-
     interface EnhancedTableProps {
         numSelected: number;
         onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
@@ -144,7 +138,6 @@ export const CardsList = () => {
         orderBy: string;
         rowCount: number;
     }
-
     //////////////////Заголовки колонок таблицы////////////////////////////
     function EnhancedTableHead(props: EnhancedTableProps) {
         const {order, orderBy, onRequestSort} = props;
@@ -243,7 +236,6 @@ export const CardsList = () => {
 
             setSelected(newSelected);
         };
-
         //пагинация
         const handleChangePage = (event: unknown, newPage: number) => {
             setPage(newPage);

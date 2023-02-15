@@ -22,8 +22,11 @@ import s from "./Packs.module.css";
 import { SuperButton } from "../../common/superButton/superButton";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import {Navigate, useNavigate} from "react-router-dom";
-import {ActionsIconPack} from "../../common/utils/actionsIconPack";
+
 import {getCards} from "../cards/cardsReducer";
+import {packs} from "./selectors";
+import {ActionsIconPack} from "../../common/utils/actionsIconPack";
+import {PackReturnType} from "./packsAPI";
 
 interface Data {
   name: string;
@@ -31,7 +34,7 @@ interface Data {
   lastUpdated: string;
   createdBy: string;
   actions: string;
-  packID:number
+  packID:string
 }
 
 type TablePropsType = {
@@ -44,7 +47,7 @@ export const PacksTable = (props: TablePropsType) => {
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: string, packID:number): Data {
+  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: any, packID:string): Data {
     return {
       name,
       cards,
@@ -58,8 +61,7 @@ export const PacksTable = (props: TablePropsType) => {
   if (props.packs.cardPacks) {
     props.packs.cardPacks.map((pack,packID) => {
       rows.push(
-        // @ts-ignore
-        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id}/>, packID)
+        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id}/>, pack._id)
       );
     // props.packs.cardPacks.map((pack,packID) => {
     //   rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
@@ -269,14 +271,14 @@ export const PacksTable = (props: TablePropsType) => {
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     const navigate = useNavigate();
-    let packs2 = useAppSelector((state) => state.packs.cardPacks);
+    let packs2 = useAppSelector((state) => state.packs);
     let dispatch = useAppDispatch();
-    const goToCardsList = (packID:any) => {
-      // dispatch(getCards(packs[packID]._id))
-      // @ts-ignore
-      navigate("friday-cards/cards-list/");
-    }
-
+    // const goToCardsList = (packID:string) => {
+    //   console.log(packID , 'packsID')
+    //   // dispatch(getCards(packs[packID]._id))
+    //   console.log(packs2)
+    //    return navigate(`/friday-cards/cards-list/${packID}`);
+    // }
     return (
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
@@ -301,11 +303,16 @@ export const PacksTable = (props: TablePropsType) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
+                    const goToCardsList = (packID:string) => {
+                      console.log(packID , 'packsID')
+                      // dispatch(getCards(packs[packID]._id))
+                      console.log(packs2)
+                      return navigate(`/friday-cards/cards-list/${packID}`);
+                    }
                     return (
                       <TableRow
                         hover
-                        // @ts-ignore
-                        onClick={(event) => handleClick(event, row.name)}
+                        onClick={(event) => handleClick(event, row.name as string)}
                         tabIndex={-1}
                         key={row.name}
                       >
@@ -316,7 +323,7 @@ export const PacksTable = (props: TablePropsType) => {
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
-                          onClick={()=> goToCardsList(row.packID)}
+                          onClick={()=> goToCardsList(row.packID as string)}
                         >
                           {row.name}
                         </TableCell>

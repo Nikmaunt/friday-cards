@@ -68,7 +68,7 @@ export const getUserCards = (packID:any) => async (dispatch: AppThunkDispatch) =
     }
 };
 
-export const setUserCards = (id: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+export const setUserCards = (id: string) => async (dispatch: AppThunkDispatch) => {
     dispatch(setAppStatus("loading"));
     try {
         //const {_id} = getState().cards
