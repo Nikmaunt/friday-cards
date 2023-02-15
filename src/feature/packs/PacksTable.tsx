@@ -16,12 +16,12 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { PacksResponseType } from "./packsReducer";
+import {fetchPacksTC, PacksResponseType} from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import {Navigate, useNavigate} from "react-router-dom";
 import {toggleIsSignUp} from "../../app/appReducer";
-import {getUserCards} from "../cards/cardsReducer";
+import {getCards, getUserCards, setUserCards} from "../cards/cardsReducer";
 import {useAppDispatch, useAppSelector} from "../../app/store";
 
 interface Data {
@@ -260,8 +260,8 @@ export const PacksTable = (props: TablePropsType) => {
     let packs = useAppSelector((state) => state.packs.cardPacks);
     let dispatch = useAppDispatch();
     const goToCardsList = (packID:any) => {
-      dispatch(getUserCards(packs[packID]._id))
-      return navigate("/friday-cards/cards-list");
+      dispatch(getCards(packs[packID]._id))
+      navigate("/friday-cards/cards-list/");
     }
 
     return (

@@ -4,7 +4,7 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
-import { visuallyHidden } from "@mui/utils";
+import {visuallyHidden} from "@mui/utils";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
@@ -20,9 +20,10 @@ import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import {fetchPacksTC} from "../packs/packsReducer";
 import {useAppDispatch, useAppSelector} from "../../app/store";
-import {getUserCards} from "./cardsReducer";
+import {getUserCards, setUserCards} from "./cardsReducer";
 import {useSelector} from "react-redux";
 import {selectorCards} from "./cardsSelectors";
+import {SuperButton} from "../../common/superButton/superButton";
 
 interface Data {
     question: string;
@@ -32,40 +33,37 @@ interface Data {
 
 }
 
-type TablePropsType = {
-    packs: any;
-};
 
 export const CardsTable = () => {
 
-    let cards = useSelector(selectorCards );
+    let cards = useSelector(selectorCards);
 
-    let packs = useAppSelector((state) => state.packs.cardPacks);
     let dispatch = useAppDispatch();
-    // useEffect(() => {
-    //     dispatch(fetchPacksTC());
-    // }, []);
+
+    useEffect(() => {
+        dispatch(setUserCards());
+    }, []);
+
     let rows: any = [];
 
-    console.log(rows)
-    Object.values(cards).map((card:any) => {
+    console.log(cards._id)
+    Object.values(cards).map((card: any) => {
         rows.push(createData(
             card.question, card.answer, card.updated, card.grade));
         return rows;
-
-
-    //создание строки
-    function createData(question: string, answer:string, lastUpdated: string, grade: string, ): Data {
-        return {
-            question,
-            answer,
-            lastUpdated,
-            grade
-        };
-    }
-
-
+        //создание строки
+        function createData(question: string, answer: string, lastUpdated: string, grade: string,): Data {
+            return {
+                question,
+                answer,
+                lastUpdated,
+                grade
+            };
+        }
     });
+    const addNewCardHandler = () => {
+       // dispatch(createNewCard(cards.cardsPack_id))
+    }
 
     function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
         if (b[orderBy] < a[orderBy]) {
@@ -146,7 +144,7 @@ export const CardsTable = () => {
 
     //////////////////Заголовки колонок таблицы////////////////////////////
     function EnhancedTableHead(props: EnhancedTableProps) {
-        const { order, orderBy, onRequestSort } = props;
+        const {order, orderBy, onRequestSort} = props;
         const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
@@ -160,7 +158,7 @@ export const CardsTable = () => {
                         <TableCell
                             key={headCell.id}
                             className={s.headCell}
-                            sx={{ paddingRight: "36px", textAlign: "left" }}
+                            sx={{paddingRight: "36px", textAlign: "left"}}
                             sortDirection={orderBy === headCell.id ? order : false}
                         >
                             <TableSortLabel
@@ -185,18 +183,19 @@ export const CardsTable = () => {
     interface EnhancedTableToolbarProps {
         numSelected: number;
     }
+
     function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-        const { numSelected } = props;
+        const {numSelected} = props;
         return (
             <div>
                 <Toolbar>
-                    <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
+                    <Typography sx={{flex: "1 1 100%"}} color="inherit" variant="subtitle1" component="div">
                         Friends Pack
                     </Typography>
-
+                    <SuperButton name={'add card'} callback={addNewCardHandler}/>
                     <Tooltip title="Clear filter">
                         <IconButton>
-                            <FilterAltOffOutlinedIcon />
+                            <FilterAltOffOutlinedIcon/>
                         </IconButton>
                     </Tooltip>
                 </Toolbar>
@@ -217,9 +216,6 @@ export const CardsTable = () => {
         const [dense, setDense] = React.useState(false);
 
         const [rowsPerPage, setRowsPerPage] = React.useState(5);
-
-
-
 
 
         const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
@@ -247,7 +243,6 @@ export const CardsTable = () => {
 
         //пагинация
         const handleChangePage = (event: unknown, newPage: number) => {
-            // setPage(newPage);
             setPage(newPage);
         };
 
@@ -268,18 +263,15 @@ export const CardsTable = () => {
         }
 
 
-            return (
-            <Box sx={{ width: "100%" }}>
-                <Paper sx={{ width: "100%", mb: 2 }}>
+        return (
+            <Box sx={{width: "100%"}}>
+
+                <Paper sx={{width: "100%", mb: 2}}>
                     {/*в тулбаре будет фильтрация и поиск*/}
-                    <EnhancedTableToolbar numSelected={selected.length} />
-                    <button onClick={()=>{console.log(cards)} }>selectorCards</button>
-                    <button onClick={()=> {
-                        console.log( dispatch(getUserCards(  packs[2]._id )))
-                    }}>CARDS</button>
+                    <EnhancedTableToolbar numSelected={selected.length}/>
                     {/*Таблица*/}
                     <TableContainer>
-                        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
+                        <Table sx={{minWidth: 750}} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
                             {/*заголовки таблицы Name Cards Last Updated Created bt Actions*/}
                             <EnhancedTableHead
                                 numSelected={selected.length}
@@ -304,12 +296,12 @@ export const CardsTable = () => {
                                                 tabIndex={-1}
                                                 key={row.question}
                                             >
-                                                <TableCell align={"center"} padding={"none"} />
+                                                <TableCell align={"center"} padding={"none"}/>
                                                 <TableCell
                                                     component="th"
                                                     id={labelId}
                                                     scope="row"
-                                                    sx={{ paddingRight: "36px", textAlign: "left" }}
+                                                    sx={{paddingRight: "36px", textAlign: "left"}}
                                                 >
                                                     {row.answer}
                                                 </TableCell>
@@ -326,7 +318,7 @@ export const CardsTable = () => {
                                             height: (dense ? 33 : 53) * emptyRows,
                                         }}
                                     >
-                                        <TableCell colSpan={6} />
+                                        <TableCell colSpan={6}/>
                                     </TableRow>
                                 )}
                             </TableBody>
@@ -347,9 +339,10 @@ export const CardsTable = () => {
             </Box>
         );
     }
+
     return (
         <div>
-            <EnhancedTable />
+            <EnhancedTable/>
         </div>
     );
 };

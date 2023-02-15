@@ -26,5 +26,15 @@ export const cardsAPI = {
    getCards (packID:string) {
         return instance.get<any>(`cards/card?cardsPack_id=${packID}`);
     },
-
 };
+
+
+
+
+
+
+
+
+// addCard (cardsPack_id:string){
+//  return instance.get<any>(`cards/card?cardsPack_id=${cardsPack_id}`);
+// }
