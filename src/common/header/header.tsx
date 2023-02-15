@@ -27,7 +27,7 @@ export const Header = () => {
       />
       <div>
         {isLogin ? (
-          <Stack className={"userProfile"} direction="row" spacing={1}>
+          <Stack onClick={()=> navigate("/friday-cards/profile") } className={"userProfile"} direction="row" spacing={1}>
             <h4 style={{ color: "black" }}>{userName}</h4>
             <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />
           </Stack>

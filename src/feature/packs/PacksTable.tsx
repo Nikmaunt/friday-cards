@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -26,6 +26,7 @@ import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { Navigate, useNavigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
 import { getUserCards } from "../cards/cardsReducer";
+import {SuperButton} from "../../common/superButton/superButton";
 interface Data {
   name: string;
   cards: number;
@@ -294,13 +295,11 @@ export const PacksTable = () => {
                     const labelId = `enhanced-table-checkbox-${index}`;
                     const goToCardsList = (packID:string) => {
                       console.log(packID , 'packsID')
-                      // dispatch(getCards(packs[packID]._id))
-                      console.log(packs2)
                       return navigate(`/friday-cards/cards-list/${packID}`);
                     }
                     // const goToCardsList = (id: string) => {
                     //   dispatch(getUserCards(id));
-                    //   // navigate(`${PATH.CARDS_LIST}:${id}`);
+                    //   // // navigate(`${PATH.CARDS_LIST}:${id}`);
                     //   // navigate(`/friday-cards/cards-list/:${id}`);
                     // };
                     return (
@@ -317,7 +316,6 @@ export const PacksTable = () => {
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
-                          onClick={()=> goToCardsList(row.packID as string)}
                         >
                           {row.name}
                         </TableCell>
@@ -351,12 +349,6 @@ export const PacksTable = () => {
   }
   return (
     <div>
-      <div className={s.wrapper}>
-        <div className={s.title}>{"PacksList"}</div>
-        <div className={s.button}>
-          <SuperButton name={"Add new pack"} callback={addNewPacksHandler} />
-        </div>
-      </div>
       <div className={s.table}>
         <EnhancedTable />
       </div>
