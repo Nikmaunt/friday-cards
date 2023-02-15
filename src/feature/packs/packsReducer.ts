@@ -16,7 +16,7 @@ import { AddPackParamsType, GetPacksParamsType, PackReturnType, packsAPI } from 
 // };
 
 const initialPacksState = {
-  cardPacks: [],
+  cardPacks: [] ,
   page: 0,
   pageCount: 4,
   cardPacksTotalCount: 0,

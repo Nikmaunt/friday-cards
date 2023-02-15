@@ -2,14 +2,12 @@ import { AnyAction, applyMiddleware, combineReducers, createStore } from "redux"
 import { appReducer } from "./appReducer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
-<<<<<<<<< Temporary merge branch 1
 import { authReducer } from "../feature/loginRegistration/authReducer";
 import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPasswordReducer";
-=========
-import { authReducer } from "../common/loginRegistration/authReducer";
-import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPassword-reducer";
 import { packsReducer } from "../feature/packs/packsReducer";
->>>>>>>>> Temporary merge branch 2
+import {cardsReducer} from "../feature/cards/cardsReducer";
+import {settingsReducer} from "../feature/settingParams/settingsReducer";
+
 
 export const rootReducer = combineReducers({
   app: appReducer,

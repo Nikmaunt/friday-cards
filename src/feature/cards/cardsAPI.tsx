@@ -1,4 +1,4 @@
-import {instance} from "../../app/appAPI";
+import {instance, instanceHeroku} from "../../app/appAPI";
 
 
 export type CardsReturnType = {
@@ -24,7 +24,7 @@ export type CardsReturnType = {
 
 export const cardsAPI = {
    getCards (packID:string) {
-        return instance.get<any>(`cards/card?cardsPack_id=${packID}`);
+        return instanceHeroku.get<any>(`cards/card?cardsPack_id=${packID}`);
     },
 };
 

@@ -16,9 +16,14 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { PacksResponseType } from "./packsReducer";
+import {addPackTC, fetchPacksTC, PacksResponseType} from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
+import { SuperButton } from "../../common/superButton/superButton";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {Navigate, useNavigate} from "react-router-dom";
+import {ActionsIconPack} from "../../common/utils/actionsIconPack";
+import {getCards} from "../cards/cardsReducer";
 
 interface Data {
   name: string;
@@ -51,10 +56,10 @@ export const PacksTable = (props: TablePropsType) => {
   }
 
   if (props.packs.cardPacks) {
-    props.packs.cardPacks.map((pack) => {
+    props.packs.cardPacks.map((pack,packID) => {
       rows.push(
         // @ts-ignore
-        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id} />)
+        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id}/>, packID)
       );
     // props.packs.cardPacks.map((pack,packID) => {
     //   rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
@@ -213,8 +218,8 @@ export const PacksTable = (props: TablePropsType) => {
 
     // для переключения размеров страницы
     const [dense, setDense] = React.useState(false);
-    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage); // изменил захордкодженное значение 6 можно убрать useState вообще только изменить значение
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    // const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage); // изменил захордкодженное значение 6 можно убрать useState вообще только изменить значение
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
       const isAsc = orderBy === property && order === "asc";
@@ -264,11 +269,12 @@ export const PacksTable = (props: TablePropsType) => {
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
     const navigate = useNavigate();
-    let packs = useAppSelector((state) => state.packs.cardPacks);
+    let packs2 = useAppSelector((state) => state.packs.cardPacks);
     let dispatch = useAppDispatch();
     const goToCardsList = (packID:any) => {
       // dispatch(getCards(packs[packID]._id))
-      navigate(`/friday-cards/cards-list/${packs[packID]._id}`);
+      // @ts-ignore
+      navigate(`/friday-cards/cards-list:id${props.packs.cardPacks[packID]._id}`);
     }
 
     return (
@@ -295,7 +301,6 @@ export const PacksTable = (props: TablePropsType) => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
-
                     return (
                       <TableRow
                         hover
@@ -305,8 +310,6 @@ export const PacksTable = (props: TablePropsType) => {
                         key={row.name}
                       >
                         <TableCell align={"center"} padding={"none"} />
-                        <TableCell
-                                            align={"center"} padding={"none"} />
                         <TableCell
 
                           component="th"
@@ -324,16 +327,6 @@ export const PacksTable = (props: TablePropsType) => {
                       </TableRow>
                     );
                   })}
-                {/*зачем ЭТО?*/}
-                {/*{emptyRows > 0 && (*/}
-                {/*  <TableRow*/}
-                {/*    style={{*/}
-                {/*      height: (dense ? 33 : 53) * emptyRows,*/}
-                {/*    }}*/}
-                {/*  >*/}
-                {/*    <TableCell colSpan={6} />*/}
-                {/*  </TableRow>*/}
-                {/*)}*/}
               </TableBody>
             </Table>
           </TableContainer>
@@ -355,7 +348,7 @@ export const PacksTable = (props: TablePropsType) => {
       </Box>
     );
   }
-
+  let dispatch = useAppDispatch();
   const addNewPacksHandler = () => {
     const newPacks = { cardsPack: { name: "newName" } };
     dispatch(addPackTC(newPacks));
