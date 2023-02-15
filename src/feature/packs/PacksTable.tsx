@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -16,17 +16,9 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { addPackTC, fetchPacksTC, PacksResponseType } from "./packsReducer";
+import { PacksResponseType } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { useSelector } from "react-redux";
-import { selectorPage, selectorRowsPerPage, userId } from "./selectors";
-import { SuperButton } from "../../common/superButton/superButton";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 
 interface Data {
   name: string;
@@ -34,6 +26,7 @@ interface Data {
   lastUpdated: string;
   createdBy: string;
   actions: string;
+  packID:number
 }
 
 type TablePropsType = {
@@ -41,26 +34,19 @@ type TablePropsType = {
 };
 
 export const PacksTable = (props: TablePropsType) => {
-  let dispatch = useAppDispatch();
   // console.log("props PacksTable:", props);
-
-  useEffect(() => {
-    dispatch(fetchPacksTC({}));
-  }, []);
-
-  const rowPerPage = useAppSelector(selectorRowsPerPage);
-  //const selectPage = useSelector(selectorPage);
 
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: any): Data {
+  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: string, packID:number): Data {
     return {
       name,
       cards,
       lastUpdated,
       createdBy,
       actions,
+      packID
     };
   }
 
@@ -70,6 +56,8 @@ export const PacksTable = (props: TablePropsType) => {
         // @ts-ignore
         createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id} />)
       );
+    // props.packs.cardPacks.map((pack,packID) => {
+    //   rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
       return rows;
     });
   }
@@ -196,7 +184,6 @@ export const PacksTable = (props: TablePropsType) => {
   interface EnhancedTableToolbarProps {
     numSelected: number;
   }
-
   function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
     return (
@@ -224,7 +211,6 @@ export const PacksTable = (props: TablePropsType) => {
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [page, setPage] = React.useState(0);
 
-    console.log("page", page);
     // для переключения размеров страницы
     const [dense, setDense] = React.useState(false);
     // const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -276,7 +262,14 @@ export const PacksTable = (props: TablePropsType) => {
     };
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    //const emptyRows = selectPage > 0 ? Math.max(0, (1 + selectPage) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const navigate = useNavigate();
+    let packs = useAppSelector((state) => state.packs.cardPacks);
+    let dispatch = useAppDispatch();
+    const goToCardsList = (packID:any) => {
+      // dispatch(getCards(packs[packID]._id))
+      navigate(`/friday-cards/cards-list/${packs[packID]._id}`);
+    }
 
     return (
       <Box sx={{ width: "100%" }}>
@@ -313,10 +306,14 @@ export const PacksTable = (props: TablePropsType) => {
                       >
                         <TableCell align={"center"} padding={"none"} />
                         <TableCell
+                                            align={"center"} padding={"none"} />
+                        <TableCell
+
                           component="th"
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
+                          onClick={()=> goToCardsList(row.packID)}
                         >
                           {row.name}
                         </TableCell>

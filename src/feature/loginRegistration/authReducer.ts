@@ -3,7 +3,8 @@ import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
 import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { profileAPI } from "../profile/img/profileAPI";
+import {profileAPI} from "../profile/profileAPI";
+
 
 const initialAuthState = {
   isLogin: false,
@@ -85,6 +86,9 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     let res = await authAPI.authMe();
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
   } finally {
     dispatch(setIsInitialized(true));
   }
@@ -126,6 +130,7 @@ export const AuthActions = {
 } as const;
 
 type InitialAuthStateType = typeof initialAuthState;
+
 
 export type AuthActionCreatorsType =
   | ReturnType<typeof setLoginUser>

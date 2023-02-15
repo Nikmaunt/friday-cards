@@ -1,20 +1,19 @@
 import React, { useEffect } from "react";
+import "./App.css";
 import { Header } from "../common/header/header";
+import { Route, Routes } from "react-router-dom";
+import { Profile } from "../feature/profile/profile";
+import { ForgotPassword } from "../feature/passwordRecovery/ForgotPassword";
+import { CheckEmail } from "../feature/passwordRecovery/CheckEmail";
+import { CreatePassword } from "../feature/passwordRecovery/CreatePassword";
+import { LoginRegistration } from "../common/loginRegistration/loginRegistration";
+import { CircularProgress, LinearProgress } from "@mui/material";
 import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
-import { authMe } from "../feature/loginRegistration/authReducer";
-import { useAppDispatch } from "./store";
-import { Pages } from "./routes";
-import { InitializedLoader } from "../feature/initializedLoader/InitializedLoader";
-import { StatusLoader } from "../feature/statusLoader/statusLoader";
-import { useSelector } from "react-redux";
-import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
-import { SettingsParams } from "../feature/settingParams/settingsParams";
-import { PacksTable } from "../feature/packs/PacksTable";
-import { packs } from "../feature/packs/selectors";
+import { authMe } from "../common/loginRegistration/authReducer";
+import { RequestStatusType } from "./appReducer";
+import { useAppDispatch, useAppSelector } from "./store";
 
 const App = () => {
-  const tablePacks = useSelector(packs);
-
   const dispatch = useAppDispatch();
   const isInitialized = useSelector(selectorAppInitialized);
   const status = useSelector(selectAppStatus);
