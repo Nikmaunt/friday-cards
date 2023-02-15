@@ -4,7 +4,12 @@
   margin-top: 36px;
   align-content: space-between;
 }
-
+.icons {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-left: 61px;
+}
 .title {
   text-align: center;
   font-size: 27px;

@@ -17,28 +17,30 @@ import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
-import s from "./Packs.module.css";
-import {fetchPacksTC} from "../packs/packsReducer";
+import s from "./Cards.module.css";
+import StarIcon from '@mui/icons-material/Star';
 import {useAppDispatch, useAppSelector} from "../../app/store";
-import {getUserCards, setUserCards} from "./cardsReducer";
+import { setUserCards} from "./cardsReducer";
 import {useSelector} from "react-redux";
 import {selectorCards} from "./cardsSelectors";
 import {SuperButton} from "../../common/superButton/superButton";
 import {useParams} from "react-router-dom";
+import {Rating, Stack} from "@mui/material";
+import {CardsActionsIconPack} from "./cardsActionsIconPack";
+
 
 interface Data {
     question: string;
     answer: string;
     lastUpdated: string;
     grade: string;
+    actions: string;
 
 }
 export const CardsList = () => {
-
     let cards = useSelector(selectorCards);
     const {id} = useParams()
     let dispatch = useAppDispatch();
-
     useEffect(() => {
         if(id) {
             dispatch(setUserCards(id));
@@ -50,15 +52,16 @@ export const CardsList = () => {
     console.log(cards._id)
     Object.values(cards).map((card: any) => {
         rows.push(createData(
-            card.question, card.answer, card.updated, card.grade));
+            card.question, card.answer, card.updated, card.grade, <CardsActionsIconPack user_id={card.user_id}/>));
         return rows;
         //создание строки
-        function createData(question: string, answer: string, lastUpdated: string, grade: string,): Data {
+        function createData(question: string, answer: string, lastUpdated: string, grade: string,actions:any): Data {
             return {
                 question,
                 answer,
                 lastUpdated,
-                grade
+                grade,
+                actions
             };
         }
     });
@@ -146,7 +149,6 @@ export const CardsList = () => {
         };
 
         return (
-
             <TableHead>
                 <TableRow>
                     <TableCell padding="none"></TableCell>
@@ -188,7 +190,7 @@ export const CardsList = () => {
                     <Typography sx={{flex: "1 1 100%"}} color="inherit" variant="subtitle1" component="div">
                         Friends Pack
                     </Typography>
-                    <SuperButton name={'add card'} callback={addNewCardHandler}/>
+
                     <Tooltip title="Clear filter">
                         <IconButton>
                             <FilterAltOffOutlinedIcon/>
@@ -202,7 +204,6 @@ export const CardsList = () => {
     function EnhancedTable() {
         //направление стрелочек фильтрации
         const [order, setOrder] = React.useState<Order>("asc");
-
         // @ts-ignore
         const [orderBy, setOrderBy] = React.useState<keyof Data>("cards");
         const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -245,12 +246,6 @@ export const CardsList = () => {
             setRowsPerPage(parseInt(event.target.value, 10));
             setPage(0);
         };
-
-        //изменение размеров таблицы
-        const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
-            setDense(event.target.checked);
-        };
-
         // Avoid a layout jump when reaching the last page with empty rows.
         const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
         if (Object.values(cards).length === 0) {
@@ -260,7 +255,6 @@ export const CardsList = () => {
 
         return (
             <Box sx={{width: "100%"}}>
-
                 <Paper sx={{width: "100%", mb: 2}}>
                     {/*в тулбаре будет фильтрация и поиск*/}
                     <EnhancedTableToolbar numSelected={selected.length}/>
@@ -302,8 +296,22 @@ export const CardsList = () => {
                                                 </TableCell>
                                                 <TableCell align="left">{row.grade}</TableCell>
                                                 <TableCell align="left">{row.lastUpdated}</TableCell>
-                                                <TableCell align="left">{row.grade}</TableCell>
-
+                                                <TableCell align="left">
+                                                    <Box
+                                                        sx={{
+                                                            width: 70,
+                                                            display: 'flex',
+                                                        }}
+                                                    >
+                                                        <Rating
+                                                            name="text-feedback"
+                                                            value={5}
+                                                            precision={0.5}
+                                                            emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                                        />
+                                                        <span className={s.icons}>{row.actions}</span>
+                                                    </Box>
+                                                </TableCell>
                                             </TableRow>
                                         );
                                     })}
@@ -334,10 +342,17 @@ export const CardsList = () => {
             </Box>
         );
     }
-
     return (
         <div>
-            <EnhancedTable/>
+            <div className={s.wrapper}>
+                <div className={s.title}>{"Card pack"}</div>
+                <div className={s.button}>
+                    <SuperButton name={'add card'} callback={addNewCardHandler}/>
+                </div>
+            </div>
+            <div className={s.table}>
+                <EnhancedTable />
+            </div>
         </div>
     );
 };
