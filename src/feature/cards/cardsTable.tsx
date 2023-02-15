@@ -35,11 +35,10 @@ interface Data {
 }
 
 
-export const CardsTable = () => {
+export const CardsList = () => {
 
     let cards = useSelector(selectorCards);
     const {id} = useParams()
-
     let dispatch = useAppDispatch();
 
     useEffect(() => {

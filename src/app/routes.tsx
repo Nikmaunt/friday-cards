@@ -6,7 +6,7 @@ import { CheckEmail } from "../feature/passwordRecovery/checkEmail";
 import { CreatePassword } from "../feature/passwordRecovery/createPassword";
 import React from "react";
 import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
-import {CardsTable} from "../feature/cards/cardsTable";
+import {CardsList} from "../feature/cards/cardsTable";
 
 export const Pages = () => {
   return (
@@ -16,7 +16,7 @@ export const Pages = () => {
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />}></Route>
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />}></Route>
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
-      <Route path={PATH.CARDS_LIST} element={<CardsTable />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<CardsList/>}></Route>
     </Routes>
   );
 };

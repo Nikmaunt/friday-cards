@@ -274,7 +274,7 @@ export const PacksTable = (props: TablePropsType) => {
     const goToCardsList = (packID:any) => {
       // dispatch(getCards(packs[packID]._id))
       // @ts-ignore
-      navigate(`/friday-cards/cards-list:id${props.packs.cardPacks[packID]._id}`);
+      navigate("friday-cards/cards-list/");
     }
 
     return (
