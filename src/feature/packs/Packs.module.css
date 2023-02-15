@@ -1,6 +1,5 @@
 .wrapper {
-  display: flex;
-  justify-content: space-between;
+  padding: 0 136px;
   margin-top: 36px;
   align-content: space-between;
 }
@@ -13,10 +12,6 @@
 .button {
   width: 175px;
   height: 36px;
-}
-
-.table {
-  margin-top: 120px;
 }
 
 .headCell {

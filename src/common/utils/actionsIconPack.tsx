@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../app/store";
-import { userId } from "../../feature/packs/selectors";
+import { selectorUserId } from "../../feature/packs/selectors";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -23,7 +23,7 @@ const deletePackCallback = () => {
 };
 
 export const ActionsIconPack = (props: ActionsIconPackType) => {
-  const userAuthId = useAppSelector(userId);
+  const userAuthId = useAppSelector(selectorUserId);
   return (
     <div className={s.active}>
       <span onClick={learnPackCallback}>

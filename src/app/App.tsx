@@ -1,23 +1,24 @@
 import React, { useEffect } from "react";
-import "./App.css";
 import { Header } from "../common/header/header";
 import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
-import { useAppDispatch, useAppSelector } from "./store";
-import {selectAppStatus, selectorAppInitialized} from "./appSelectors";
-import {useSelector} from "react-redux";
-import {StatusLoader} from "../feature/statusLoader/statusLoader";
-import {InitializedLoader} from "../feature/initializedLoader/InitializedLoader";
-import {PacksTable} from "../feature/packs/PacksTable";
-import {SettingsParams} from "../feature/settingParams/settingsParams";
-import {packs} from "../feature/packs/selectors";
-import {Pages} from "./routes";
-import {authMe} from "../feature/loginRegistration/authReducer";
+import { authMe } from "../feature/loginRegistration/authReducer";
+import { useAppDispatch } from "./store";
+import { Pages } from "./routes";
+import { InitializedLoader } from "../feature/initializedLoader/InitializedLoader";
+import { StatusLoader } from "../feature/statusLoader/statusLoader";
+import { useSelector } from "react-redux";
+import { selectAppStatus, selectorAppInitialized } from "./appSelectors";
+import { SettingsParams } from "../feature/settingParams/settingsParams";
+import { PacksTable } from "../feature/packs/PacksTable";
+import { selectorLogin } from "../feature/loginRegistration/selectors";
+import { Navigate } from "react-router-dom";
+import PATH from "../common/constans/path/path";
 
 const App = () => {
-    const tablePacks = useSelector(packs);
   const dispatch = useAppDispatch();
   const isInitialized = useSelector(selectorAppInitialized);
   const status = useSelector(selectAppStatus);
+  const isLogin = useSelector(selectorLogin);
 
   useEffect(() => {
     dispatch(authMe());
@@ -26,15 +27,18 @@ const App = () => {
   if (!isInitialized) {
     return <InitializedLoader />;
   }
+  // if (!isLogin) {
+  //   return <Navigate to={PATH.LOGIN} />;
+  // }
 
   return (
     <>
       <Header />
-      <PacksTable packs={tablePacks} />
+      {/*<SettingsParams />*/}
+      {/*<PacksTable />*/}
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />
-      {/*<SettingsParams />*/}
     </>
   );
 };

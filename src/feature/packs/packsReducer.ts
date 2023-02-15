@@ -25,8 +25,8 @@ const initialPacksState = {
   token: "",
   tokenDeathTime: 0,
 };
-//
-// export type PacksResponseType = typeof initialPacksState;
+
+export type PacksResponseType = typeof initialPacksState;
 
 export const PacksActions = {
   SetPacks: "SET-PACKS",

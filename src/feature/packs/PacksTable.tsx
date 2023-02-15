@@ -16,52 +16,78 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {addPackTC, fetchPacksTC, PacksResponseType} from "./packsReducer";
+import { fetchPacksTC } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
-import { SuperButton } from "../../common/superButton/superButton";
-import {useAppDispatch, useAppSelector} from "../../app/store";
-import {Navigate, useNavigate} from "react-router-dom";
-
-import {getCards} from "../cards/cardsReducer";
-import {packs} from "./selectors";
-import {ActionsIconPack} from "../../common/utils/actionsIconPack";
-import {PackReturnType} from "./packsAPI";
-
+import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useSelector } from "react-redux";
+import { selectorPacks, selectorRowsPerPage } from "./selectors";
+import { ActionsIconPack } from "../../common/utils/actionsIconPack";
+import { Navigate, useNavigate } from "react-router-dom";
+import PATH from "../../common/constans/path/path";
+import { getUserCards } from "../cards/cardsReducer";
 interface Data {
   name: string;
   cards: number;
   lastUpdated: string;
   createdBy: string;
   actions: string;
-  packID:string
+  id: string;
 }
 
-type TablePropsType = {
-  packs: PacksResponseType;
-};
+export const PacksTable = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-export const PacksTable = (props: TablePropsType) => {
-  // console.log("props PacksTable:", props);
+  useEffect(() => {
+    dispatch(fetchPacksTC({}));
+  }, []);
 
+  const packs = useSelector(selectorPacks);
+  const rowPerPage = useSelector(selectorRowsPerPage);
+  const iDPacks = useAppSelector<string>((state) => state.cards.cardsPack_id);
+  //const selectPage = useSelector(selectorPage);
+
+  type DataRows = {
+    name: string;
+    cards: number;
+    createdBy: string;
+    lastUpdated: string;
+    id: string;
+    actions: any;
+  };
   let rows: any = [];
 
   //создание строки
-  function createData(name: string, cards: number, createdBy: string, lastUpdated: string, actions: any, packID:string): Data {
+  function createData(
+    name: string,
+    cards: number,
+    createdBy: string,
+    lastUpdated: string,
+    id: string,
+    actions: any
+  ): DataRows {
     return {
       name,
       cards,
       lastUpdated,
       createdBy,
+      id,
       actions,
-      packID
     };
   }
 
-  if (props.packs.cardPacks) {
-    props.packs.cardPacks.map((pack,packID) => {
+  if (packs.cardPacks) {
+    packs.cardPacks.map((pack) => {
       rows.push(
-        createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, <ActionsIconPack user_id={pack.user_id}/>, pack._id)
+        createData(
+          pack.name,
+          pack.cardsCount,
+          pack.user_name,
+          pack.updated,
+          pack._id,
+          <ActionsIconPack user_id={pack.user_id} />
+        )
       );
     // props.packs.cardPacks.map((pack,packID) => {
     //   rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
@@ -188,28 +214,6 @@ export const PacksTable = (props: TablePropsType) => {
     );
   }
 
-  interface EnhancedTableToolbarProps {
-    numSelected: number;
-  }
-  function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
-    return (
-      <div>
-        <Toolbar>
-          <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
-            СЮДА ДОБАВИТЬ И ПОИСК ФИЛЬТРАЦИЮ
-          </Typography>
-
-          <Tooltip title="Clear filter">
-            <IconButton>
-              <FilterAltOffOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-        </Toolbar>
-      </div>
-    );
-  }
-
   function EnhancedTable() {
     //направление стрелочек фильтрации
     const [order, setOrder] = React.useState<Order>("asc");
@@ -220,8 +224,8 @@ export const PacksTable = (props: TablePropsType) => {
 
     // для переключения размеров страницы
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    // const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage); // изменил захордкодженное значение 6 можно убрать useState вообще только изменить значение
+    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(rowPerPage); // изменил захордкодженное значение 6 можно убрать useState вообще только изменить значение
 
     const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
       const isAsc = orderBy === property && order === "asc";
@@ -268,24 +272,9 @@ export const PacksTable = (props: TablePropsType) => {
       setDense(event.target.checked);
     };
 
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-    const navigate = useNavigate();
-    let packs2 = useAppSelector((state) => state.packs);
-    let dispatch = useAppDispatch();
-    // const goToCardsList = (packID:string) => {
-    //   console.log(packID , 'packsID')
-    //   // dispatch(getCards(packs[packID]._id))
-    //   console.log(packs2)
-    //    return navigate(`/friday-cards/cards-list/${packID}`);
-    // }
     return (
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          {/*в тулбаре будет фильтрация и поиск*/}
-          <EnhancedTableToolbar numSelected={selected.length} />
-
-          {/*Таблица*/}
           <TableContainer>
             <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
               {/*заголовки таблицы Name Cards Last Updated Created bt Actions*/}
@@ -309,6 +298,11 @@ export const PacksTable = (props: TablePropsType) => {
                       console.log(packs2)
                       return navigate(`/friday-cards/cards-list/${packID}`);
                     }
+                    // const goToCardsList = (id: string) => {
+                    //   dispatch(getUserCards(id));
+                    //   // navigate(`${PATH.CARDS_LIST}:${id}`);
+                    //   // navigate(`/friday-cards/cards-list/:${id}`);
+                    // };
                     return (
                       <TableRow
                         hover
@@ -318,7 +312,7 @@ export const PacksTable = (props: TablePropsType) => {
                       >
                         <TableCell align={"center"} padding={"none"} />
                         <TableCell
-
+                          onClick={() => goToCardsList(row.id as string)}
                           component="th"
                           id={labelId}
                           scope="row"
@@ -337,31 +331,24 @@ export const PacksTable = (props: TablePropsType) => {
               </TableBody>
             </Table>
           </TableContainer>
-
-          {/*Пагинация*/}
           <TablePagination
             rowsPerPageOptions={[4, 10, 25]}
             component="div"
-            count={props.packs.cardPacksTotalCount}
+            count={packs.cardPacksTotalCount}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-
         {/*Отступы между строк*/}
         <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" />
       </Box>
     );
   }
-  let dispatch = useAppDispatch();
-  const addNewPacksHandler = () => {
-    const newPacks = { cardsPack: { name: "newName" } };
-    dispatch(addPackTC(newPacks));
-    alert("Add new pack");
-  };
-
+  if (iDPacks) {
+    return <Navigate to={PATH.CARDS_LIST} />;
+  }
   return (
     <div>
       <div className={s.wrapper}>
