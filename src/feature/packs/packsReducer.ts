@@ -16,7 +16,7 @@ export type PacksResponseType = {
 };
 
 const initialPacksState = {
-  cardPacks: [] ,
+  cardPacks: [],
   page: 0,
   pageCount: 4,
   cardPacksTotalCount: 0,
@@ -48,20 +48,6 @@ export const packsReducer = (
     default:
       return state;
   }
-  // switch (action.type) {
-  //   case PacksActions.SetPacks:
-  //     let stateCopy = { ...state };
-  //     stateCopy = action.packs;
-  //     return stateCopy;
-  //
-  //
-  //   case PacksActions.AddPack:
-  //     //@ts-ignore
-  //     return [...state, action.newPack];
-  //
-  //   default:
-  //     return state;
-  // }
 };
 
 /////////////////// ACTION CREATORS ///////////////////////

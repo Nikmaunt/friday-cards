@@ -16,22 +16,15 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import {addPackTC, fetchPacksTC, PacksResponseType} from "./packsReducer";
+import { addPackTC, fetchPacksTC } from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPacks, selectorPage, selectorRowsPerPage } from "./selectors";
+import { selectorPacks, selectorRowsPerPage } from "./selectors";
 import { SuperButton } from "../../common/superButton/superButton";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
-import { PackReturnType } from "./packsAPI";
-import {useAppDispatch, useAppSelector} from "../../app/store";
-import {Navigate, useNavigate} from "react-router-dom";
-import {ActionsIconPack} from "../../common/utils/actionsIconPack";
-import {getCards} from "../cards/cardsReducer";
+import { useNavigate } from "react-router-dom";
 
 interface Data {
   name: string;
@@ -42,14 +35,8 @@ interface Data {
   id: string;
 }
 
-// type TablePropsType = {
-//   packs: PacksResponseType;
-// };
-
 export const PacksTable = () => {
   let dispatch = useAppDispatch();
-  // console.log("props PacksTable:", props);
-
   useEffect(() => {
     dispatch(fetchPacksTC({}));
   }, []);
@@ -57,6 +44,7 @@ export const PacksTable = () => {
   const packs = useSelector(selectorPacks);
   const rowPerPage = useSelector(selectorRowsPerPage);
   //const selectPage = useSelector(selectorPage);
+
   type DataRows = {
     name: string;
     cards: number;
@@ -308,11 +296,11 @@ export const PacksTable = () => {
     const navigate = useNavigate();
     let packs2 = useAppSelector((state) => state.packs.cardPacks);
     let dispatch = useAppDispatch();
-    const goToCardsList = (packID:any) => {
+    const goToCardsList = (packID: any) => {
       // dispatch(getCards(packs[packID]._id))
       // @ts-ignore
       navigate("friday-cards/cards-list/");
-    }
+    };
 
     return (
       <Box sx={{ width: "100%" }}>
@@ -355,7 +343,6 @@ export const PacksTable = () => {
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
-                          onClick={()=> goToCardsList(row.packID)}
                         >
                           {row.name}
                         </TableCell>
@@ -366,21 +353,9 @@ export const PacksTable = () => {
                       </TableRow>
                     );
                   })}
-                {/*зачем ЭТО?*/}
-                {/*{emptyRows > 0 && (*/}
-                {/*  <TableRow*/}
-                {/*    style={{*/}
-                {/*      height: (dense ? 33 : 53) * emptyRows,*/}
-                {/*    }}*/}
-                {/*  >*/}
-                {/*    <TableCell colSpan={6} />*/}
-                {/*  </TableRow>*/}
-                {/*)}*/}
               </TableBody>
             </Table>
           </TableContainer>
-
-          {/*Пагинация*/}
           <TablePagination
             rowsPerPageOptions={[4, 10, 25]}
             component="div"
@@ -391,13 +366,11 @@ export const PacksTable = () => {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-
         {/*Отступы между строк*/}
         <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label="Dense padding" />
       </Box>
     );
   }
-
   const addNewPacksHandler = () => {
     const newPacks = { cardsPack: { name: "newName" } };
     dispatch(addPackTC(newPacks));
