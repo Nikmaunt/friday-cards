@@ -24,6 +24,7 @@ import {getUserCards, setUserCards} from "./cardsReducer";
 import {useSelector} from "react-redux";
 import {selectorCards} from "./cardsSelectors";
 import {SuperButton} from "../../common/superButton/superButton";
+import {useParams} from "react-router-dom";
 
 interface Data {
     question: string;
@@ -37,11 +38,14 @@ interface Data {
 export const CardsTable = () => {
 
     let cards = useSelector(selectorCards);
+    const {id} = useParams()
 
     let dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(setUserCards());
+        if(id) {
+            dispatch(setUserCards(id));
+        }
     }, []);
 
     let rows: any = [];

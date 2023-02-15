@@ -49,7 +49,7 @@ const App = () => {
             <Route path={"/friday-cards/check-email"} element={<CheckEmail />}></Route>
             <Route path={"/friday-cards/set-new-password/:token"} element={<CreatePassword />}></Route>
             <Route path={"/friday-cards/packs-list"} element={<PacksList PageTitle={"Packs list"} />}></Route>
-            <Route path={"/friday-cards/cards-list"} element={<CardsTable />}></Route>
+            <Route path={"/friday-cards/cards-list/:id"} element={<CardsTable />}></Route>
           </Routes>
         </div>
       </>

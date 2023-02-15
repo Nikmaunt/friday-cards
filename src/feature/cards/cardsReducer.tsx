@@ -12,7 +12,7 @@ export const cardsReducer = (state = initialCardsState, action:any): InitialCard
         case CardsActions.GetCards:
             return {...state, _id:action.payload.packID};
         case CardsActions.SetCards:
-            return { ...state,... action.payload.cards};
+            return {...action.payload.cards};
         // case CardsActions.AddCard:
         //     return { ...state,... action.payload.card};
         default:
@@ -68,15 +68,13 @@ export const getUserCards = (packID:any) => async (dispatch: AppThunkDispatch) =
     }
 };
 
-export const setUserCards = () => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+export const setUserCards = (id: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
     dispatch(setAppStatus("loading"));
     try {
-        const {_id} = getState().cards
-        console.log(_id)
-        await cardsAPI.getCards(_id);
-        const res =  await cardsAPI.getCards(_id);
+        //const {_id} = getState().cards
+        await cardsAPI.getCards(id);
+        const res =  await cardsAPI.getCards(id);
         dispatch(setCards(res.data.cards));
-        console.log(res.data.cards)
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>;
         errorUtils(err, dispatch);

@@ -260,8 +260,8 @@ export const PacksTable = (props: TablePropsType) => {
     let packs = useAppSelector((state) => state.packs.cardPacks);
     let dispatch = useAppDispatch();
     const goToCardsList = (packID:any) => {
-      dispatch(getCards(packs[packID]._id))
-      navigate("/friday-cards/cards-list/");
+      // dispatch(getCards(packs[packID]._id))
+      navigate(`/friday-cards/cards-list/${packs[packID]._id}`);
     }
 
     return (
