@@ -73,7 +73,7 @@ export const Profile = () => {
                     </Stack>
                 </Paper>
             </Box>
-            <Cards/>
+            {/*<Cards/>*/}
             <PacksList PageTitle={'123'}/>
         </div>
     );
