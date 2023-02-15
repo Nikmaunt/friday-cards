@@ -36,26 +36,37 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   const userName = useAppSelector<string>((state) => state.auth.user.name);
 
   let [name, setName] = useState<string>(userName);
+  let [errors, setErrors] = useState<string>('')
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
     setName(e.currentTarget.value);
   };
 
   const onButtonClickHandler = () => {
-    console.log("but work save");
-    dispatch(updateUser(name));
-    //
-    setEditMode(!editMode);
+    if (name  !== '' ) {
+      dispatch(updateUser(name));
+      setEditMode(!editMode)
+    } else {
+      setErrors('Name is required!');
+    }
+
   };
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter' && name  !== '' ) {
       dispatch(updateUser(name));
+      setEditMode(!editMode)
+    }
+    else {
+      setErrors('Name is required!');
+    }
+  };
+  const onBlurHandler = () => {
+    if (name  !== '' )
       setEditMode(!editMode);
+    else {
+      setErrors('Name is required!');
     }
   };
 
-  const onBlurHandler = () => {
-    setEditMode(false);
-  };
 
   const onDoubleClickCallBack = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     setEditMode(!editMode);
@@ -70,9 +81,11 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           style={{ width: 347 }}
           label="Nickname"
           onKeyPress={onKeyPressHandler}
+          error={name=== '' }
+          helperText={name === ''  ? errors : null}
           onChange={changeName}
           value={name}
-          //onBlur={onBlurHandler} /// если включить перестает работать onClick у button
+          onBlur={onBlurHandler}
           InputProps={{
             endAdornment: (
               <Button
@@ -90,7 +103,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
       ) : (
         <div>
           <span onDoubleClick={onDoubleClickCallBack} {...restSpanProps}>
-            {children || restProps.value || defaultText}
+            {children || restProps.value || 'Please enter your name'}
             <BorderColorOutlinedIcon fontSize={"small"} />
           </span>
         </div>

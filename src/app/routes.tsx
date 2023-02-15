@@ -6,16 +6,17 @@ import { CheckEmail } from "../feature/passwordRecovery/checkEmail";
 import { CreatePassword } from "../feature/passwordRecovery/createPassword";
 import React from "react";
 import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
+import {CardsList} from "../feature/cards/cardsTable";
 
 export const Pages = () => {
   return (
     <Routes>
       <Route path={PATH.LOGIN} element={<LoginRegistration />}></Route>
       <Route path={PATH.PROFILE} element={<Profile />}></Route>
-      <Route path={"/friday-cards/"} element={<Profile />}></Route>
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />}></Route>
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />}></Route>
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<CardsList/>}></Route>
     </Routes>
   );
 };

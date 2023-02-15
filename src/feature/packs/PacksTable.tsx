@@ -16,7 +16,7 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
-import { addPackTC, fetchPacksTC, PacksResponseType } from "./packsReducer";
+import {addPackTC, fetchPacksTC, PacksResponseType} from "./packsReducer";
 import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
@@ -28,6 +28,10 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { PackReturnType } from "./packsAPI";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {Navigate, useNavigate} from "react-router-dom";
+import {ActionsIconPack} from "../../common/utils/actionsIconPack";
+import {getCards} from "../cards/cardsReducer";
 
 interface Data {
   name: string;
@@ -300,7 +304,15 @@ export const PacksTable = () => {
     };
 
     // Avoid a layout jump when reaching the last page with empty rows.
-    //const emptyRows = selectPage > 0 ? Math.max(0, (1 + selectPage) * rowsPerPage - rows.length) : 0;
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const navigate = useNavigate();
+    let packs2 = useAppSelector((state) => state.packs.cardPacks);
+    let dispatch = useAppDispatch();
+    const goToCardsList = (packID:any) => {
+      // dispatch(getCards(packs[packID]._id))
+      // @ts-ignore
+      navigate("friday-cards/cards-list/");
+    }
 
     return (
       <Box sx={{ width: "100%" }}>
@@ -343,6 +355,7 @@ export const PacksTable = () => {
                           id={labelId}
                           scope="row"
                           sx={{ paddingRight: "36px", textAlign: "left" }}
+                          onClick={()=> goToCardsList(row.packID)}
                         >
                           {row.name}
                         </TableCell>

@@ -16,7 +16,7 @@ export type PacksResponseType = {
 };
 
 const initialPacksState = {
-  cardPacks: [],
+  cardPacks: [] ,
   page: 0,
   pageCount: 4,
   cardPacksTotalCount: 0,
