@@ -8,6 +8,7 @@ import React from "react";
 import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
 import { CardsList } from "../feature/cards/cardsTable";
 import { Packs } from "../feature/packs/packs";
+import {Cards} from "../feature/cards/cards";
 
 export const Pages = () => {
   return (
@@ -19,7 +20,7 @@ export const Pages = () => {
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />}></Route>
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
       <Route path={PATH.PACKS} element={<Packs />}></Route>
-      <Route path={PATH.CARDS_LIST} element={<CardsList />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<Cards/>}></Route>
     </Routes>
   );
 };
