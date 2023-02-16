@@ -1,8 +1,7 @@
 .wrapper {
-  display: flex;
-  justify-content: space-between;
+  padding: 0 136px;
   margin-top: 36px;
-  align-content: space-between;
+  /*align-content: space-between;*/
 }
 .icons {
   display: flex;
@@ -13,6 +12,17 @@
 .title {
   text-align: center;
   font-size: 27px;
+}
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.search {
+  display: flex;
+  /*align-content: space-between !important;*/
+  margin-bottom: -110px;
 }
 
 .button {
