@@ -20,7 +20,7 @@ export const EmptyPageField = () => {
   const userPackId = useSelector(selectorPacksId);
   // const userPackId = useSelector(selectorPacksId);
   console.log("userPAcks", userPacks);
-  let cardsPackId: string = "";
+  let cardsPackId: string = "63eeab996d7ebe0eca61d3e8";
   userPacks.forEach((el) => {
     if (el.user_id === userAuthId && el._id === userPackId) {
       cardsPackId = el._id;

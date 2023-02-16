@@ -106,7 +106,9 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
   };
   console.log("newCARD", newCard);
   try {
-    await cardsAPI.addCard(newCard);
+    // await cardsAPI.addCard(newCard); //
+    const res = await cardsAPI.addCard(newCard); //
+    await dispatch(addCard(newCard)); //
     //await cardsAPI.getCards(id);
     //dispatch(getUserCards(id));
   } catch (e) {
