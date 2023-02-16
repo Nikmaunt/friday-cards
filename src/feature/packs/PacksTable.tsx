@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -20,7 +20,9 @@ import { selectorPacks, selectorRowsPerPage } from "./selectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { Navigate, useNavigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
-import {CardResponseType} from "../cards/cardsAPI";
+import { CardResponseType } from "../cards/cardsAPI";
+import { getUserCards } from "../cards/cardsReducer";
+import { selectAppStatus } from "../../app/appSelectors";
 
 interface Data {
   name: string;
@@ -34,12 +36,13 @@ interface Data {
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
+  // debugger;
+  /* useEffect(() => {
     dispatch(fetchPacksTC({}));
-  }, []);
+  }, []);*/
 
   const packs = useSelector(selectorPacks);
+
   const rowPerPage = useSelector(selectorRowsPerPage);
   const iDPacks = useAppSelector<string>((state) => state.cards.packUserId);
   //const selectPage = useSelector(selectorPage);
@@ -53,7 +56,7 @@ export const PacksTable = () => {
     actions: any;
   };
   let rows: any = [];
-
+  console.log("packsTable");
   //создание строки
   function createData(
     name: string,
@@ -82,7 +85,7 @@ export const PacksTable = () => {
           pack.user_name,
           pack.updated,
           pack._id,
-          <ActionsIconPack user_id={pack.user_id} />
+          <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} />
         )
       );
       return rows;
@@ -286,15 +289,15 @@ export const PacksTable = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const labelId = `enhanced-table-checkbox-${index}`;
-                    const goToCardsList = (packID:string) => {
-                      console.log(packID , 'packsID')
-                      return navigate(`/friday-cards/cards-list/${packID}`);
-                    }
-                    // const goToCardsList = (id: string) => {
-                    //   dispatch(getUserCards(id));
-                    //   // // navigate(`${PATH.CARDS_LIST}:${id}`);
-                    //   // navigate(`/friday-cards/cards-list/:${id}`);
+                    // const goToCardsList = (packID: string) => {
+                    //   console.log(packID, "packsID");
+                    //   return navigate(`/cards-list/${packID}`);
                     // };
+                    const goToCardsList = async (id: string) => {
+                      await dispatch(getUserCards(id));
+                      navigate(`${PATH.CARDS_LIST}:${id}`);
+                      // navigate(`/friday-cards/cards-list/:${id}`);
+                    };
                     return (
                       <TableRow
                         hover
@@ -337,9 +340,9 @@ export const PacksTable = () => {
       </Box>
     );
   }
-  if (iDPacks) {
-    return <Navigate to={PATH.CARDS_LIST} />;
-  }
+  // if (iDPacks) {
+  //   return <Navigate to={PATH.CARDS_LIST} />;
+  // }
   return (
     <div>
       <div className={s.table}>

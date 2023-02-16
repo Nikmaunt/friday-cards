@@ -34,8 +34,6 @@ const App = () => {
   return (
     <>
       <Header />
-      {/*<SettingsParams />*/}
-      {/*<PacksTable />*/}
       {status === "loading" && <StatusLoader />}
       <Pages />
       <ErrorSnackbar />

@@ -20,6 +20,7 @@
   align-items: center;
 }
 .search {
+  width: 1008px;
   display: flex;
   /*align-content: space-between !important;*/
   margin-bottom: -110px;

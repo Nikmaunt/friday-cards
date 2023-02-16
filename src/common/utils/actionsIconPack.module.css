@@ -1,4 +1,5 @@
 .active :hover {
+    cursor: pointer;
     color: #1976D2;
     size: 10px
 }

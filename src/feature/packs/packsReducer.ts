@@ -2,7 +2,7 @@ import { AppThunkDispatch } from "../../app/store";
 import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { AddPackParamsType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
+import { AddPackParamsType, EditCardPackRequestType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
 
 export type PacksResponseType = {
   cardPacks: Array<PackReturnType>;
@@ -13,10 +13,11 @@ export type PacksResponseType = {
   maxCardsCount: number;
   token: string;
   tokenDeathTime: number;
+  packId: string;
 };
 
 const initialPacksState = {
-  cardPacks: [] ,
+  cardPacks: [],
   page: 0,
   pageCount: 4,
   cardPacksTotalCount: 0,
@@ -24,16 +25,19 @@ const initialPacksState = {
   maxCardsCount: 0,
   token: "",
   tokenDeathTime: 0,
+  packId: "",
 };
-
-// export type PacksResponseType = typeof initialPacksState;
 
 export const PacksActions = {
   SetPacks: "SET-PACKS",
   AddPack: "ADD-PACK",
+  SetPackId: "SET-PACK-ID",
 } as const;
 
-export type PacksActionCreatorsType = ReturnType<typeof setPacksAC> | ReturnType<typeof addPackAC>;
+export type PacksActionCreatorsType =
+  | ReturnType<typeof setPacksAC>
+  | ReturnType<typeof addPackAC>
+  | ReturnType<typeof setPackId>;
 
 export const packsReducer = (
   state: PacksResponseType = initialPacksState,
@@ -42,6 +46,9 @@ export const packsReducer = (
   switch (action.type) {
     case PacksActions.SetPacks:
       return { ...state, ...action.payload.packs };
+    case PacksActions.SetPackId:
+      return { ...state, packId: action.payload.id };
+
     //return { ...state, cardPacks: [...action.payload.packs] }; // так правильно. но не работает пока
     // case PacksActions.AddPack:
     //   return { ...state, cardPacks: [action.payload.newPack, ...state.cardPacks] };
@@ -75,13 +82,37 @@ export const addPackAC = (newPack: PackReturnType) => {
   return { type: PacksActions.AddPack, payload: { newPack } as const };
 };
 
+export const setPackId = (id: string) => {
+  // поменял тип
+  // return { type: PacksActions.AddPack, newPack };
+  return { type: PacksActions.SetPackId, payload: { id } as const };
+};
+
 /////////////////// THUNK CREATORS ////////////////////////
 export const fetchPacksTC = (params: GetPacksParamsType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
     const res = await packsAPI.getPacks(params);
-    console.log("resDATA", res);
     dispatch(setPacksAC(res.data));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setAppStatus("succeeded"));
+    console.log("finally");
+  }
+};
+
+export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
+  debugger;
+  try {
+    const res = await packsAPI.addPack(newPack);
+    await dispatch(fetchPacksTC({}));
+    console.log("add packs", res);
+    //dispatch(addPackAC(res.data,res.data._id));
+    console.log("res.data._id", res.data._id);
+    //dispatch(setPacksAC(res.data));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -89,13 +120,11 @@ export const fetchPacksTC = (params: GetPacksParamsType) => async (dispatch: App
     dispatch(setAppStatus("succeeded"));
   }
 };
-
-export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThunkDispatch) => {
+export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
-
   try {
-    const res = await packsAPI.addPack(newPack);
-    dispatch(fetchPacksTC({}));
+    const res = await packsAPI.deletePack(id);
+    await dispatch(fetchPacksTC({}));
     console.log("add packs", res);
     //dispatch(addPackAC(res.data));
   } catch (e) {
@@ -106,6 +135,26 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
   }
 };
 
+export const editPackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
+  const editCardPack: EditCardPackRequestType = {
+    cardsPack: {
+      _id: id,
+      name: "EDIT PACK",
+    },
+  };
+  try {
+    const res = await packsAPI.editPack(editCardPack);
+    await dispatch(fetchPacksTC({}));
+    console.log("add packs", res);
+    //dispatch(addPackAC(res.data));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setAppStatus("succeeded"));
+  }
+};
 // export const fetchPacksTC = (pageCount?: number) => async (dispatch: AppThunkDispatch) => {
 //   dispatch(setAppStatus("loading"));
 //   try {

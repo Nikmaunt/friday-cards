@@ -8,19 +8,21 @@ import React from "react";
 import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
 import { CardsList } from "../feature/cards/cardsTable";
 import { Packs } from "../feature/packs/packs";
-import {Cards} from "../feature/cards/cards";
+import { Cards } from "../feature/cards/cards";
+import { EmptyPageField } from "../feature/packs/emptyPageField";
 
 export const Pages = () => {
   return (
     <Routes>
       <Route path={PATH.LOGIN} element={<LoginRegistration />}></Route>
       <Route path={PATH.PROFILE} element={<Profile />}></Route>
-      <Route path={"/friday-cards/"} element={<Navigate to={PATH.LOGIN} />}></Route>
+      <Route path={"/"} element={<Navigate to={PATH.LOGIN} />}></Route>
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />}></Route>
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />}></Route>
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
       <Route path={PATH.PACKS} element={<Packs />}></Route>
-      <Route path={PATH.CARDS_LIST} element={<Cards/>}></Route>
+      <Route path={PATH.EMPTY_PACK} element={<EmptyPageField />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<Cards />}></Route>
     </Routes>
   );
 };

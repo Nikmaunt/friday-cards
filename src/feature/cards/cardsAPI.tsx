@@ -21,25 +21,41 @@ export type CardsType = {
   questionVideo: string;
 };
 export type CardResponseType = {
-  cards:CardsType[];
+  cards: CardsType[];
   cardsTotalCount: number;
-  maxGrade:number;
-  minGrade:number;
-  packCreated:string;
-  packName:string;
-  packPrivate:boolean;
-  packUpdated:string;
-  packUserId:string;
-  page:number;
-  pageCount:number;
-  token:string;
-  tokenDeathTime:string;
-}
+  maxGrade: number;
+  minGrade: number;
+  packCreated: string;
+  packName: string;
+  packPrivate: boolean;
+  packUpdated: string;
+  packUserId: string;
+  page: number;
+  pageCount: number;
+  token: string;
+  tokenDeathTime: string;
+};
 
+export type NewCardRequestType = {
+  card: {
+    cardsPack_id: string;
+    question: string;
+    answer: string;
+    grade?: number;
+    shots?: number;
+    answerImg?: string;
+    questionImg?: string;
+    questionVideo?: string;
+    answerVideo?: string;
+  };
+};
 
 export const cardsAPI = {
-  getCards(packID:string) {
+  getCards(packID: string) {
     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
+  },
+  addCard(newCard: NewCardRequestType) {
+    return instanceHeroku.post("cards/card", newCard);
   },
 };
 

@@ -55,7 +55,12 @@ export type PacksReturnType = {
   token: string;
   tokenDeathTime: number;
 };
-
+export type EditCardPackRequestType = {
+  cardsPack: {
+    _id: string;
+    name: string;
+  };
+};
 export const packsAPI = {
   getPacks(params: GetPacksParamsType) {
     return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
@@ -64,6 +69,9 @@ export const packsAPI = {
     return instanceHeroku.post<PackReturnType>("/cards/pack", newPack);
   },
   deletePack(id: string) {
-    return instanceHeroku.delete(`/cards/pack?${id}`);
+    return instanceHeroku.delete(`/cards/pack?id=${id}`);
+  },
+  editPack(editCardPack: EditCardPackRequestType) {
+    return instanceHeroku.put(`/cards/pack`, editCardPack);
   },
 };

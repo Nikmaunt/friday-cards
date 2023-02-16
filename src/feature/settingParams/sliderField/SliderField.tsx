@@ -17,7 +17,7 @@ export const SliderField = () => {
 
   const maxValueCards = useSelector(selectSettingMaxValue);
   useEffect(() => {
-    dispatch(getPackTC({}));
+    !(minValueCards === 0 && maxValueCards === 0) && dispatch(getPackTC({}));
     setValue(restoreState<number[]>("slider", [minValueCards, maxValueCards]));
   }, [minValueCards, maxValueCards]);
 
