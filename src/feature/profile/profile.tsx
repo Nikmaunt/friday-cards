@@ -2,14 +2,12 @@ import { Box, Paper, Stack } from "@mui/material";
 import BadgeAvatars from "./StyledBadge";
 import Button from "@mui/material/Button";
 import arrowIcon from "./img/logOutArrow.png";
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback} from "react";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import EditableSpan from "./EditableSpan";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { logoutUser } from "../loginRegistration/authReducer";
 import { Navigate } from "react-router-dom";
-import Cards from "../cards/cards";
-import {getUserCards} from "../cards/cardsReducer";
 
 
 export const Profile = () => {
