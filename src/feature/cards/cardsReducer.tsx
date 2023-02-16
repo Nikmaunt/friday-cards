@@ -38,14 +38,6 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
 
 /////////////////// ACTION CREATORS ///////////////////////
 
-export const getCards = (packID:any) => {
-    return {
-        type: CardsActions.GetCards,
-        payload: {
-            packID,
-        },
-    } as const;
-};
 export const setCards = (cards:any) => {
     return {
         type: CardsActions.SetCards,
@@ -98,17 +90,14 @@ export const setUserCards = (id: string) => async (dispatch: AppThunkDispatch, g
 // };
 
 
-
 //////////// types //////////////
 
 type InitialCardsStateType = typeof initialCardsState;
 
 export const CardsActions  = {
-    GetCards : "GET-CARDS",
     SetCards: "SET-CARDS",
     AddCard:"ADD-CARD"
 }
-
 
 export type CardsActionCreatorsType = ReturnType<typeof setCards> ;
 
