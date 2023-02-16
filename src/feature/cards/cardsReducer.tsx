@@ -23,7 +23,6 @@ import {CardResponseType, cardsAPI} from "./cardsAPI";
 
 const initialCardsState = {} as CardResponseType ;
 
-
 export const cardsReducer = (state = initialCardsState, action: CardsActionCreatorsType): InitialCardsStateType => {
     switch (action.type) {
         case CardsActions.SetCards:
