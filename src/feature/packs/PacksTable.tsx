@@ -5,10 +5,6 @@ import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import { visuallyHidden } from "@mui/utils";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
@@ -17,7 +13,6 @@ import TablePagination from "@mui/material/TablePagination";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { fetchPacksTC } from "./packsReducer";
-import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Packs.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
 import { useSelector } from "react-redux";
@@ -25,8 +20,8 @@ import { selectorPacks, selectorRowsPerPage } from "./selectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { Navigate, useNavigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
-import { getUserCards } from "../cards/cardsReducer";
-import {SuperButton} from "../../common/superButton/superButton";
+import {CardResponseType} from "../cards/cardsAPI";
+
 interface Data {
   name: string;
   cards: number;
@@ -46,7 +41,7 @@ export const PacksTable = () => {
 
   const packs = useSelector(selectorPacks);
   const rowPerPage = useSelector(selectorRowsPerPage);
-  const iDPacks = useAppSelector<string>((state) => state.cards.cardsPack_id);
+  const iDPacks = useAppSelector<string>((state) => state.cards.packUserId);
   //const selectPage = useSelector(selectorPage);
 
   type DataRows = {
@@ -90,8 +85,6 @@ export const PacksTable = () => {
           <ActionsIconPack user_id={pack.user_id} />
         )
       );
-    // props.packs.cardPacks.map((pack,packID) => {
-    //   rows.push(createData(pack.name, pack.cardsCount, pack.user_name, pack.updated, "add action", packID));
       return rows;
     });
   }
@@ -307,7 +300,7 @@ export const PacksTable = () => {
                         hover
                         onClick={(event) => handleClick(event, row.name as string)}
                         tabIndex={-1}
-                        key={row.name}
+                        key={row.id}
                       >
                         <TableCell align={"center"} padding={"none"} />
                         <TableCell
