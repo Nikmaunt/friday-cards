@@ -5,27 +5,19 @@ import TableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import {visuallyHidden} from "@mui/utils";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import FilterAltOffOutlinedIcon from "@mui/icons-material/FilterAltOffOutlined";
 import s from "./Cards.module.css";
 import StarIcon from '@mui/icons-material/Star';
 import {useAppDispatch, useAppSelector} from "../../app/store";
 import { setUserCards} from "./cardsReducer";
 import {useSelector} from "react-redux";
 import {selectorCards} from "./cardsSelectors";
-import {SuperButton} from "../../common/superButton/superButton";
 import {useParams} from "react-router-dom";
-import {Rating, Stack} from "@mui/material";
+import {Rating} from "@mui/material";
 import {CardsActionsIconPack} from "./cardsActionsIconPack";
 
 
@@ -35,6 +27,7 @@ interface Data {
     lastUpdated: string;
     grade: string;
     actions: string;
+    id:number
 
 }
 export const CardsList = () => {
@@ -48,20 +41,21 @@ export const CardsList = () => {
     }, []);
 
     let rows: any = [];
-
-    console.log(cards._id)
-    Object.values(cards).map((card: any) => {
+    //
+    // console.log(cards.packUserId)
+    Object.values(cards).map((card: any,id) => {
         rows.push(createData(
-            card.question, card.answer, card.updated, card.grade, <CardsActionsIconPack user_id={card.user_id}/>));
+            card.question, card.answer, card.updated, card.grade, <CardsActionsIconPack user_id={card.user_id}/>,id));
         return rows;
         //создание строки
-        function createData(question: string, answer: string, lastUpdated: string, grade: string,actions:any): Data {
+        function createData(question: string, answer: string, lastUpdated: string, grade: string,actions:any, id:number): Data {
             return {
                 question,
                 answer,
                 lastUpdated,
                 grade,
-                actions
+                actions,
+                id
             };
         }
     });
@@ -182,24 +176,6 @@ export const CardsList = () => {
         numSelected: number;
     }
 
-    function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-        const {numSelected} = props;
-        return (
-            <div>
-                <Toolbar>
-                    <Typography sx={{flex: "1 1 100%"}} color="inherit" variant="subtitle1" component="div">
-                        Friends Pack
-                    </Typography>
-
-                    <Tooltip title="Clear filter">
-                        <IconButton>
-                            <FilterAltOffOutlinedIcon/>
-                        </IconButton>
-                    </Tooltip>
-                </Toolbar>
-            </div>
-        );
-    }
 
     function EnhancedTable() {
         //направление стрелочек фильтрации
@@ -249,16 +225,13 @@ export const CardsList = () => {
         // Avoid a layout jump when reaching the last page with empty rows.
         const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
         if (Object.values(cards).length === 0) {
-            return <div>This pack is empty</div>
+            return <div className={s.empty}>This pack is empty.Click add new card to fill this pack</div>
         }
 
 
         return (
             <Box sx={{width: "100%"}}>
                 <Paper sx={{width: "100%", mb: 2}}>
-                    {/*в тулбаре будет фильтрация и поиск*/}
-                    <EnhancedTableToolbar numSelected={selected.length}/>
-                    {/*Таблица*/}
                     <TableContainer>
                         <Table sx={{minWidth: 750}} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
                             {/*заголовки таблицы Name Cards Last Updated Created bt Actions*/}
@@ -283,7 +256,7 @@ export const CardsList = () => {
                                                 // @ts-ignore
                                                 onClick={(event) => handleClick(event, row.name)}
                                                 tabIndex={-1}
-                                                key={row.question}
+                                                key={row.id}
                                             >
                                                 <TableCell align={"center"} padding={"none"}/>
                                                 <TableCell
@@ -344,12 +317,6 @@ export const CardsList = () => {
     }
     return (
         <div>
-            <div className={s.wrapper}>
-                <div className={s.title}>{"Card pack"}</div>
-                <div className={s.button}>
-                    <SuperButton name={'add card'} callback={addNewCardHandler}/>
-                </div>
-            </div>
             <div className={s.table}>
                 <EnhancedTable />
             </div>
