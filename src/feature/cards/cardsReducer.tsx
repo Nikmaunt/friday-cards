@@ -1,16 +1,31 @@
 import {AppThunkDispatch, RootReducerType} from "../../app/store";
-import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus, setIsInitialized} from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import {cardsAPI, CardsReturnType} from "./cardsAPI";
+import {CardResponseType, cardsAPI} from "./cardsAPI";
 
 
-const initialCardsState = {} as CardsReturnType;
+// const initialCardsState = {
+//     cards: [] ,
+//     cardsTotalCount: 0,
+//     maxGrade: 0,
+//     minGrade: 0,
+//     packCreated: '',
+//     packName: '',
+//     packPrivate: false,
+//     packUpdated: '',
+//     packUserId: '',
+//     page: 1,
+//     pageCount: 1,
+//     token: '',
+//     tokenDeathTime: ''
+// } ;
 
-export const cardsReducer = (state = initialCardsState, action:any): InitialCardsStateType => {
+const initialCardsState = {} as CardResponseType ;
+
+
+export const cardsReducer = (state = initialCardsState, action: CardsActionCreatorsType): InitialCardsStateType => {
     switch (action.type) {
-        case CardsActions.GetCards:
-            return {...state, _id:action.payload.packID};
         case CardsActions.SetCards:
             return {...action.payload.cards};
         // case CardsActions.AddCard:
@@ -51,30 +66,13 @@ export const addCard = (card:any) => {
 
 /////////////////// THUNK CREATORS ////////////////////////
 
-
-export const getUserCards = (packID:any) => async (dispatch: AppThunkDispatch) => {
-    dispatch(setAppStatus("loading"));
-    try {
-        await cardsAPI.getCards(packID);
-        const res = await cardsAPI.getCards(packID);
-        dispatch(getCards(res.data.cards._id));
-        console.log(res.data.cards._id)
-    } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>;
-        errorUtils(err, dispatch);
-    } finally {
-        dispatch(setIsInitialized(true));
-        dispatch(setAppStatus("succeeded"));
-    }
-};
-
 export const setUserCards = (id: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
     dispatch(setAppStatus("loading"));
     try {
-        //const {_id} = getState().cards
         await cardsAPI.getCards(id);
         const res =  await cardsAPI.getCards(id);
         dispatch(setCards(res.data.cards));
+        console.log(res.data)
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>;
         errorUtils(err, dispatch);
@@ -112,6 +110,6 @@ export const CardsActions  = {
 }
 
 
-export type CardsActionCreatorsType = ReturnType<typeof getCards> | ReturnType<typeof setCards>;
+export type CardsActionCreatorsType = ReturnType<typeof setCards> ;
 
 

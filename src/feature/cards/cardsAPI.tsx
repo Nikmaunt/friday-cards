@@ -1,6 +1,6 @@
 import { instance, instanceHeroku } from "../../app/appAPI";
 
-export type CardsReturnType = {
+export type CardsType = {
   _id: string;
   cardsPack_id: string;
   user_id: string;
@@ -20,10 +20,26 @@ export type CardsReturnType = {
   answerVideo: string;
   questionVideo: string;
 };
+export type CardResponseType = {
+  cards:CardsType[];
+  cardsTotalCount: number;
+  maxGrade:number;
+  minGrade:number;
+  packCreated:string;
+  packName:string;
+  packPrivate:boolean;
+  packUpdated:string;
+  packUserId:string;
+  page:number;
+  pageCount:number;
+  token:string;
+  tokenDeathTime:string;
+}
+
 
 export const cardsAPI = {
-  getCards(packID: string) {
-    return instanceHeroku.get<any>(`cards/card?cardsPack_id=${packID}`);
+  getCards(packID:string) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
   },
 };
 
