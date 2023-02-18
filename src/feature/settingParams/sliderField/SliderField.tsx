@@ -11,6 +11,7 @@ import { getPackTC } from "../settingsReducer";
 import { useAppDispatch } from "../../../app/store";
 
 export const SliderField = () => {
+  console.log("SliderField rrender");
   const dispatch = useAppDispatch();
 
   const minValueCards = useSelector(selectSettingMinValue);

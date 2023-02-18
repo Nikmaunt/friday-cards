@@ -6,7 +6,6 @@ import { CheckEmail } from "../feature/passwordRecovery/checkEmail";
 import { CreatePassword } from "../feature/passwordRecovery/createPassword";
 import React from "react";
 import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
-import { CardsList } from "../feature/cards/cardsTable";
 import { Packs } from "../feature/packs/packs";
 import { Cards } from "../feature/cards/cards";
 import { EmptyPageField } from "../feature/packs/emptyPageField";
@@ -22,7 +21,7 @@ export const Pages = () => {
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
       <Route path={PATH.PACKS} element={<Packs />}></Route>
       <Route path={PATH.EMPTY_PACK} element={<EmptyPageField />}></Route>
-      <Route path={PATH.CARDS_LIST} element={<Cards />}></Route>
+      <Route path={PATH.CARDS_LIST_BY_ID} element={<Cards />}></Route>
     </Routes>
   );
 };

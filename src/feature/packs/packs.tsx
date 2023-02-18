@@ -8,10 +8,12 @@ import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 
 export const Packs = () => {
   const dispatch = useAppDispatch();
+
   const addNewPacksHandler = () => {
-    const newPacks = { cardsPack: { name: "newName" } };
+    const newPacks = { cardsPack: { name: "newNamePack" } };
     dispatch(addPackTC(newPacks));
   };
+
   return (
     <div className={s.wrapper}>
       <TitleWithButton title={"Packs list"} nameButton={"Add new pack"} callback={addNewPacksHandler} />

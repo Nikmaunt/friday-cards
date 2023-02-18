@@ -1,38 +1,43 @@
 import * as React from "react";
-import "./Header.css";
+import s from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useAppDispatch } from "../../app/store";
 import Avatar from "@mui/material/Avatar";
-import { Stack, Tooltip } from "@mui/material";
+import { Stack } from "@mui/material";
 import userPhoto from "../../feature/profile/img/userPhoto.png";
 import { toggleIsSignUp } from "../../app/appReducer";
+import { useSelector } from "react-redux";
+import { selectUserName } from "../../feature/profile/selectors";
+import { selectorLogin } from "../../feature/loginRegistration/selectors";
+import PATH from "../constans/path/path";
 
 export const Header = () => {
-  const userName = useAppSelector<string>((state) => state.auth.user.name);
-  const isLogin = useAppSelector<boolean>((state) => state.auth.isLogin);
+  const userName = useSelector(selectUserName);
+  const isLogin = useSelector(selectorLogin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const goToSignIn = () => {
     dispatch(toggleIsSignUp(false));
-    return navigate("/login");
+    return navigate(PATH.LOGIN);
   };
 
   return (
-    <div className={"topnav"}>
+    <div className={s.topNav}>
       <img
-        className={"main_logo"}
+        className={s.mainLogo}
         src="https://static.tildacdn.com/tild3064-6361-4562-a539-303563643237/logo-big-blue.png"
         alt="header_logo"
       />
       <div>
         {isLogin ? (
-          <Stack onClick={() => navigate("/profile")} className={"userProfile"} direction="row" spacing={1}>
+          <Stack onClick={() => navigate(PATH.PROFILE)} className={s.userProfile} direction="row" spacing={1}>
             <h4 style={{ color: "black" }}>{userName}</h4>
             <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />
           </Stack>
         ) : (
-          <div className={"button"}>
+          <div className={s.button}>
             <SuperButton name={"Sign in"} callback={goToSignIn} />
           </div>
         )}

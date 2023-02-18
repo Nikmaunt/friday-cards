@@ -1,6 +1,6 @@
 .wrapper {
   padding: 0 136px;
-  margin-top: 36px;
+  margin-top: 55px;
   align-content: space-between;
 }
 
@@ -21,6 +21,7 @@
   margin-bottom:86px ;
 }
 .emptyPageWrapper{
+  margin-top: 36px;
   padding: 0 136px;
 }
 .textEmptyContainer{

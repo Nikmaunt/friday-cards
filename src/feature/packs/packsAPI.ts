@@ -1,10 +1,26 @@
 import { instanceHeroku } from "../../app/appAPI";
 
+export const packsAPI = {
+  getPacks(params: GetPacksParamsType) {
+    return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
+  },
+  addPack(newPack: AddPackParamsType) {
+    return instanceHeroku.post<PackReturnType>("/cards/pack", newPack);
+  },
+  deletePack(id: string) {
+    return instanceHeroku.delete(`/cards/pack?id=${id}`);
+  },
+  editPack(editCardPack: EditCardPackRequestType) {
+    return instanceHeroku.put(`/cards/pack`, editCardPack);
+  },
+};
+
+///////// types /////////////
 export type GetPacksParamsType = {
   packName?: string;
   min?: number;
   max?: number;
-  sortPacks?: string; // формат 0updated (0 или 1) и название критерия сортировки
+  sortPacks?: string;
   page?: number;
   pageCount?: number;
   user_id?: string;
@@ -38,13 +54,6 @@ export type PackReturnType = {
   __v: number;
 };
 
-export type AddPackResponseType = {
-  newCardsPack: PackReturnType;
-  token: string;
-  tokenDeathTime: number;
-};
-
-//packsData object from response
 export type PacksReturnType = {
   cardPacks: PackReturnType[];
   page: number;
@@ -60,18 +69,4 @@ export type EditCardPackRequestType = {
     _id: string;
     name: string;
   };
-};
-export const packsAPI = {
-  getPacks(params: GetPacksParamsType) {
-    return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
-  },
-  addPack(newPack: AddPackParamsType) {
-    return instanceHeroku.post<PackReturnType>("/cards/pack", newPack);
-  },
-  deletePack(id: string) {
-    return instanceHeroku.delete(`/cards/pack?id=${id}`);
-  },
-  editPack(editCardPack: EditCardPackRequestType) {
-    return instanceHeroku.put(`/cards/pack`, editCardPack);
-  },
 };

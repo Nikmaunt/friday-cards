@@ -1,5 +1,15 @@
-import { instance, instanceHeroku } from "../../app/appAPI";
+import { instanceHeroku } from "../../app/appAPI";
 
+export const cardsAPI = {
+  getCards(packID: string) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
+  },
+  addCard(newCard: NewCardRequestType) {
+    return instanceHeroku.post("cards/card", newCard);
+  },
+};
+
+////////////////// types /////////////////
 export type CardsType = {
   _id: string;
   cardsPack_id: string;
@@ -49,16 +59,3 @@ export type NewCardRequestType = {
     answerVideo?: string;
   };
 };
-
-export const cardsAPI = {
-  getCards(packID: string) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
-  },
-  addCard(newCard: NewCardRequestType) {
-    return instanceHeroku.post("cards/card", newCard);
-  },
-};
-
-// addCard (cardsPack_id:string){
-//  return instance.get<any>(`cards/card?cardsPack_id=${cardsPack_id}`);
-// }

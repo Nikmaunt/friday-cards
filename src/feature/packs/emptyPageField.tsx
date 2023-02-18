@@ -1,42 +1,27 @@
 import s from "./Packs.module.css";
 import { ReturnBack } from "../../common/returnBack/returnBack";
-import { fetchPacksTC } from "./packsReducer";
 import PATH from "../../common/constans/path/path";
 import { useAppDispatch } from "../../app/store";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectorCards, selectorPackName, selectorPackUserId } from "../cards/cardsSelectors";
+import { selectorPackName } from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import { addNewCardTC } from "../cards/cardsReducer";
-import { selectorPacks, selectorPacksCards, selectorPacksId, selectorUserId } from "./selectors";
+import { selectorPackId } from "../../app/appSelectors";
 
 export const EmptyPageField = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const packName = useSelector(selectorPackName);
-  const userAuthId = useSelector(selectorUserId);
-  const userCards = useSelector(selectorCards);
-  const userPacks = useSelector(selectorPacksCards);
-  const userPackId = useSelector(selectorPacksId);
-  // const userPackId = useSelector(selectorPacksId);
-  console.log("userPAcks", userPacks);
-  let cardsPackId: string = "";
-  userPacks.forEach((el) => {
-    if (el.user_id === userAuthId && el._id === userPackId) {
-      cardsPackId = el._id;
-    }
-  });
-  console.log(cardsPackId);
+  const packId = useSelector(selectorPackId);
 
-  const returnToPackHandler = async () => {
-    console.log("work");
-    await dispatch(fetchPacksTC({}));
-    // return <Navigate to={PATH.PACKS} />;
+  const returnToPackHandler = () => {
     navigate(PATH.PACKS);
   };
+
   const addNewCardHandler = async () => {
-    await dispatch(addNewCardTC(cardsPackId));
-    navigate(PATH.PACKS); // временно
+    await dispatch(addNewCardTC(packId));
+    navigate(PATH.PACKS);
   };
   return (
     <div className={s.emptyPageWrapper}>

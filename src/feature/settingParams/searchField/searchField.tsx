@@ -39,6 +39,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const SearchField = () => {
+  console.log("searchField rerender");
   const [searchText, setSearchText] = useState<string>("");
   const dispatch = useAppDispatch();
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -12,41 +12,18 @@ import TableBody from "@mui/material/TableBody";
 import TablePagination from "@mui/material/TablePagination";
 import s from "./Cards.module.css";
 import StarIcon from "@mui/icons-material/Star";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { setUserCards } from "./cardsReducer";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Rating } from "@mui/material";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
-import { InitializedLoader } from "../initializedLoader/InitializedLoader";
 import PATH from "../../common/constans/path/path";
-import { selectAppStatus } from "../../app/appSelectors";
+import { getComparator, Order, stableSort } from "../../common/functions/tableSort/tableSort";
 
-interface Data {
-  question: string;
-  answer: string;
-  lastUpdated: string;
-  grade: string;
-  actions: string;
-  id: number;
-}
 export const CardsList = () => {
-  console.log("cardsList");
-  let cards = useSelector(selectorCards);
-
-  const { id } = useParams();
-  let dispatch = useAppDispatch();
-
-  // useEffect(() => {
-  //   if (id) {
-  //     dispatch(setUserCards(id));
-  //   }
-  // }, []);
-
+  const cards = useSelector(selectorCards);
   let rows: any = [];
-  //
-  // console.log(cards.packUserId)
+
   if (cards) {
     cards.map((card: any, id) => {
       rows.push(
@@ -60,7 +37,6 @@ export const CardsList = () => {
         )
       );
       return rows;
-      //создание строки
       function createData(
         question: string,
         answer: string,
@@ -79,42 +55,6 @@ export const CardsList = () => {
         };
       }
     });
-  }
-
-  const addNewCardHandler = () => {
-    // dispatch(createNewCard(cards.cardsPack_id))
-  };
-  function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
-      return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-      return 1;
-    }
-    return 0;
-  }
-  // направление сортировки
-  type Order = "asc" | "desc";
-
-  function getComparator<Key extends keyof any>(
-    order: Order,
-    orderBy: Key
-  ): (a: { [key in Key]: number | string }, b: { [key in Key]: number | string }) => number {
-    return order === "desc"
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
-  }
-
-  function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-    const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-    stabilizedThis.sort((a, b) => {
-      const order = comparator(a[0], b[0]);
-      if (order !== 0) {
-        return order;
-      }
-      return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
   }
 
   interface HeadCell {
@@ -242,19 +182,14 @@ export const CardsList = () => {
       setPage(0);
     };
     // Avoid a layout jump when reaching the last page with empty rows.
+
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
-    if (cards && cards.length === 0) {
-      return <Navigate to={PATH.EMPTY_PACK} />;
-    }
-    if (cards && cards.length === 0) {
-      return <Navigate to={PATH.EMPTY_PACK} />;
-    }
 
     return (
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={"medium"}>
               {/*заголовки таблицы Name Cards Last Updated Created bt Actions*/}
               <EnhancedTableHead
                 numSelected={selected.length}
@@ -312,7 +247,7 @@ export const CardsList = () => {
                 {emptyRows > 0 && (
                   <TableRow
                     style={{
-                      height: (dense ? 33 : 53) * emptyRows,
+                      height: 53 * emptyRows,
                     }}
                   >
                     <TableCell colSpan={6} />
@@ -336,6 +271,10 @@ export const CardsList = () => {
       </Box>
     );
   }
+  if (cards && cards.length === 0) {
+    return <Navigate to={PATH.EMPTY_PACK} />;
+    //return <EmptyPageField />;
+  }
   return (
     <div>
       <div className={s.table}>
@@ -344,3 +283,14 @@ export const CardsList = () => {
     </div>
   );
 };
+
+////////types //////////
+
+interface Data {
+  question: string;
+  answer: string;
+  lastUpdated: string;
+  grade: string;
+  actions: string;
+  id: number;
+}

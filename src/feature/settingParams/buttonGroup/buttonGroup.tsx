@@ -6,6 +6,7 @@ import s from "../searchField/SearchField.module.css";
 import { useState } from "react";
 
 export const GroupButtons = () => {
+  console.log("GroupButtons rerender");
   const [activeMy, setActiveMy] = useState<boolean>(false);
   const [activeAll, setActiveAll] = useState<boolean>(true);
 

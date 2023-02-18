@@ -1,10 +1,9 @@
 import { AppThunkDispatch } from "../../app/store";
 import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
-import { setAppStatus, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus, setAuth, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { profileAPI } from "../profile/profileAPI";
-import { fetchPacksTC } from "../packs/packsReducer";
 
 const initialAuthState = {
   isLogin: false,
@@ -72,7 +71,6 @@ export const loginUser = (values: LoginRequestType) => async (dispatch: AppThunk
     await authAPI.login(values);
     let res = await authAPI.login(values);
     dispatch(setLoginUser(true));
-
     dispatch(setCurrentUser(res.data));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
@@ -87,8 +85,7 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     let res = await authAPI.authMe();
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
-    console.log("hello");
-    await dispatch(fetchPacksTC({}));
+    dispatch(setAuth(true));
   } finally {
     dispatch(setIsInitialized(true));
   }
@@ -99,6 +96,7 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
   try {
     await authAPI.logout();
     dispatch(setLoginUser(false));
+    dispatch(setAuth(false));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -145,7 +143,7 @@ export type UserDataType = {
   created: string;
   updated: string;
   isAdmin: boolean;
-  verified: boolean; // подтвердил ли почту
+  verified: boolean;
   rememberMe: boolean;
   error: string;
 };

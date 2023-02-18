@@ -1,6 +1,5 @@
 import { useAppSelector } from "../../app/store";
-import { selectorUserId } from "../../feature/packs/selectors";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import { selectorUserId } from "../packs/packsSelectors";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import s from "./actionsIconPack.module.css";
@@ -9,7 +8,6 @@ import React from "react";
 type ActionsIconPackType = {
   user_id: string;
 };
-
 
 const editPackCallback = () => {
   alert("Edit card");

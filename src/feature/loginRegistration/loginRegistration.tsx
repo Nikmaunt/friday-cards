@@ -11,28 +11,30 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import React, { useState } from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/store";
 import { toggleIsSignUp } from "../../app/appReducer";
 import { loginUser, registrationUser } from "./authReducer";
 import { SuperButton } from "../../common/superButton/superButton";
 import PATH from "../../common/constans/path/path";
 import { useSelector } from "react-redux";
-import { selectorSignUp } from "../../app/appSelectors";
-import { selectorLogin } from "./selectors";
+import { selectorAuth, selectorSignUp } from "../../app/appSelectors";
 
 export const LoginRegistration = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isSignUp = useSelector(selectorSignUp);
-  const isLogin = useSelector(selectorLogin);
+  const isAuth = useSelector(selectorAuth);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+
   const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
+
   const errors: ErrorsType = {};
   const formik = useFormik({
     initialValues: {
@@ -70,6 +72,7 @@ export const LoginRegistration = () => {
       if (!isSignUp) {
         const { confirmPassword, ...restValues } = values;
         await dispatch(loginUser(restValues));
+        navigate(PATH.PACKS);
       }
     },
   });
@@ -82,7 +85,7 @@ export const LoginRegistration = () => {
     }
   };
 
-  if (isLogin) {
+  if (isAuth) {
     return <Navigate to={PATH.PACKS} />;
   }
 

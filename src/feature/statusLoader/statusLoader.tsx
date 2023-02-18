@@ -1,5 +1,5 @@
-import { LinearProgress } from "@mui/material";
+import LinearProgress from "@mui/material/LinearProgress";
 
 export const StatusLoader = () => {
-  return <LinearProgress sx={{ marginBottom: "40px" }} />;
+  return <LinearProgress />;
 };

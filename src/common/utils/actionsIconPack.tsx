@@ -1,12 +1,12 @@
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { selectorUserId } from "../../feature/packs/selectors";
+import { useAppDispatch } from "../../app/store";
+import { selectorUserId } from "../../feature/packs/packsSelectors";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import s from "./actionsIconPack.module.css";
 import React from "react";
-import { packsAPI } from "../../feature/packs/packsAPI";
 import { deletePackTC, editPackTC } from "../../feature/packs/packsReducer";
+import { useSelector } from "react-redux";
 
 type ActionsIconPackType = {
   pack_id: string;
@@ -15,9 +15,8 @@ type ActionsIconPackType = {
 
 export const ActionsIconPack = ({ user_id, pack_id }: ActionsIconPackType) => {
   const dispatch = useAppDispatch();
-  const learnPackCallback = () => {
-    alert("Learn pack");
-  };
+  const userAuthId = useSelector(selectorUserId);
+  const learnPackCallback = () => {};
 
   const editPackCallback = () => {
     dispatch(editPackTC(pack_id));
@@ -26,7 +25,7 @@ export const ActionsIconPack = ({ user_id, pack_id }: ActionsIconPackType) => {
   const deletePackCallback = () => {
     dispatch(deletePackTC(pack_id));
   };
-  const userAuthId = useAppSelector(selectorUserId);
+
   return (
     <div className={s.active}>
       <span onClick={learnPackCallback}>

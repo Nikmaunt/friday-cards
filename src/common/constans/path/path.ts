@@ -7,6 +7,7 @@
 //   PACKS: "/friday-cards/packs",
 //   CARDS_LIST: "/friday-cards/cards-list/:id",
 // } as const;
+
 const PATH = {
   LOGIN: "/login",
   PROFILE: "/profile",
@@ -15,7 +16,8 @@ const PATH = {
   SET_NEW_PASSWORD: "/set-new-password/:token",
   PACKS: "/packs",
   EMPTY_PACK: "/empty-pack",
-  CARDS_LIST: "/cards-list/:id",
+  CARDS_LIST: "/cards-list/",
+  CARDS_LIST_BY_ID: "/cards-list/:id",
 } as const;
 
 export default PATH;
