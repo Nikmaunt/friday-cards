@@ -10,8 +10,8 @@ import { addNewCardTC } from "../cards/cardsReducer";
 import { selectorPackId } from "../../app/appSelectors";
 
 export const EmptyPageField = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const packName = useSelector(selectorPackName);
   const packId = useSelector(selectorPackId);
 
