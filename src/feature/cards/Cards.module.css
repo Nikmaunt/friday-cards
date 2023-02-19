@@ -1,13 +1,11 @@
 .wrapper {
   padding: 0 136px;
   margin-top: 36px;
-  /*align-content: space-between;*/
 }
 .icons {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  /*margin-left: 61px;*/
 }
 .title {
   text-align: center;
@@ -20,10 +18,7 @@
   align-items: center;
 }
 .search {
-  width: 1008px;
-  display: flex;
-  /*align-content: space-between !important;*/
-  margin-bottom: -110px;
+  margin-bottom: 24px;
 }
 
 .button {
@@ -31,11 +26,6 @@
   height: 36px;
 }
 
-.table {
-  margin-top: 120px;
-}
-
 .headCell {
   background-color: #EFEFEF;
-  /*padding-left: 36px;*/
 }

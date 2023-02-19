@@ -1,24 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
-import { headCells } from "../../common/constans/table";
-import s from "./Packs.module.css";
+import { headCellsCards } from "../../common/constans/table";
+import s from "./Cards.module.css";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import Box from "@mui/material/Box";
 import { visuallyHidden } from "@mui/utils";
-import { DataRows } from "./packsTable";
+import { DataCards } from "./cardsTable";
 import { Order } from "../../common/functions/tableSort/tableSort";
 
-export const PacksTableHead = () => {
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof DataRows>("cards");
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DataRows) => {
+export const CardsTableHead = () => {
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof DataCards>("question");
+
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof DataCards) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const createSortHandler = (property: keyof DataRows) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof DataCards) => (event: React.MouseEvent<unknown>) => {
     handleRequestSort(event, property);
   };
 
@@ -26,7 +27,7 @@ export const PacksTableHead = () => {
     <TableHead>
       <TableRow>
         <TableCell padding="none"></TableCell>
-        {headCells.map((headCell) => (
+        {headCellsCards.map((headCell) => (
           <TableCell
             key={headCell.id}
             className={s.headCell}

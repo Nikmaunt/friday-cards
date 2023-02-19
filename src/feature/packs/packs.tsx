@@ -1,5 +1,5 @@
 import { SettingsParams } from "../settingParams/settingsParams";
-import { PacksTable } from "./PacksTable";
+import { PacksTable } from "./packsTable";
 import React from "react";
 import { addPackTC } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";

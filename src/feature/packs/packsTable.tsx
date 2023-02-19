@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
 import { fetchPacksTC } from "./packsReducer";
-import s from "./Packs.module.css";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
 import { selectorPacks } from "./packsSelectors";
@@ -9,6 +8,7 @@ import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
 import { PacksTablePagination } from "./packsTablePagination";
+import { Paper } from "@mui/material";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
@@ -41,13 +41,13 @@ export const PacksTable = () => {
   });
 
   return (
-    <div className={s.table}>
-      <Table aria-labelledby="tableTitle" size={"medium"} sx={{ backgroundColor: "#FFFFFF" }}>
+    <Paper>
+      <Table aria-labelledby="tableTitle" size={"medium"}>
         <PacksTableHead />
         <PacksTableBody rows={rows} />
       </Table>
       <PacksTablePagination />
-    </div>
+    </Paper>
   );
 };
 

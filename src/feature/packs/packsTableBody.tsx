@@ -4,7 +4,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { DataRows } from "./PacksTable";
+import { DataRows } from "./packsTable";
 
 export const PacksTableBody = ({ rows }: PropsType) => {
   const navigate = useNavigate();
