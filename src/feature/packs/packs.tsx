@@ -5,10 +5,10 @@ import { addPackTC } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import s from "./Packs.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export const Packs = () => {
   const dispatch = useAppDispatch();
-
   const addNewPacksHandler = () => {
     const newPacks = { cardsPack: { name: "newNamePack" } };
     dispatch(addPackTC(newPacks));

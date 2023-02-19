@@ -68,10 +68,10 @@ export const registrationUser = (values: RegistrationRequestType) => async (disp
 export const loginUser = (values: LoginRequestType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
-    await authAPI.login(values);
     let res = await authAPI.login(values);
     dispatch(setLoginUser(true));
     dispatch(setCurrentUser(res.data));
+    dispatch(setAuth(true));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -86,6 +86,7 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
     dispatch(setAuth(true));
+  } catch (e) {
   } finally {
     dispatch(setIsInitialized(true));
   }
@@ -97,11 +98,11 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
     await authAPI.logout();
     dispatch(setLoginUser(false));
     dispatch(setAuth(false));
+    dispatch(setIsInitialized(false));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
   } finally {
-    dispatch(setIsInitialized(true));
     dispatch(setAppStatus("succeeded"));
   }
 };

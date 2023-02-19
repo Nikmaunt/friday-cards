@@ -9,14 +9,14 @@ import userPhoto from "../../feature/profile/img/userPhoto.png";
 import { toggleIsSignUp } from "../../app/appReducer";
 import { useSelector } from "react-redux";
 import { selectUserName } from "../../feature/profile/selectors";
-import { selectorLogin } from "../../feature/loginRegistration/selectors";
 import PATH from "../constans/path/path";
+import { selectorAuth } from "../../app/appSelectors";
 
 export const Header = () => {
   const userName = useSelector(selectUserName);
-  const isLogin = useSelector(selectorLogin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isAuth = useSelector(selectorAuth);
 
   const goToSignIn = () => {
     dispatch(toggleIsSignUp(false));
@@ -31,7 +31,7 @@ export const Header = () => {
         alt="header_logo"
       />
       <div>
-        {isLogin ? (
+        {isAuth ? (
           <Stack onClick={() => navigate(PATH.PROFILE)} className={s.userProfile} direction="row" spacing={1}>
             <h4 style={{ color: "black" }}>{userName}</h4>
             <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />

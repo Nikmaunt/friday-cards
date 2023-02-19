@@ -3,7 +3,6 @@ import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appR
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
-import { fetchPacksTC } from "../packs/packsReducer";
 
 const initialCardsState = {} as CardResponseType;
 
@@ -35,14 +34,13 @@ export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunk
     console.log("res cards", res);
     dispatch(setCurrentPackId(packID));
     dispatch(getCards(res.data));
-
     console.log(res.data);
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
   } finally {
     dispatch(setIsInitialized(true));
-    dispatch(setAppStatus("succeeded"));
+    dispatch(setAppStatus("idle"));
   }
 };
 
@@ -59,7 +57,6 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
   try {
     await cardsAPI.addCard(newCard);
     await dispatch(getUserCardByPackId(id));
-    dispatch(fetchPacksTC({}));
     //await cardsAPI.getCards(id);
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;

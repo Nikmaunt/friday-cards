@@ -9,11 +9,13 @@ import { PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
 import { PacksTablePagination } from "./packsTablePagination";
 import { Paper } from "@mui/material";
+import { selectAppStatus } from "../../app/appSelectors";
+import Skeleton from "react-loading-skeleton";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
-
+  const statusApp = useSelector(selectAppStatus);
   useEffect(() => {
     dispatch(fetchPacksTC({}));
   }, []);
@@ -42,11 +44,17 @@ export const PacksTable = () => {
 
   return (
     <Paper>
-      <Table aria-labelledby="tableTitle" size={"medium"}>
-        <PacksTableHead />
-        <PacksTableBody rows={rows} />
-      </Table>
-      <PacksTablePagination />
+      {statusApp === "loading" ? (
+        <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
+      ) : (
+        <div>
+          <Table aria-labelledby="tableTitle" size={"medium"}>
+            <PacksTableHead />
+            <PacksTableBody rows={rows} />
+          </Table>
+          <PacksTablePagination />
+        </div>
+      )}
     </Paper>
   );
 };

@@ -7,13 +7,15 @@ import { useSelector } from "react-redux";
 import { selectorPackName } from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import { addNewCardTC } from "../cards/cardsReducer";
-import { selectorPackId } from "../../app/appSelectors";
+import { selectAppStatus, selectorPackId } from "../../app/appSelectors";
+import Skeleton from "react-loading-skeleton";
 
 export const EmptyPageField = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const packName = useSelector(selectorPackName);
   const packId = useSelector(selectorPackId);
+  const statusApp = useSelector(selectAppStatus);
 
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
@@ -21,18 +23,23 @@ export const EmptyPageField = () => {
 
   const addNewCardHandler = async () => {
     await dispatch(addNewCardTC(packId));
-    navigate(PATH.PACKS);
+    navigate(`${PATH.CARDS_LIST}${packId}`);
   };
   return (
     <div className={s.emptyPageWrapper}>
       <ReturnBack callback={returnToPackHandler} />
       <h3 className={s.titleEmptyPage}>{packName}</h3>
-      <div className={s.textEmptyContainer}>
-        <p>This pack is empty.Click add new card to fill this pack</p>
-        <div className={s.emptyPageButton}>
-          <SuperButton name={"Add new card"} callback={addNewCardHandler} />
+
+      {statusApp === "loading" ? (
+        <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
+      ) : (
+        <div className={s.textEmptyContainer}>
+          <p>This pack is empty.Click add new card to fill this pack</p>
+          <div className={s.emptyPageButton}>
+            <SuperButton name={"Add new card"} callback={addNewCardHandler} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
