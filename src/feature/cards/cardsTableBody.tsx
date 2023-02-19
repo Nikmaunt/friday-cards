@@ -7,8 +7,11 @@ import s from "./Cards.module.css";
 import TableBody from "@mui/material/TableBody";
 import React from "react";
 import { DataCards } from "./cardsTable";
+import {useSelector} from "react-redux";
+import {selectorCardsPage} from "./cardsSelectors";
 
 export const CardsTableBody = ({ rows }: PropsType) => {
+
   return (
     <TableBody>
       {rows?.map((row, index) => {
