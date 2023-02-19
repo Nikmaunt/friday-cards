@@ -4,7 +4,7 @@ import PATH from "../../common/constans/path/path";
 import { useAppDispatch } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectorPackName } from "../cards/cardsSelectors";
+import {selectorPackName, selectorPackUserId} from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import { addNewCardTC } from "../cards/cardsReducer";
 import { selectorPackId } from "../../app/appSelectors";
@@ -16,9 +16,9 @@ export const EmptyPageField = () => {
   const packName = useSelector(selectorPackName);
   const packId = useSelector(selectorPackId);
   const userAuthId = useSelector(selectorUserId);
+  const userPackId = useSelector(selectorPackUserId);
 
-  const isUserCardPack = userAuthId === packId
-
+  const isUserCardPack = userAuthId === userPackId
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
   };
