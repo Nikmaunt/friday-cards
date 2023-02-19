@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
-import { selectorCards } from "./cardsSelectors";
+import {selectorCards, selectorCardsPage} from "./cardsSelectors";
 import { Navigate, useParams } from "react-router-dom";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import PATH from "../../common/constans/path/path";
@@ -16,7 +16,7 @@ import { getUserCardByPackId } from "./cardsReducer";
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
-
+  let cardsPage = useSelector(selectorCardsPage);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
