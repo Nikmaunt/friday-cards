@@ -3,21 +3,23 @@ import s from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppDispatch } from "../../app/store";
+import Avatar from "@mui/material/Avatar";
+import { Stack } from "@mui/material";
+import userPhoto from "../../feature/profile/img/userPhoto.png";
 import { toggleIsSignUp } from "../../app/appReducer";
 import { useSelector } from "react-redux";
+import { selectUserName } from "../../feature/profile/selectors";
 import { selectorLogin } from "../../feature/loginRegistration/selectors";
 import PATH from "../constans/path/path";
-import {HeaderDropdown} from "./headerSelect";
+import { selectorAuth } from "../../app/appSelectors";
 
 export const Header = () => {
+  const userName = useSelector(selectUserName);
   const isLogin = useSelector(selectorLogin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-    const [open, setOpen] = React.useState<boolean>(false);
+  const isAuth = useSelector(selectorAuth);
 
-    const handleOpen = () => {
-        setOpen(!open);
-    };
   const goToSignIn = () => {
     dispatch(toggleIsSignUp(false));
     return navigate(PATH.LOGIN);
@@ -31,7 +33,7 @@ export const Header = () => {
         alt="header_logo"
       />
       <div>
-        {isLogin ? (
+        {isAuth ? (
             <HeaderDropdown/>
         ) : (
           <div className={s.button}>

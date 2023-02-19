@@ -10,8 +10,9 @@ import { useSelector } from "react-redux";
 import { ReturnBack } from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { useNavigate, useParams } from "react-router-dom";
-import { addNewCardTC } from "./cardsReducer";
+import { addNewCardTC, getCards } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
+import Skeleton from "react-loading-skeleton";
 
 export const Cards = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export const Cards = () => {
   const packName = useSelector(selectorPackName);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const status = useSelector(selectAppStatus);
+  const statusApp = useSelector(selectAppStatus);
   const addNewCardsHandler = async () => {
     if (id) await dispatch(addNewCardTC(id));
     //await dispatch(getUserCardByPackId(packId));
@@ -32,23 +33,24 @@ export const Cards = () => {
     console.log("LEARN PACK");
   };
 
-  // const CardEmpty = {
-  //   cards: [],
-  //   cardsTotalCount: 0,
-  //   maxGrade: 0,
-  //   minGrade: 0,
-  //   packCreated: "",
-  //   packName: "",
-  //   packPrivate: false,
-  //   packUpdated: "",
-  //   packUserId: "",
-  //   page: 1,
-  //   pageCount: 4,
-  //   token: "",
-  //   tokenDeathTime: "",
-  // };
+  const CardEmpty = {
+    cards: [],
+    cardsTotalCount: 0,
+    maxGrade: 0,
+    minGrade: 0,
+    packCreated: "",
+    packName: "",
+    packPrivate: false,
+    packUpdated: "",
+    packUserId: "",
+    page: 1,
+    pageCount: 4,
+    token: "",
+    tokenDeathTime: "",
+  };
 
   const returnToPackHandler = () => {
+    dispatch(getCards(CardEmpty));
     navigate(PATH.PACKS);
   };
 
@@ -58,10 +60,21 @@ export const Cards = () => {
   return (
     <div className={s.wrapper}>
       <ReturnBack callback={returnToPackHandler} />
-      <TitleWithButton title={packName} nameButton={resNameButton} callback={addLearnHandler} />
+      {statusApp === "loading" ? (
+        <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
+      ) : (
+        <TitleWithButton title={packName} nameButton={resNameButton} callback={addLearnHandler} />
+      )}
       <div className={s.search}>
         <SearchField />
       </div>
+
+      {/*{statusApp === "loading" ? (*/}
+      {/*  <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />*/}
+      {/*) : (*/}
+      {/*  <CardsList />*/}
+      {/*)}*/}
+
       <CardsList />
     </div>
   );

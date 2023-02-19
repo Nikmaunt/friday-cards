@@ -8,6 +8,7 @@ import { DataRows } from "./packsTable";
 
 export const PacksTableBody = ({ rows }: PropsType) => {
   const navigate = useNavigate();
+
   const goToCardsList = (id: string) => {
     navigate(`${PATH.CARDS_LIST}${id}`);
   };
