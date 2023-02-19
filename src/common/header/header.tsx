@@ -3,21 +3,21 @@ import s from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import { SuperButton } from "../superButton/superButton";
 import { useAppDispatch } from "../../app/store";
-import Avatar from "@mui/material/Avatar";
-import { Stack } from "@mui/material";
-import userPhoto from "../../feature/profile/img/userPhoto.png";
 import { toggleIsSignUp } from "../../app/appReducer";
 import { useSelector } from "react-redux";
-import { selectUserName } from "../../feature/profile/selectors";
 import { selectorLogin } from "../../feature/loginRegistration/selectors";
 import PATH from "../constans/path/path";
+import {HeaderDropdown} from "./headerSelect";
 
 export const Header = () => {
-  const userName = useSelector(selectUserName);
   const isLogin = useSelector(selectorLogin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+    const [open, setOpen] = React.useState<boolean>(false);
 
+    const handleOpen = () => {
+        setOpen(!open);
+    };
   const goToSignIn = () => {
     dispatch(toggleIsSignUp(false));
     return navigate(PATH.LOGIN);
@@ -32,10 +32,7 @@ export const Header = () => {
       />
       <div>
         {isLogin ? (
-          <Stack onClick={() => navigate(PATH.PROFILE)} className={s.userProfile} direction="row" spacing={1}>
-            <h4 style={{ color: "black" }}>{userName}</h4>
-            <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />
-          </Stack>
+            <HeaderDropdown/>
         ) : (
           <div className={s.button}>
             <SuperButton name={"Sign in"} callback={goToSignIn} />
