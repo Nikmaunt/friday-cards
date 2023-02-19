@@ -35,6 +35,7 @@ export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunk
     console.log("res cards", res);
     dispatch(setCurrentPackId(packID));
     dispatch(getCards(res.data));
+
     console.log(res.data);
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;

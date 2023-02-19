@@ -8,14 +8,14 @@ import { DataRows } from "./packsTable";
 
 export const PacksTableBody = ({ rows }: PropsType) => {
   const navigate = useNavigate();
+  const goToCardsList = (id: string) => {
+    navigate(`${PATH.CARDS_LIST}${id}`);
+  };
+
   return (
     <TableBody>
       {rows.map((row, index) => {
         const labelId = `enhanced-table-checkbox-${index}`;
-        const goToCardsList = (id: string) => {
-          navigate(`${PATH.CARDS_LIST}${id}`);
-        };
-
         return (
           <TableRow key={row.id}>
             <TableCell align={"center"} padding={"none"} />

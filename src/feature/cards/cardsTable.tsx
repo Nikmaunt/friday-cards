@@ -16,6 +16,7 @@ import { getUserCardByPackId } from "./cardsReducer";
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
