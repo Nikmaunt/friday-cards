@@ -3,12 +3,20 @@ import React from "react";
 import {getUserCardByPackId, SetCardsPageCount} from "./cardsReducer";
 import {useAppDispatch} from "../../app/store";
 import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {selectorCardsPage, selectorCardsTotalCount} from "./cardsSelectors";
 
 export const CardsTablePagination = () => {
   const dispatch = useAppDispatch();
+  let cardsPage = useSelector(selectorCardsPage);
+  let cardsTotalCount= useSelector(selectorCardsTotalCount);
+
   const { id } = useParams();
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  const [rowsPerPage, setRowsPerPage] = React.useState(cardsPage);
   const [page, setPage] = React.useState(0);
+
+
+  const lastPage = Math.ceil(cardsTotalCount / cardsPage)
   const handleChangePage = (event: unknown, newPage: number) => {
     console.log( event, 'EVENT')
     setPage(newPage);
@@ -17,16 +25,14 @@ export const CardsTablePagination = () => {
     dispatch(SetCardsPageCount(+event.target.value));
     if (id) {
       dispatch(getUserCardByPackId(id));
-      setRowsPerPage(parseInt(event.target.value, 10))
+      setRowsPerPage(+event.target.value)
     }
-    // setRowsPerPage(parseInt(event.target.value, 10));
-    // setPage(0);
   };
   return (
     <TablePagination
       rowsPerPageOptions={[4, 10, 25]}
       component="div"
-      count={12}
+      count={lastPage}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}
