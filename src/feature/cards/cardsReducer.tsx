@@ -14,7 +14,7 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
     case CardsActions.SetPageCount:
       return {...state, pageCount: action.payload.pageCount}
     case CardsActions.SetCardsPageNumber:
-      return {...state, pageCount: action.payload.page}
+      return {...state, page: action.payload.page}
     default:
       return state;
   }
@@ -51,7 +51,7 @@ export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunk
   dispatch(setAppStatus("loading"));
   const {page, pageCount} = getState().cards
   try {
-    // await cardsAPI.getCards(packID);
+    // await cardsAPI.getCards(packID,{page,pageCount});
     const res = await cardsAPI.getCards(packID,{page,pageCount});
     console.log("res cards", res);
     dispatch(setCurrentPackId(packID));
@@ -89,26 +89,6 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
     dispatch(setAppStatus("succeeded"));
   }
 };
-
-// export const setUserCards = (id?: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
-//   const {page, pageCount} = getState().cards
-//   // dispatch(setAppStatus("loading"));
-//   if(id) {
-//     try {
-//       const res = await cardsAPI.setCards(id,{page,pageCount});
-//       dispatch(setCards(res.data));
-//       console.log(res.data.cards + ' SERCARDS');
-//     } catch (e) {
-//       const err = e as Error | AxiosError<{ error: string }>;
-//       errorUtils(err, dispatch);
-//     } finally {
-//       // dispatch(setIsInitialized(true));
-//       // dispatch(setAppStatus("succeeded"));
-//     }
-//   }
-// };
-
-
 
 
 //////////// types //////////////
