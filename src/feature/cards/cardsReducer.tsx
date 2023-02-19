@@ -1,8 +1,10 @@
-import { AppThunkDispatch } from "../../app/store";
+import {AppThunkDispatch, RootReducerType} from "../../app/store";
 import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
+
+import { fetchPacksTC } from "../packs/packsReducer";
 
 const initialCardsState = {} as CardResponseType;
 
@@ -10,6 +12,10 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
   switch (action.type) {
     case CardsActions.GetCards:
       return { ...action.payload.cards };
+    case CardsActions.SetPageCount:
+      return {...state, pageCount: action.payload.pageCount}
+    case CardsActions.SetCardsPageNumber:
+      return {...state, page: action.payload.page}
     default:
       return state;
   }
@@ -24,13 +30,30 @@ export const getCards = (cards: CardResponseType) => {
     },
   } as const;
 };
+export const SetCardsPageCount = (pageCount: number) => {
+  return {
+    type: CardsActions.SetPageCount,
+    payload: {
+      pageCount,
+    },
+  } as const;
+};
+export const SetCardsPageNumber = (page: number) => {
+  return {
+    type: CardsActions.SetCardsPageNumber,
+    payload: {
+      page,
+    },
+  } as const;
+};
 
 /////////////////// THUNK CREATORS ////////////////////////
-export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunkDispatch) => {
+export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunkDispatch,  getState: () => RootReducerType) => {
   dispatch(setAppStatus("loading"));
+  const {page, pageCount} = getState().cards
   try {
-    await cardsAPI.getCards(packID);
-    const res = await cardsAPI.getCards(packID);
+    // await cardsAPI.getCards(packID,{page,pageCount});
+    const res = await cardsAPI.getCards(packID,{page,pageCount});
     console.log("res cards", res);
     dispatch(setCurrentPackId(packID));
     dispatch(getCards(res.data));
@@ -71,6 +94,8 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
 
 export const CardsActions = {
   GetCards: "GET-CARDS",
+  SetCardsPageNumber: "SET-PAGE-NUMBER",
+  SetPageCount: "SET-PAGE-COUNT"
 } as const;
 
-export type CardsActionCreatorsType = ReturnType<typeof getCards>;
+export type CardsActionCreatorsType = ReturnType<typeof getCards>| ReturnType<typeof SetCardsPageCount>| ReturnType<typeof SetCardsPageNumber>

@@ -7,8 +7,11 @@ import s from "./Cards.module.css";
 import TableBody from "@mui/material/TableBody";
 import React from "react";
 import { DataCards } from "./cardsTable";
+import {useSelector} from "react-redux";
+import {selectorCardsPage} from "./cardsSelectors";
 
 export const CardsTableBody = ({ rows }: PropsType) => {
+
   return (
     <TableBody>
       {rows?.map((row, index) => {
@@ -17,9 +20,9 @@ export const CardsTableBody = ({ rows }: PropsType) => {
           <TableRow key={index}>
             <TableCell align={"center"} padding={"none"} />
             <TableCell component="th" id={labelId} scope="row" sx={{ paddingRight: "36px", textAlign: "left" }}>
-              {row.answer}
+              {row.question}
             </TableCell>
-            <TableCell align="left">{row.grade}</TableCell>
+            <TableCell align="left">{row.answer}</TableCell>
             <TableCell align="left">{row.lastUpdated}</TableCell>
             <TableCell align="left">
               <Box
@@ -30,7 +33,7 @@ export const CardsTableBody = ({ rows }: PropsType) => {
               >
                 <Rating
                   name="text-feedback"
-                  value={5}
+                  value={row.grade}
                   precision={0.5}
                   emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
                 />

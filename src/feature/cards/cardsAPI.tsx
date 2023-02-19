@@ -1,13 +1,26 @@
 import { instanceHeroku } from "../../app/appAPI";
 
+// export const cardsAPI = {
+//   getCards(packID: string) {
+//     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
+//   },
+//   addCard(newCard: NewCardRequestType) {
+//     return instanceHeroku.post("cards/card", newCard);
+//   },
+// };
+
 export const cardsAPI = {
-  getCards(packID: string) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
+  getCards(packID: string,params:any) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
+  },
+  setCards(packID: string,params:any) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
   },
   addCard(newCard: NewCardRequestType) {
-    return instanceHeroku.post("cards/card", newCard);
+    return instanceHeroku.post('cards/card',newCard);
   },
 };
+
 
 ////////////////// types /////////////////
 export type CardsType = {
