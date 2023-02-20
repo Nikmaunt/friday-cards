@@ -2,8 +2,7 @@ import {AppThunkDispatch, RootReducerType} from "../../app/store";
 import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import {CardResponseType, cardsAPI, CardsType, NewCardRequestType} from "./cardsAPI";
-import { fetchPacksTC } from "../packs/packsReducer";
+import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
 
 const initialCardsState = {} as CardResponseType;
 
@@ -47,24 +46,25 @@ export const SetCardsPageNumber = (page: number) => {
 };
 
 /////////////////// THUNK CREATORS ////////////////////////
-export const getUserCardByPackId = (packID: string) => async (dispatch: AppThunkDispatch,  getState: () => RootReducerType) => {
-  dispatch(setAppStatus("loading"));
-  const {page, pageCount} = getState().cards
-  try {
-    // await cardsAPI.getCards(packID,{page,pageCount});
-    const res = await cardsAPI.getCards(packID,{page,pageCount});
-    console.log("res cards", res);
-    dispatch(setCurrentPackId(packID));
-    dispatch(getCards(res.data));
-    console.log(res.data);
-  } catch (e) {
-    const err = e as Error | AxiosError<{ error: string }>;
-    errorUtils(err, dispatch);
-  } finally {
-    dispatch(setIsInitialized(true));
-    dispatch(setAppStatus("succeeded"));
-  }
-};
+export const getUserCardByPackId =
+  (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+    dispatch(setAppStatus("loading"));
+    const { page, pageCount } = getState().cards;
+    try {
+      // await cardsAPI.getCards(packID,{page,pageCount});
+      const res = await cardsAPI.getCards(packID, { page, pageCount });
+      console.log("res cards", res);
+      dispatch(setCurrentPackId(packID));
+      dispatch(getCards(res.data));
+      console.log(res.data);
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>;
+      errorUtils(err, dispatch);
+    } finally {
+      dispatch(setIsInitialized(true));
+      dispatch(setAppStatus("idle"));
+    }
+  };
 
 export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
@@ -79,7 +79,6 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
   try {
     await cardsAPI.addCard(newCard);
     await dispatch(getUserCardByPackId(id));
-    dispatch(fetchPacksTC({}));
     //await cardsAPI.getCards(id);
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
@@ -96,7 +95,10 @@ export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) =
 export const CardsActions = {
   GetCards: "GET-CARDS",
   SetCardsPageNumber: "SET-PAGE-NUMBER",
-  SetPageCount: "SET-PAGE-COUNT"
+  SetPageCount: "SET-PAGE-COUNT",
 } as const;
 
-export type CardsActionCreatorsType = ReturnType<typeof getCards>| ReturnType<typeof SetCardsPageCount>| ReturnType<typeof SetCardsPageNumber>
+export type CardsActionCreatorsType =
+  | ReturnType<typeof getCards>
+  | ReturnType<typeof SetCardsPageCount>
+  | ReturnType<typeof SetCardsPageNumber>;
