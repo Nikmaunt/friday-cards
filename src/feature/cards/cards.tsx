@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../app/store";
 import s from "../cards/Cards.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 import { SearchField } from "../settingParams/searchField/searchField";
-import { selectorUserId } from "../packs/packsSelectors";
+
 import { selectorPackName, selectorPackUserId } from "./cardsSelectors";
 import { useSelector } from "react-redux";
 import { ReturnBack } from "../../common/returnBack/returnBack";
@@ -13,10 +13,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addNewCardTC, getCards } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
+import { selectorIdUser } from "../loginRegistration/selectors";
 
 export const Cards = () => {
   const { id } = useParams();
-  const userAuthId = useSelector(selectorUserId);
+  const userAuthId = useSelector(selectorIdUser);
   const userPackId = useSelector(selectorPackUserId);
   const packName = useSelector(selectorPackName);
   const dispatch = useAppDispatch();

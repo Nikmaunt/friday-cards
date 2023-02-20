@@ -1,9 +1,9 @@
-import { useAppSelector } from "../../app/store";
-import { selectorUserId } from "../packs/packsSelectors";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import s from "./actionsIconPack.module.css";
 import React from "react";
+import { selectorIdUser } from "../loginRegistration/selectors";
+import { useSelector } from "react-redux";
 
 type ActionsIconPackType = {
   user_id: string;
@@ -18,7 +18,7 @@ const deletePackCallback = () => {
 };
 
 export const CardsActionsIconPack = (props: ActionsIconPackType) => {
-  const userAuthId = useAppSelector(selectorUserId);
+  const userAuthId = useSelector(selectorIdUser);
   return (
     <div className={s.wrapper}>
       <span onClick={editPackCallback}>{props.user_id === userAuthId ? <BorderColorOutlinedIcon /> : null}</span>

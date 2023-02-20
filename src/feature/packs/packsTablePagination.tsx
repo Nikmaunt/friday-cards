@@ -1,6 +1,6 @@
 import TablePagination from "@mui/material/TablePagination";
 import React from "react";
-import { fetchPacksTC } from "./packsReducer";
+import { fetchPacksTC, setPacksParams } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
 import { selectorRowsPerPage } from "./packsSelectors";
@@ -13,12 +13,14 @@ export const PacksTablePagination = () => {
 
   const handleChangePage = (event: unknown, newPage: number) => {
     const params = { page: newPage };
-    dispatch(fetchPacksTC(params));
+    dispatch(setPacksParams(params));
+    dispatch(fetchPacksTC());
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     const params = { pageCount: +event.target.value };
-    dispatch(fetchPacksTC(params));
+    dispatch(setPacksParams(params));
+    dispatch(fetchPacksTC());
   };
   return (
     <TablePagination

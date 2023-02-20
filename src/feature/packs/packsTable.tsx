@@ -11,13 +11,16 @@ import { PacksTablePagination } from "./packsTablePagination";
 import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
+import { NotFoundPage } from "./notFoundPage";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
+  const isPacksEmpty = packs.cardPacks.length === 0;
   useEffect(() => {
-    dispatch(fetchPacksTC({}));
+    //dispatch(setSearchFieldEmpty(false));
+    dispatch(fetchPacksTC());
   }, []);
 
   function createData(
@@ -43,19 +46,25 @@ export const PacksTable = () => {
   });
 
   return (
-    <Paper>
+    <div>
       {statusApp === "loading" ? (
         <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
       ) : (
         <div>
-          <Table aria-labelledby="tableTitle" size={"medium"}>
-            <PacksTableHead />
-            <PacksTableBody rows={rows} />
-          </Table>
-          <PacksTablePagination />
+          {isPacksEmpty ? (
+            <NotFoundPage />
+          ) : (
+            <Paper>
+              <Table aria-labelledby="tableTitle" size={"medium"}>
+                <PacksTableHead />
+                <PacksTableBody rows={rows} />
+              </Table>
+              <PacksTablePagination />
+            </Paper>
+          )}
         </div>
       )}
-    </Paper>
+    </div>
   );
 };
 

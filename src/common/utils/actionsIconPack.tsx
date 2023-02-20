@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../app/store";
-import { selectorUserId } from "../../feature/packs/packsSelectors";
+
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -7,6 +7,7 @@ import s from "./actionsIconPack.module.css";
 import React from "react";
 import { deletePackTC, editPackTC } from "../../feature/packs/packsReducer";
 import { useSelector } from "react-redux";
+import { selectorIdUser } from "../../feature/loginRegistration/selectors";
 
 type ActionsIconPackType = {
   pack_id: string;
@@ -15,7 +16,7 @@ type ActionsIconPackType = {
 
 export const ActionsIconPack = ({ user_id, pack_id }: ActionsIconPackType) => {
   const dispatch = useAppDispatch();
-  const userAuthId = useSelector(selectorUserId);
+  const userAuthId = useSelector(selectorIdUser);
   const learnPackCallback = () => {};
 
   const editPackCallback = () => {

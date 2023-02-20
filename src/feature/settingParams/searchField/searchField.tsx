@@ -2,9 +2,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import s from "./SearchField.module.css";
-import { ChangeEvent, useState } from "react";
-import { getPackTC } from "../settingsReducer";
+import { ChangeEvent, useEffect, useState } from "react";
+
 import { useAppDispatch } from "../../../app/store";
+import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
+import { useSelector } from "react-redux";
+import { selectorIsClearSearchField } from "../../packs/packsSelectors";
 
 const Search = styled("div")(({ theme }) => ({
   border: "solid 1px #DEDBDC",
@@ -40,13 +43,35 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const SearchField = () => {
   console.log("searchField rerender");
+  const isClearField = useSelector(selectorIsClearSearchField);
+
+  function useDebounce<T>(value: T, delay?: number): T {
+    const [debouncedValue, setDebouncedValue] = useState<T>(value);
+
+    useEffect(() => {
+      const timer = setTimeout(() => setDebouncedValue(value), delay || 800);
+      return () => {
+        clearTimeout(timer);
+      };
+    }, [value, delay]);
+    return debouncedValue;
+  }
+
   const [searchText, setSearchText] = useState<string>("");
+  if (isClearField) {
+    setSearchText("");
+  }
   const dispatch = useAppDispatch();
+  const debouncedValue = useDebounce<string>(searchText, 800);
+
+  useEffect(() => {
+    const params = { packName: debouncedValue };
+    dispatch(setPacksParams(params));
+    dispatch(fetchPacksTC());
+  }, [debouncedValue]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
-    const params = { packName: e.currentTarget.value };
-    dispatch(getPackTC(params));
   };
   return (
     <div className={s.wrapper}>
