@@ -7,7 +7,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch } from "../../../app/store";
 import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
 import { useSelector } from "react-redux";
-import { selectorIsClearSearchField } from "../../packs/packsSelectors";
+import { selectorIsClearSearchField, selectorPackName } from "../../packs/packsSelectors";
 
 const Search = styled("div")(({ theme }) => ({
   border: "solid 1px #DEDBDC",
@@ -44,7 +44,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const SearchField = () => {
   console.log("searchField rerender");
   const isClearField = useSelector(selectorIsClearSearchField);
-
+  const packName = useSelector(selectorPackName);
   function useDebounce<T>(value: T, delay?: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -53,7 +53,7 @@ export const SearchField = () => {
       return () => {
         clearTimeout(timer);
       };
-    }, [value, delay]);
+    }, [value, delay, packName]);
     return debouncedValue;
   }
 

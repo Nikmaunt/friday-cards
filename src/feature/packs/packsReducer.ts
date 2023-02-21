@@ -9,7 +9,7 @@ const initialPacksState = {
   params: {
     packName: "",
     min: 0,
-    max: 110,
+    max: 0,
     sortPacks: "0updated",
     page: 1,
     pageCount: 4,
@@ -24,6 +24,7 @@ const initialPacksState = {
   token: "",
   tokenDeathTime: 0,
   isClearSearchField: false,
+  isActiveMyPacks: false,
 };
 
 export const packsReducer = (
@@ -37,6 +38,8 @@ export const packsReducer = (
       return { ...state, params: { ...state.params, ...action.payload.params } };
     case PacksActions.SetSearchField:
       return { ...state, isClearSearchField: action.payload.value };
+    case PacksActions.SetActivePacks:
+      return { ...state, isActiveMyPacks: action.payload.value };
     default:
       return state;
   }
@@ -51,6 +54,9 @@ export const setPacksParams = (params: PackParamsType) => {
 };
 export const setSearchFieldEmpty = (value: boolean) => {
   return { type: PacksActions.SetSearchField, payload: { value } as const };
+};
+export const setIsActiveMyPacks = (value: boolean) => {
+  return { type: PacksActions.SetActivePacks, payload: { value } as const };
 };
 /////////////////// THUNK CREATORS ////////////////////////
 export const fetchPacksTC = () => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
@@ -125,6 +131,7 @@ export type PacksResponseType = {
   token: string;
   tokenDeathTime: number;
   isClearSearchField: boolean;
+  isActiveMyPacks: boolean;
 };
 
 export const PacksActions = {
@@ -133,6 +140,7 @@ export const PacksActions = {
   SetPackId: "SET-PACK-ID",
   SetParams: "SET_PARAMS",
   SetSearchField: "SET_SEARCH_FIELD",
+  SetActivePacks: "SET-ACTIVE-PACKS",
 } as const;
 
 export type PackParamsType = {
@@ -148,4 +156,5 @@ export type PackParamsType = {
 export type PacksActionCreatorsType =
   | ReturnType<typeof setPacksAC>
   | ReturnType<typeof setPacksParams>
-  | ReturnType<typeof setSearchFieldEmpty>;
+  | ReturnType<typeof setSearchFieldEmpty>
+  | ReturnType<typeof setIsActiveMyPacks>;

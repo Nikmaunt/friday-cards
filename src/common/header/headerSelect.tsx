@@ -26,6 +26,7 @@ export const HeaderDropdown = () => {
   const logOutHandler = useCallback(() => {
     dispatch(logoutUser());
   }, []);
+
   const goToProfile = () => {
     setAnchorEl(null);
     navigate(PATH.PROFILE);

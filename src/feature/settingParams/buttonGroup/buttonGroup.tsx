@@ -7,14 +7,17 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectorIdUser } from "../../loginRegistration/selectors";
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
+import { fetchPacksTC, setIsActiveMyPacks, setPacksParams } from "../../packs/packsReducer";
+import { selectorIsActiveMyPacks } from "../../packs/packsSelectors";
 
 export const GroupButtons = () => {
   console.log("GroupButtons rerender");
   const idUser = useSelector(selectorIdUser);
+  const isActiveMyPacks = useSelector(selectorIsActiveMyPacks);
+  console.log("idUser", idUser);
   const dispatch = useAppDispatch();
-  const [activeMy, setActiveMy] = useState<boolean>(false);
-  const [activeAll, setActiveAll] = useState<boolean>(true);
+  const [activeMy, setActiveMy] = useState<boolean>(isActiveMyPacks);
+  const [activeAll, setActiveAll] = useState<boolean>(!activeMy);
 
   const colorActiveMyButton = activeMy ? "#FFFFFF" : "#000000";
   const colorActiveAllButton = activeAll ? "#FFFFFF" : "#000000";
@@ -27,6 +30,7 @@ export const GroupButtons = () => {
       setActiveAll(false);
     }
     const params = { user_id: idUser };
+    dispatch(setIsActiveMyPacks(true));
     dispatch(setPacksParams(params));
     dispatch(fetchPacksTC());
   };
@@ -37,6 +41,8 @@ export const GroupButtons = () => {
       setActiveMy(false);
     }
     const params = { user_id: "" };
+    dispatch(setIsActiveMyPacks(false));
+
     dispatch(setPacksParams(params));
     dispatch(fetchPacksTC());
   };
