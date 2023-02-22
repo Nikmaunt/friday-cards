@@ -1,6 +1,6 @@
 import { SettingsParams } from "../settingParams/settingsParams";
 import { PacksTable } from "./packsTable";
-import React from "react";
+import React, { useState } from "react";
 import { addPackTC } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import s from "./Packs.module.css";
@@ -10,14 +10,16 @@ import { useSelector } from "react-redux";
 import { selectorAuth } from "../../app/appSelectors";
 import { Navigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
+import { AddNewPackModal } from "../../common/modal/addNewPackModal";
 
 export const Packs = () => {
+  const [activeAddNewPack, setActiveAddNewPack] = useState(false);
+
   const auth = useSelector(selectorAuth);
-  const dispatch = useAppDispatch();
   const addNewPacksHandler = () => {
-    const newPacks = { cardsPack: { name: "newNamePack" } };
-    dispatch(addPackTC(newPacks));
+    setActiveAddNewPack(true);
   };
+
   if (!auth) {
     return <Navigate to={PATH.LOGIN} />;
   }
@@ -26,6 +28,7 @@ export const Packs = () => {
       <TitleWithButton title={"Packs list"} nameButton={"Add new pack"} callback={addNewPacksHandler} />
       <SettingsParams />
       <PacksTable />
+      <AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />
     </div>
   );
 };
