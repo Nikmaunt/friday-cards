@@ -2,11 +2,7 @@ import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
-import {selectorCards, selectorCardsPage} from "./cardsSelectors";
-import { Navigate, useParams } from "react-router-dom";
-import { selectorCards } from "./cardsSelectors";
-import { useNavigate, useParams } from "react-router-dom";
-import { selectorCardsPage} from "./cardsSelectors";
+import {useNavigate, useParams} from "react-router-dom";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
@@ -15,8 +11,9 @@ import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
 import { getUserCardByPackId } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
 import PATH from "../../common/constans/path/path";
+import {selectorCards, selectorCardsPage} from "./cardsSelectors";
+import Skeleton from "react-loading-skeleton";
 
 export const CardsList = () => {
   const { id } = useParams();

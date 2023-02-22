@@ -1,31 +1,31 @@
 import TablePagination from "@mui/material/TablePagination";
 import React from "react";
-import {getUserCardByPackId, SetCardsPageCount} from "./cardsReducer";
+import {getUserCardByPackId, SetCardsPageCount, SetCardsPageNumber} from "./cardsReducer";
 import {useAppDispatch} from "../../app/store";
 import {useParams} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {selectorCardsPage, selectorCardsTotalCount} from "./cardsSelectors";
+import {selectorCardsPage, selectorCardsPageNumber, selectorCardsTotalCount} from "./cardsSelectors";
 
 export const CardsTablePagination = () => {
   const dispatch = useAppDispatch();
-  let cardsPage = useSelector(selectorCardsPage);
-  let cardsTotalCount= useSelector(selectorCardsTotalCount);
+  const cardsPageCount = useSelector(selectorCardsPage);
+  const cardsPageNumber = useSelector(selectorCardsPageNumber);
+  const cardsTotalCount= useSelector(selectorCardsTotalCount);
 
   const { id } = useParams();
-  const [rowsPerPage, setRowsPerPage] = React.useState(cardsPage);
+  const [rowsPerPage, setRowsPerPage] = React.useState(cardsPageCount );
   const [page, setPage] = React.useState(0);
-
-
-  const lastPage = Math.ceil(cardsTotalCount / cardsPage)
+  console.log(cardsPageNumber)
+  const lastPage = Math.ceil(cardsTotalCount / cardsPageCount)
+  console.log(lastPage)
   const handleChangePage = (event: unknown, newPage: number) => {
-    console.log( event, 'EVENT')
-    setPage(newPage);
+    setPage(newPage)
   };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(SetCardsPageCount(+event.target.value));
     if (id) {
       dispatch(getUserCardByPackId(id));
-      setRowsPerPage(+event.target.value)
+      // setRowsPerPage(+event.target.value)
     }
   };
   return (

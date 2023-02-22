@@ -12,6 +12,7 @@ import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
 
+
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);

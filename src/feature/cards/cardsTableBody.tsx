@@ -19,10 +19,10 @@ export const CardsTableBody = ({ rows }: PropsType) => {
         return (
           <TableRow key={index}>
             <TableCell align={"center"} padding={"none"} />
-            <TableCell component="th" id={labelId} scope="row" sx={{ paddingRight: "36px", textAlign: "left" }}>
+            <TableCell style={{maxWidth:350}} component="th" id={labelId} scope="row" sx={{ paddingRight: "36px", textAlign: "left" }}>
               {row.question}
             </TableCell>
-            <TableCell align="left">{row.answer}</TableCell>
+            <TableCell  style={{maxWidth:350}} align="left">{row.answer}</TableCell>
             <TableCell align="left">{row.lastUpdated}</TableCell>
             <TableCell align="left">
               <Box

@@ -3,6 +3,7 @@ import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appR
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
+import {authMe} from "../loginRegistration/authReducer";
 
 const initialCardsState = {} as CardResponseType;
 
@@ -14,6 +15,10 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
       return {...state, pageCount: action.payload.pageCount}
     case CardsActions.SetCardsPageNumber:
       return {...state, page: action.payload.page}
+    case CardsActions.SetCardShot:
+      console.log(action.payload.grade , action.payload.cardID, "STATE CARDS")
+      let copyState = state
+      return {...copyState,  cards: {...copyState.cards.map(el=> el._id === action.payload.cardID ? {...el,...action.payload.grade  } : el)} }
     default:
       return state;
   }
@@ -44,6 +49,15 @@ export const SetCardsPageNumber = (page: number) => {
     },
   } as const;
 };
+export const SetCardShot = (grade: any, cardID:string) => {
+  return {
+    type: CardsActions.SetCardShot,
+    payload: {
+      grade,
+      cardID
+    },
+  } as const;
+};
 
 /////////////////// THUNK CREATORS ////////////////////////
 export const getUserCardByPackId =
@@ -66,6 +80,45 @@ export const getUserCardByPackId =
     }
   };
 
+export const getAllUserCards =
+    (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+      dispatch(setAppStatus("loading"));
+      let pageCount = getState().cards.cardsTotalCount
+      console.log(pageCount, 'PAGE COUNT')
+      try {
+        const res = await cardsAPI.getCards(packID, {pageCount});
+        console.log("res cards", res);
+        dispatch(setCurrentPackId(packID));
+        dispatch(getCards(res.data));
+        console.log(res.data);
+      } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>;
+        errorUtils(err, dispatch);
+      } finally {
+        dispatch(setIsInitialized(true));
+        dispatch(setAppStatus("succeeded"));
+      }
+    };
+export const updateUserCard =
+    (grade:number, cardId:string, packID?:any) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+      dispatch(setAppStatus("loading"));
+      const cards = getState().cards
+      console.log( grade, "GRADE SHOOOT")
+      try {
+        await cardsAPI.udpateCard( grade,cardId );
+        const res = await cardsAPI.udpateCard(grade,cardId );
+        console.log("res cards", res);
+        // dispatch(getAllUserCards(packID))
+        dispatch(getCards(cards));
+
+      } catch (e) {
+        const err = e as Error | AxiosError<{ error: string }>;
+        errorUtils(err, dispatch);
+      } finally {
+        dispatch(setIsInitialized(true));
+        dispatch(setAppStatus("succeeded"));
+      }
+    };
 export const addNewCardTC = (id: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   const newCard: NewCardRequestType = {
@@ -96,9 +149,11 @@ export const CardsActions = {
   GetCards: "GET-CARDS",
   SetCardsPageNumber: "SET-PAGE-NUMBER",
   SetPageCount: "SET-PAGE-COUNT",
+  SetCardShot:"SET-CARD-SHOT"
 } as const;
 
 export type CardsActionCreatorsType =
   | ReturnType<typeof getCards>
   | ReturnType<typeof SetCardsPageCount>
-  | ReturnType<typeof SetCardsPageNumber>;
+  | ReturnType<typeof SetCardsPageNumber>
+  | ReturnType<typeof SetCardShot>;

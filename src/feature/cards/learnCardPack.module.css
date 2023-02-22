@@ -1,0 +1,31 @@
+.wrapper {
+    padding: 0 136px;
+    margin-top: 36px;
+}
+.content {
+    margin-left: 33px;
+}
+.contentAnswer {
+    margin-left: 33px;
+    margin-top: -15px;
+}
+.title {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+ }
+.card {
+    margin-left: 300px;
+    width: 439px;
+}
+.buttonShow {
+    margin-left: 33px;
+    width: 370px;
+    height: 36px;
+    margin-bottom: 20px;
+}
+.buttonNext {
+    width: 370px;
+    height: 36px!important;
+    margin-left: -13px;
+}

@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import {selectorPackName, selectorPackUserId} from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import { addNewCardTC } from "../cards/cardsReducer";
-import { selectorPackId } from "../../app/appSelectors";
 import {selectorUserId} from "./packsSelectors";
 import { selectAppStatus, selectorPackId } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
@@ -44,7 +43,7 @@ export const EmptyPageField = () => {
             <SuperButton name={"Add new card"} callback={addNewCardHandler} />
           </div>
         </div>
-      )}
+      ) }
     </div>
   );
 };

@@ -11,6 +11,7 @@ export const PacksTableBody = ({ rows }: PropsType) => {
 
   const goToCardsList = (id: string) => {
     navigate(`${PATH.CARDS_LIST}${id}`);
+
   };
 
   return (
