@@ -18,7 +18,8 @@ export const rootReducer = combineReducers({
   settings: settingsReducer,
 });
 
-export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
+// export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 store.subscribe(() => {
   saveState({

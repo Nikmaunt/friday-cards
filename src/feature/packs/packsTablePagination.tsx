@@ -11,17 +11,17 @@ export const PacksTablePagination = () => {
   const rowPerPage = useSelector(selectorRowsPerPage);
   const selPage = useSelector(selectorPage);
   console.log("selPage", selPage);
-  const [page, setPage] = useState(selPage);
+  const [page, setPage] = useState(selPage - 1);
   console.log("page", page);
 
   const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    const params = { page: newPage };
+    const params = { page: newPage + 1 };
 
     console.log("newPage", newPage);
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
+
     setPage(newPage);
   };
 
@@ -30,8 +30,8 @@ export const PacksTablePagination = () => {
 
     dispatch(setPacksParams(params));
     //setRowsPerPage();
-    dispatch(fetchPacksTC());
   };
+
   return (
     <TablePagination
       rowsPerPageOptions={[4, 10, 20]}

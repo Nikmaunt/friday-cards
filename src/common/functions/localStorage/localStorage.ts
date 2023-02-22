@@ -20,6 +20,7 @@ export const saveState = (state: RootReducerType) => {
     // ignore write errors
   }
 };
+
 // export const saveState = (state: LSType) => {
 //   try {
 //     const serializedState = JSON.stringify(state);

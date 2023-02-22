@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
-import { fetchPacksTC } from "./packsReducer";
+import { fetchPacksTC, setSearchFieldEmpty } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPacks } from "./packsSelectors";
+import { selectorPacks, selectorPacksParams } from "./packsSelectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
@@ -17,11 +17,13 @@ export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
+  const packsParams = useSelector(selectorPacksParams);
   const isPacksEmpty = packs.cardPacks.length === 0;
+
   useEffect(() => {
-    //dispatch(setSearchFieldEmpty(false));
+    dispatch(setSearchFieldEmpty(false));
     dispatch(fetchPacksTC());
-  }, []);
+  }, [packsParams]);
 
   function createData(
     name: string,

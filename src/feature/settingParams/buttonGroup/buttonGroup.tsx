@@ -32,7 +32,7 @@ export const GroupButtons = () => {
     const params = { user_id: idUser };
     dispatch(setIsActiveMyPacks(true));
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
+    //dispatch(fetchPacksTC());
   };
 
   const allButtonHandler = () => {
@@ -44,7 +44,7 @@ export const GroupButtons = () => {
     dispatch(setIsActiveMyPacks(false));
 
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
+    //dispatch(fetchPacksTC());
   };
   const buttons = [
     <Button

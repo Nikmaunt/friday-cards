@@ -3,6 +3,7 @@ import { RootReducerType } from "../../app/store";
 export const selectorRowsPerPage = (state: RootReducerType) => state.packs.pageCount;
 export const selectorPage = (state: RootReducerType) => state.packs.page;
 export const selectorPacks = (state: RootReducerType) => state.packs;
+export const selectorPacksParams = (state: RootReducerType) => state.packs.params;
 export const selectorPackName = (state: RootReducerType) => state.packs.params.packName;
 export const selectorMinn = (state: RootReducerType) => state.packs.minCardsCount;
 export const selectorMaxxx = (state: RootReducerType) => state.packs.maxCardsCount;

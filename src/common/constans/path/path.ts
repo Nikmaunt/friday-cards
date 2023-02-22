@@ -15,6 +15,7 @@ const PATH = {
   CHECK_EMAIL: "/check-email",
   SET_NEW_PASSWORD: "/set-new-password/:token",
   PACKS: "/packs",
+  //PACKS_FULL: "/packs/:packName/:min/:max/:sortPacks/:page/:pageCount/:user_id/:block",
   EMPTY_PACK: "/empty-pack",
   CARDS_LIST: "/cards-list/",
   CARDS_LIST_BY_ID: "/cards-list/:id",

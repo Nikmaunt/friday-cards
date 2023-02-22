@@ -6,7 +6,7 @@ import styles from "./SliderField.module.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
+import { setPacksParams } from "../../packs/packsReducer";
 import { selectorMax, selectorMaxxx, selectorMin, selectorMinn } from "../../packs/packsSelectors";
 
 export const SliderField = () => {
@@ -22,7 +22,7 @@ export const SliderField = () => {
       dispatch(setPacksParams({ min: minValue, max: maxValue }));
       setValue([minValue, maxValue]);
     }
-  }, [minValueParamsCards, maxValueParamsCards]);
+  }, [minValueParamsCards, maxValueParamsCards, minValue, maxValue]);
 
   const [value, setValue] = useState([minValueParamsCards as number, maxValueParamsCards as number]);
 
@@ -30,7 +30,6 @@ export const SliderField = () => {
     setValue(newValue as number[]);
     const params = { min: value[0], max: value[1] };
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
   };
   const handlerChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);

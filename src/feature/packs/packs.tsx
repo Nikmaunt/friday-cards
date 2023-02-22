@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { selectorAuth } from "../../app/appSelectors";
 import { Navigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
+
 export const Packs = () => {
   const auth = useSelector(selectorAuth);
   const dispatch = useAppDispatch();

@@ -1,10 +1,13 @@
 import FormatClearIcon from "@mui/icons-material/FormatClear";
 import React from "react";
 import s from "../SettingParams.module.css";
+import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
+import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
 export const ClearButton = () => {
   const dispatch = useAppDispatch();
+
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const clearParams = () => {
     const params = {
@@ -17,9 +20,9 @@ export const ClearButton = () => {
       user_id: "",
       block: false,
     };
-    //dispatch(setSearchFieldEmpty(true));
+    dispatch(setSearchFieldEmpty(true));
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
+    //dispatch(fetchPacksTC());
   };
   return (
     <div onClick={clearParams} className={s.wrapperClearButton}>

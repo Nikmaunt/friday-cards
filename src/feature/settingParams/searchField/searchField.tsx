@@ -5,7 +5,7 @@ import s from "./SearchField.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams } from "../../packs/packsReducer";
+import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
 import { useSelector } from "react-redux";
 import { selectorIsClearSearchField, selectorPackName } from "../../packs/packsSelectors";
 
@@ -45,6 +45,7 @@ export const SearchField = () => {
   console.log("searchField rerender");
   const isClearField = useSelector(selectorIsClearSearchField);
   const packName = useSelector(selectorPackName);
+
   function useDebounce<T>(value: T, delay?: number): T {
     const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -53,22 +54,24 @@ export const SearchField = () => {
       return () => {
         clearTimeout(timer);
       };
-    }, [value, delay, packName]);
+    }, [value, delay]);
     return debouncedValue;
   }
-
-  const [searchText, setSearchText] = useState<string>("");
-  if (isClearField) {
-    setSearchText("");
-  }
   const dispatch = useAppDispatch();
+  const [searchText, setSearchText] = useState<string>("");
+
   const debouncedValue = useDebounce<string>(searchText, 800);
 
   useEffect(() => {
+    console.log({ isClearField });
+    if (isClearField) {
+      console.log("search");
+      setSearchText("");
+      dispatch(setSearchFieldEmpty(false));
+    }
     const params = { packName: debouncedValue };
     dispatch(setPacksParams(params));
-    dispatch(fetchPacksTC());
-  }, [debouncedValue]);
+  }, [debouncedValue, isClearField]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
@@ -81,6 +84,7 @@ export const SearchField = () => {
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
+          value={searchText}
           placeholder="Provide your text"
           inputProps={{ "aria-label": "search" }}
           onChange={onChangeHandler}
