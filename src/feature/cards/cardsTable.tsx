@@ -13,9 +13,7 @@ import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
 import { getUserCardByPackId } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
 import PATH from "../../common/constans/path/path";
-import {selectorCards, selectorCardsPage} from "./cardsSelectors";
 import Skeleton from "react-loading-skeleton";
 
 export const CardsList = () => {
@@ -40,7 +38,7 @@ export const CardsList = () => {
     return createData(
       card.question,
       card.answer,
-      card.updated,
+      card.updated.substring(0,10),
       card.grade,
       <CardsActionsIconPack
         user_id={card.user_id}

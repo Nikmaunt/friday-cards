@@ -5,9 +5,6 @@ export const cardsAPI = {
   getCards(packID: string,params:any) {
     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
   },
-  setCards(packID: string,params:any) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
-  },
   udpateCard(grade: number, card_id:any) {
     return instanceHeroku.put<CardResponseType>('cards/grade',{grade,card_id});
   },
@@ -46,6 +43,7 @@ export type CardsType = {
 };
 export type CardResponseType = {
   cards: CardsType[];
+  params?:{}
   cardsTotalCount: number;
   maxGrade: number;
   minGrade: number;

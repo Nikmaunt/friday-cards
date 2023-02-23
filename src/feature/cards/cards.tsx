@@ -4,14 +4,14 @@ import { useAppDispatch } from "../../app/store";
 import s from "../cards/Cards.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 import { SearchField } from "../settingParams/searchField/searchField";
-import { selectorUserId } from "../packs/packsSelectors";
+
 import { selectorPackName, selectorPackUserId } from "./cardsSelectors";
 import { useSelector } from "react-redux";
 import { ReturnBack } from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { useNavigate, useParams } from "react-router-dom";
 import { addNewCardTC, getCards } from "./cardsReducer";
-import { selectAppStatus } from "../../app/appSelectors";
+import {selectAppStatus, selectorUserId} from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
 
 export const Cards = () => {
@@ -23,18 +23,15 @@ export const Cards = () => {
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
   const addNewCardsHandler = async () => {
-    if (id) await dispatch(addNewCardTC(id));
+    if (id) await dispatch(addNewCardTC(id,'',''));
     //await dispatch(getUserCardByPackId(packId));
     //return <Navigate to={`${PATH.CARDS_LIST}:${packId}`} />;
     //navigate(`${PATH.CARDS_LIST}:${packId}`);
   };
 
-    const learnFriendPackHandler = () => {
-        navigate(`${PATH.LEARN_PACK}${id}`);
-        if (id) {
-            dispatch(getAllUserCards(id));
-        }
-    };
+  const learnFriendPackHandler = () => {
+    console.log("LEARN PACK");
+  };
 
   const CardEmpty = {
     cards: [],
@@ -60,13 +57,14 @@ export const Cards = () => {
   const resNameButton = userAuthId === userPackId ? "Add new card" : "Learn to pack";
   const addLearnHandler = () => (userAuthId === userPackId ? addNewCardsHandler() : learnFriendPackHandler());
 
+
   return (
     <div className={s.wrapper}>
       <ReturnBack callback={returnToPackHandler} />
       {statusApp === "loading" ? (
         <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
       ) : (
-        <TitleWithButton title={packName} nameButton={resNameButton} callback={addLearnHandler} />
+        <TitleWithButton title={packName} nameButton={"Add new card" } callback={addLearnHandler} />
       )}
       <div className={s.search}>
         <SearchField />
