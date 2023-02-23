@@ -20,6 +20,7 @@ import {SuperButton} from "../../common/superButton/superButton";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { selectorAuth} from "../../app/appSelectors";
+import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
 
 
 export const LearnCardPack = () =>  {
@@ -52,9 +53,8 @@ export const LearnCardPack = () =>  {
     const returnToPackHandler = () => {
         navigate(PATH.PACKS);
     };
-
     const onNextClickHandler =  () => {
-        const nextQuestion = currentQuestion + 1
+        const nextQuestion = generateRandomQuestion(cards)
         if (nextQuestion < cards.length ) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)
@@ -66,7 +66,6 @@ export const LearnCardPack = () =>  {
             setCurrentQuestion(0)
         }
     }
-
     return (
         <div className={s.wrapper}>
                     <ReturnBack callback={returnToPackHandler}/>
