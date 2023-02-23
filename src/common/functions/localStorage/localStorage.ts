@@ -16,25 +16,5 @@ export const saveState = (state: RootReducerType) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem("app-state", serializedState);
-  } catch {
-    // ignore write errors
-  }
+  } catch {}
 };
-
-// export const saveState = (state: LSType) => {
-//   try {
-//     const serializedState = JSON.stringify(state);
-//     localStorage.setItem("app-state", serializedState);
-//   } catch {
-//     // ignore write errors
-//   }
-// };
-
-// type LSType = {
-//   cards: {
-//     packName: string;
-//     page: number;
-//     pageCount: number;
-//   };
-//   packsParams: PackParamsType;
-// };

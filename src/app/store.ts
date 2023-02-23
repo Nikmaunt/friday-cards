@@ -6,7 +6,6 @@ import { authReducer } from "../feature/loginRegistration/authReducer";
 import { forgotPasswordReducer } from "../feature/passwordRecovery/forgotPasswordReducer";
 import { packsReducer } from "../feature/packs/packsReducer";
 import { cardsReducer } from "../feature/cards/cardsReducer";
-import { settingsReducer } from "../feature/settingParams/settingsReducer";
 import { loadState, saveState } from "../common/functions/localStorage/localStorage";
 
 export const rootReducer = combineReducers({
@@ -15,11 +14,10 @@ export const rootReducer = combineReducers({
   recoveryPassword: forgotPasswordReducer,
   cards: cardsReducer,
   packs: packsReducer,
-  settings: settingsReducer,
 });
 
-// export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+//export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
 
 store.subscribe(() => {
   saveState({
@@ -28,20 +26,9 @@ store.subscribe(() => {
     recoveryPassword: store.getState().recoveryPassword,
     cards: store.getState().cards,
     packs: store.getState().packs,
-    settings: store.getState().settings,
+    //settings: store.getState().settings,
   });
 });
-
-// store.subscribe(() => {
-//   saveState({
-//     cards: {
-//       packName: store.getState().cards.packName,
-//       page: store.getState().cards.page,
-//       pageCount: store.getState().cards.pageCount,
-//     },
-//     packsParams: store.getState().packs.params,
-//   });
-// });
 
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector;

@@ -7,17 +7,13 @@ import { toggleIsSignUp } from "../../app/appReducer";
 import { useSelector } from "react-redux";
 import PATH from "../constans/path/path";
 import { selectorAuth } from "../../app/appSelectors";
-import { HeaderDropdown } from "./headerSelect";
+import { HeaderDropdown } from "./headerDropdown";
 
 export const Header = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isAuth = useSelector(selectorAuth);
-  const [open, setOpen] = React.useState<boolean>(false);
 
-  const handleOpen = () => {
-    setOpen(!open);
-  };
   const goToSignIn = () => {
     dispatch(toggleIsSignUp(false));
     return navigate(PATH.LOGIN);
