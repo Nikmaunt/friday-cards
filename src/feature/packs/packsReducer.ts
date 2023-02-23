@@ -2,7 +2,7 @@ import { AppThunkDispatch, RootReducerType } from "../../app/store";
 import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { AddPackParamsType, EditCardPackRequestType, GetPacksParamsType, PackReturnType, packsAPI } from "./packsAPI";
+import { AddPackParamsType, EditCardPackRequestType, PackReturnType, packsAPI, PacksReturnType } from "./packsAPI";
 
 const initialPacksState = {
   cardPacks: [],
@@ -46,7 +46,7 @@ export const packsReducer = (
 };
 
 /////////////////// ACTION CREATORS ///////////////////////
-export const setPacksAC = (packs: GetPacksParamsType) => {
+export const setPacksAC = (packs: PacksReturnType) => {
   return { type: PacksActions.SetPacks, payload: { packs } as const };
 };
 export const setPacksParams = (params: PackParamsType) => {

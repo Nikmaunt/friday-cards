@@ -19,7 +19,7 @@ export const SliderField = () => {
 
   useEffect(() => {
     if (minValueParamsCards === 0 && maxValueParamsCards === 0) {
-      dispatch(setPacksParams({ min: minValue, max: maxValue }));
+      // dispatch(setPacksParams({ min: minValue, max: maxValue }));
       setValue([minValue, maxValue]);
     }
   }, [minValueParamsCards, maxValueParamsCards, minValue, maxValue]);

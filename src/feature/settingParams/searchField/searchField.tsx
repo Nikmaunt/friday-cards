@@ -5,9 +5,9 @@ import s from "./SearchField.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
+import { setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
 import { useSelector } from "react-redux";
-import { selectorIsClearSearchField, selectorPackName } from "../../packs/packsSelectors";
+import { selectorIsClearSearchField } from "../../packs/packsSelectors";
 
 const Search = styled("div")(({ theme }) => ({
   border: "solid 1px #DEDBDC",
@@ -42,36 +42,38 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const SearchField = () => {
-  console.log("searchField rerender");
+  const dispatch = useAppDispatch();
   const isClearField = useSelector(selectorIsClearSearchField);
-  const packName = useSelector(selectorPackName);
 
-  function useDebounce<T>(value: T, delay?: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
+  const useDebounce = (value: string, delay?: number) => {
+    const [debouncedValue, setDebouncedValue] = useState<string>(value);
     useEffect(() => {
-      const timer = setTimeout(() => setDebouncedValue(value), delay || 800);
+      const timer = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay || 800);
       return () => {
         clearTimeout(timer);
       };
     }, [value, delay]);
     return debouncedValue;
-  }
-  const dispatch = useAppDispatch();
-  const [searchText, setSearchText] = useState<string>("");
+  };
 
-  const debouncedValue = useDebounce<string>(searchText, 800);
+  const [searchText, setSearchText] = useState<string>("");
+  const debouncedValue = useDebounce(searchText, 800);
 
   useEffect(() => {
-    console.log({ isClearField });
+    const params = { packName: debouncedValue };
+    if (debouncedValue) {
+      dispatch(setPacksParams(params));
+    }
+  }, [debouncedValue]);
+
+  useEffect(() => {
     if (isClearField) {
-      console.log("search");
       setSearchText("");
       dispatch(setSearchFieldEmpty(false));
     }
-    const params = { packName: debouncedValue };
-    dispatch(setPacksParams(params));
-  }, [debouncedValue, isClearField]);
+  }, [isClearField]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
@@ -84,7 +86,6 @@ export const SearchField = () => {
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
-          value={searchText}
           placeholder="Provide your text"
           inputProps={{ "aria-label": "search" }}
           onChange={onChangeHandler}
