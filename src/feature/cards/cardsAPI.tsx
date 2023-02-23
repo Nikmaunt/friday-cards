@@ -10,17 +10,19 @@ import { instanceHeroku } from "../../app/appAPI";
 // };
 
 export const cardsAPI = {
-  getCards(packID: string,params:any) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
+  getCards(packID: string, params: any) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`, { params });
   },
-  setCards(packID: string,params:any) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
+  setCards(packID: string, params: any) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`, { params });
   },
   addCard(newCard: NewCardRequestType) {
-    return instanceHeroku.post('cards/card',newCard);
+    return instanceHeroku.post("cards/card", newCard);
+  },
+  deleteCard(id: string) {
+    return instanceHeroku.delete(`cards/card?id=${id}`);
   },
 };
-
 
 ////////////////// types /////////////////
 export type CardsType = {

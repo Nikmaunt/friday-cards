@@ -88,6 +88,7 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
 };
 
 export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
+  console.log("deletePackTC packId", id);
   dispatch(setAppStatus("loading"));
   try {
     const res = await packsAPI.deletePack(id);

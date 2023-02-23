@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardsList } from "./cardsTable";
 import { useAppDispatch } from "../../app/store";
 import s from "../cards/Cards.module.css";
@@ -14,20 +14,33 @@ import { addNewCardTC, getCards } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
 import { selectorIdUser } from "../loginRegistration/selectors";
+import { AddNewCardModal } from "../../common/modal/addNewCardModal";
 
 export const Cards = () => {
   const { id } = useParams();
+  const { question } = useParams();
+  const { answer } = useParams();
+
   const userAuthId = useSelector(selectorIdUser);
   const userPackId = useSelector(selectorPackUserId);
   const packName = useSelector(selectorPackName);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
+  const [activeAddNewCard, setActiveAddNewCard] = useState(false);
   const addNewCardsHandler = async () => {
-    if (id) await dispatch(addNewCardTC(id));
+    console.log("question", question);
+    console.log("answer", answer);
+    //@ts-ignore
+    if (id) await dispatch(addNewCardTC(id, question, answer));
     //await dispatch(getUserCardByPackId(packId));
     //return <Navigate to={`${PATH.CARDS_LIST}:${packId}`} />;
     //navigate(`${PATH.CARDS_LIST}:${packId}`);
+  };
+
+  const addNewPackModalHandler = async () => {
+    console.log("add");
+    setActiveAddNewCard(true);
   };
 
   const learnFriendPackHandler = () => {
@@ -56,7 +69,7 @@ export const Cards = () => {
   };
 
   const resNameButton = userAuthId === userPackId ? "Add new card" : "Learn to pack";
-  const addLearnHandler = () => (userAuthId === userPackId ? addNewCardsHandler() : learnFriendPackHandler());
+  const addLearnHandler = () => (userAuthId === userPackId ? addNewPackModalHandler() : learnFriendPackHandler());
 
   return (
     <div className={s.wrapper}>
@@ -75,7 +88,8 @@ export const Cards = () => {
       {/*) : (*/}
       {/*  <CardsList />*/}
       {/*)}*/}
-
+      {/*@ts-ignore*/}
+      <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={id} />
       <CardsList />
     </div>
   );

@@ -32,3 +32,8 @@ export const Packs = () => {
     </div>
   );
 };
+
+export type ActivateModalPropsType = {
+  active: boolean;
+  setActive: any;
+};

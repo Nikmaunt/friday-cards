@@ -6,6 +6,8 @@ import { ModalButtons } from "./modalButtons";
 import { addPackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { addNewCardTC } from "../../feature/cards/cardsReducer";
+import PATH from "../../common/constans/path/path";
+import { useNavigate } from "react-router-dom";
 
 type CreateNewCardPropsType = {
   pack_id: string;
@@ -13,6 +15,7 @@ type CreateNewCardPropsType = {
 };
 
 export const CreateNewCard = (props: CreateNewCardPropsType) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
@@ -32,6 +35,7 @@ export const CreateNewCard = (props: CreateNewCardPropsType) => {
     console.log("AddQuestion", question);
     console.log("AddAnswer", answer);
     dispatch(addNewCardTC(props.pack_id, question, answer));
+    // navigate(`${PATH.CARDS_LIST}${props.pack_id}`);
   };
 
   return (
