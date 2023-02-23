@@ -4,6 +4,7 @@ import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
 import { useNavigate, useParams } from "react-router-dom";
+import { selectorCardsPage} from "./cardsSelectors";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
@@ -12,12 +13,13 @@ import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
 import { getUserCardByPackId } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
 import PATH from "../../common/constans/path/path";
+import Skeleton from "react-loading-skeleton";
 
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
+  let cardsPage = useSelector(selectorCardsPage);
   const status = useSelector(selectAppStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -36,7 +38,7 @@ export const CardsList = () => {
     return createData(
       card.question,
       card.answer,
-      card.updated,
+      card.updated.substring(0,10),
       card.grade,
       <CardsActionsIconPack
         user_id={card.user_id}

@@ -9,6 +9,7 @@ import { ForgotPassword } from "../feature/passwordRecovery/forgotPassword";
 import { Packs } from "../feature/packs/packs";
 import { Cards } from "../feature/cards/cards";
 import { EmptyPageField } from "../feature/packs/emptyPageField";
+import {LearnCardPack} from "../feature/cards/learnCardPack";
 
 export const Pages = () => {
   return (
@@ -21,6 +22,7 @@ export const Pages = () => {
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>
       <Route path={PATH.PACKS} element={<Packs />}></Route>
       <Route path={PATH.EMPTY_PACK} element={<EmptyPageField />}></Route>
+      <Route path={PATH.LEARN_PACK_BY_ID} element={<LearnCardPack/>}></Route>
       <Route path={PATH.CARDS_LIST_BY_ID} element={<Cards />}></Route>
     </Routes>
   );

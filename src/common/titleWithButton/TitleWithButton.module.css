@@ -1,9 +1,15 @@
-.titleButton{
+.titleButton {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 .button {
     width: 175px;
     height: 36px;
+}
+
+.learnIcon {
+    margin-right: auto;
+    cursor: pointer;
 }

@@ -1,16 +1,14 @@
 import { SettingsParams } from "../settingParams/settingsParams";
 import { PacksTable } from "./packsTable";
-import React, { useState } from "react";
-import { addPackTC } from "./packsReducer";
-import { useAppDispatch } from "../../app/store";
+import React, {useState} from "react";
 import s from "./Packs.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { useSelector } from "react-redux";
-import { selectorAuth } from "../../app/appSelectors";
-import { Navigate } from "react-router-dom";
+import {AddNewPackModal} from "../../common/modal/addNewPackModal";
 import PATH from "../../common/constans/path/path";
-import { AddNewPackModal } from "../../common/modal/addNewPackModal";
+import {useSelector} from "react-redux";
+import {selectorAuth} from "../../app/appSelectors";
+import {Navigate} from "react-router-dom";
 
 export const Packs = () => {
   const [activeAddNewPack, setActiveAddNewPack] = useState(false);

@@ -13,6 +13,7 @@ import { selectAppStatus } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
 import { NotFoundPage } from "./notFoundPage";
 
+
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
@@ -41,7 +42,7 @@ export const PacksTable = () => {
       pack.name,
       pack.cardsCount,
       pack.user_name,
-      pack.updated,
+      pack.updated.substring(0,10),
       pack._id,
       <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} />
     );

@@ -14,6 +14,9 @@ import { useAppDispatch } from "../../app/store";
 import PATH from "../constans/path/path";
 import { useNavigate } from "react-router-dom";
 
+import profileUserLogo from "./img/profileUserLogo.png";
+import arrowIcon from "../../feature/profile/img/logOutArrow.png";
+
 export const HeaderDropdown = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -58,8 +61,8 @@ export const HeaderDropdown = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={goToProfile}>Profile</MenuItem>
-        <MenuItem onClick={logOutHandler}>Logout</MenuItem>
+        <MenuItem onClick={goToProfile}> <img src={profileUserLogo } style={{ width: 12, height: 12, marginRight:3 }} alt="profileUserLogo" />Profile</MenuItem>
+        <MenuItem onClick={logOutHandler}> <img src={arrowIcon} style={{ width: 20, height: 20, marginLeft:-6}} alt="logoutIcon" />Logout</MenuItem>
       </Menu>
     </div>
   );

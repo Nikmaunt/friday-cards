@@ -1,3 +1,7 @@
+.active {
+    display: flex;
+    justify-content: space-between;
+}
 .active :hover {
     cursor: pointer;
     color: #1976D2;
