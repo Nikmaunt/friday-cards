@@ -76,14 +76,13 @@ export const fetchPacksTC = () => async (dispatch: AppThunkDispatch, getState: (
 export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
-    const res = await packsAPI.addPack(newPack);
-    console.log("add packs res", res);
+    await packsAPI.addPack(newPack);
     dispatch(fetchPacksTC());
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
   } finally {
-    //dispatch(setAppStatus("succeeded"));
+    dispatch(setAppStatus("succeeded"));
   }
 };
 
@@ -91,7 +90,8 @@ export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) =
   console.log("deletePackTC packId", id);
   dispatch(setAppStatus("loading"));
   try {
-    const res = await packsAPI.deletePack(id);
+    // const res = await packsAPI.deletePack(id);
+    await packsAPI.deletePack(id);
     await dispatch(fetchPacksTC());
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
@@ -101,7 +101,6 @@ export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) =
   }
 };
 
-// export const editPackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
 export const editPackTC = (id: string, newName: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   const editCardPack: EditCardPackRequestType = {
@@ -111,7 +110,8 @@ export const editPackTC = (id: string, newName: string) => async (dispatch: AppT
     },
   };
   try {
-    const res = await packsAPI.editPack(editCardPack);
+    // const res = await packsAPI.editPack(editCardPack);
+    await packsAPI.editPack(editCardPack);
     await dispatch(fetchPacksTC());
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;

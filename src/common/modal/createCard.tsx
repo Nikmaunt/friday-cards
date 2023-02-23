@@ -1,16 +1,22 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import s from "./actionModal.module.css";
 import { TextField } from "@mui/material";
 import { SelectQuestion } from "./selectQuestion";
 import { ModalButtons } from "./modalButtons";
 import { useAppDispatch } from "../../app/store";
-import { addNewCardTC, editCardTC } from "../../feature/cards/cardsReducer";
+import { addNewCardTC, editCardTC, getUserCardByPackId } from "../../feature/cards/cardsReducer";
+import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type CreateNewCardPropsType = {
+type CreateNewCardPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
   mode: "editCard" | "addCard";
   pack_id: string;
   card_id?: string;
   changeName: () => void;
+  pack_name?: string;
+  questionTitle?: string;
+  answer?: string;
 };
 
 export const CreateCard = (props: CreateNewCardPropsType) => {
@@ -26,8 +32,9 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
     setAnswer(e.currentTarget.value);
   };
 
-  const onKeyDownSaveAddCardHandler = () => {
-    dispatch(addNewCardTC(props.pack_id, question, answer));
+  const onKeyDownSaveAddCardHandler = async () => {
+    await dispatch(addNewCardTC(props.pack_id, question, answer));
+    props.setActive(false);
   };
 
   const onKeyDownSaveChangeCardHandler = () => {
@@ -39,9 +46,16 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   return (
     <div>
       <SelectQuestion />
-      <TextField label={"Question"} variant="standard" className={s.nameInput} onChange={addQuestion} />
+      <TextField
+        label={"Question"}
+        variant="standard"
+        className={s.nameInput}
+        onChange={addQuestion}
+        defaultValue={props.questionTitle ? props.questionTitle : question}
+      />
       <TextField
         label={"Answer"}
+        defaultValue={props.answer ? props.answer : answer}
         variant="standard"
         className={s.nameInput}
         style={{ marginBottom: "108px" }}

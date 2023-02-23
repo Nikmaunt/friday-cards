@@ -9,7 +9,7 @@ import { FC, ReactNode } from "react";
 type PropsType = {
   children?: ReactNode;
   title: string;
-  active: boolean | undefined;
+  active: boolean;
   setActive: any;
 };
 
@@ -20,7 +20,6 @@ export const ActionModal: FC<PropsType> = ({ children, title, active, setActive 
   return (
     <div>
       <Modal
-        // @ts-ignore
         open={active}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"

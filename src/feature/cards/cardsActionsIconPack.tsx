@@ -12,6 +12,7 @@ type ActionsIconPackType = {
   questionTitle: string;
   card_id: string;
   pack_id: string;
+  answer: string;
 };
 
 export const CardsActionsIconPack = (props: ActionsIconPackType) => {
@@ -31,7 +32,9 @@ export const CardsActionsIconPack = (props: ActionsIconPackType) => {
   return (
     <div className={s.wrapper}>
       <span onClick={editPackCallback}>{props.user_id === userAuthId ? <BorderColorOutlinedIcon /> : null}</span>
-      <span onClick={deletePackCallback}>{props.user_id === userAuthId ? <DeleteOutlinedIcon /> : null}</span>
+      <span className={s.deleteButton} onClick={deletePackCallback}>
+        {props.user_id === userAuthId ? <DeleteOutlinedIcon /> : null}
+      </span>
       <DeleteCardModal
         active={openDeleteModalCard}
         setActive={setOpenDeleteModalCard}
@@ -42,6 +45,8 @@ export const CardsActionsIconPack = (props: ActionsIconPackType) => {
       <EditCardModal
         active={openEditModalCard}
         setActive={setOpenEditModalCard}
+        questionTitle={props.questionTitle}
+        answer={props.answer}
         pack_id={props.pack_id}
         card_id={props.card_id}
       />

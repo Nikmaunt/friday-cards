@@ -1,12 +1,12 @@
 import React from "react";
 import s from "./actionModal.module.css";
 import Button from "@mui/material/Button";
-import { addPackTC, deletePackTC, editPackTC } from "../../feature/packs/packsReducer";
+import { addPackTC, deletePackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { deleteCardTC } from "../../feature/cards/cardsReducer";
 
 export type ButtonsPropsType = {
-  mode: "add" | "edit" | "deleteCard" | "deletePack" | "addCard" | "editCard";
+  mode: "add" | "editPack" | "deleteCard" | "deletePack" | "addCard" | "editCard";
   pack_id?: string;
   card_id?: string;
   changeName?: () => void;

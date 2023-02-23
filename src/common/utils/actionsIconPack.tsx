@@ -18,7 +18,7 @@ type ActionsIconPackType = {
 };
 
 export const ActionsIconPack = ({ user_id, pack_id, pack_name }: ActionsIconPackType) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [activeEditPack, setActiveEditPack] = useState(false);
   const [activeDeletePack, setActiveDeletePack] = useState(false);
   const userAuthId = useSelector(selectorIdUser);
@@ -39,7 +39,9 @@ export const ActionsIconPack = ({ user_id, pack_id, pack_name }: ActionsIconPack
         <SchoolOutlinedIcon />
       </span>
       <span onClick={editPackModalHandler}>{user_id === userAuthId ? <BorderColorOutlinedIcon /> : null}</span>
-      <span onClick={deletePackModalHandler}>{user_id === userAuthId ? <DeleteOutlinedIcon /> : null}</span>
+      <span className={s.deleteButton} onClick={deletePackModalHandler}>
+        {user_id === userAuthId ? <DeleteOutlinedIcon /> : null}
+      </span>
 
       <EditPackModal active={activeEditPack} setActive={setActiveEditPack} pack_id={pack_id} pack_name={pack_name} />
       <DeletePackModal

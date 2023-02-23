@@ -6,8 +6,11 @@ import Checkbox from "@mui/material/Checkbox";
 import { addPackTC, editPackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { ModalButtons } from "./modalButtons";
+import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type EditPackPropsType = {
+type EditPackPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
   pack_id?: string;
   pack_name?: string;
 };
@@ -29,14 +32,16 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
-  const onKeyDownSaveAddPackNameHandler = () => {
+  const onKeyDownSaveAddPackNameHandler = async () => {
     const newPack = { cardsPack: { name: addPackName } };
-    dispatch(addPackTC(newPack));
+    await dispatch(addPackTC(newPack));
+    props.setActive(false);
   };
 
-  const onKeyDownSaveChangeNameHandler = () => {
+  const onKeyDownSaveChangePackNameHandler = async () => {
     if (props.pack_id && packName) {
-      dispatch(editPackTC(props.pack_id, packName));
+      await dispatch(editPackTC(props.pack_id, packName));
+      props.setActive(false);
     }
   };
 
@@ -55,11 +60,11 @@ export const EditPack = (props: EditPackPropsType) => {
         control={<Checkbox checked={checked[1]} onChange={handleChange} />}
       />
       <ModalButtons
-        mode={"edit"}
+        mode={"editPack"}
         pack_id={props.pack_id}
         changeName={() => changeName}
         onKeyDownSaveChangeNameHandler={
-          props.pack_id ? onKeyDownSaveChangeNameHandler : onKeyDownSaveAddPackNameHandler
+          props.pack_id ? onKeyDownSaveChangePackNameHandler : onKeyDownSaveAddPackNameHandler
         }
       />
     </div>

@@ -41,6 +41,7 @@ export const CardsList = () => {
       <CardsActionsIconPack
         user_id={card.user_id}
         questionTitle={card.question}
+        answer={card.answer}
         card_id={card._id}
         pack_id={card.cardsPack_id}
       />
