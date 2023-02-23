@@ -19,39 +19,32 @@ import {useNavigate, useParams} from "react-router-dom";
 import {SuperButton} from "../../common/superButton/superButton";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
-import {selectAppStatus} from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
-import {authMe} from "../loginRegistration/authReducer";
+import { selectorAuth} from "../../app/appSelectors";
+
 
 export const LearnCardPack = () =>  {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const cards =  useSelector(selectorCards);
-    if (cards === undefined && id) {
-        dispatch(getAllUserCards(id));
-        // dispatch(authMe());
-    }
-
+    const isAuth = useSelector(selectorAuth);
     const cardsPackName = useSelector(selectorPackName );
-    const statusApp = useSelector(selectAppStatus);
     const navigate = useNavigate();
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
-    console.log(currentQuestion,'curr question')
     const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : '');
-
-    // console.log(cards[currentQuestion]._id)
     const [cardGrade , setCardGrade] = React.useState<number>(cards?  cards[currentQuestion].grade : 0);
-    // let cardId:string
-    // if (cards) {
-    //
-    // }
-    // useEffect(() => {
-    //     if (id) {
-    //             dispatch(getAllUserCards(id));
-    //         console.log('USE EFFECT')
-    //     }
-    // }, []);
+
+    useEffect(() => {
+        if (isAuth && cards === undefined && id) {
+            dispatch(getAllUserCards(id));
+        }
+    },[isAuth])
+
+    useEffect(() => {
+        if (cards && cards[currentQuestion]) {
+            setCardID(cards[currentQuestion]._id)
+        }
+    }, [cards]);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,16 +58,10 @@ export const LearnCardPack = () =>  {
         if (nextQuestion < cards.length ) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)
-            // console.log(cards[nextQuestion]._id + '  CURRENT CARD ID')
-            // setCardShot(cardShot+1)
-            // console.log(cards[nextQuestion].shots + '  CURRENT Shot')
-            // dispatch(SetCardShot(cardGrade,cardId))
-            dispatch(updateUserCard(cardGrade,cardId,id))
+            dispatch(updateUserCard(cardGrade,cardId))
             setExpanded(!expanded)
-            console.log(nextQuestion < cards.length)
         }
-     if (nextQuestion === cards.length) {
-         console.log(nextQuestion === cards.length, 'CARDS LENGTH')
+        if (nextQuestion === cards.length) {
             setExpanded(!expanded)
             setCurrentQuestion(0)
         }
@@ -82,15 +69,12 @@ export const LearnCardPack = () =>  {
 
     return (
         <div className={s.wrapper}>
-            {statusApp === "loading" ? (
-                <Skeleton height={"60px"} count={5} background-color="red" foreground-color="#ecebeb" />
-            ) : ( <>
                     <ReturnBack callback={returnToPackHandler}/>
                     <h2 className={s.title}> Learn {cardsPackName } </h2>
                     <Card className={s.card}>
                         <CardContent className={s.content}>
                             <Typography paragraph><b>Question:</b> {cards ? cards[currentQuestion].question : 'question'}</Typography>
-                            <Typography paragraph>Number of attempts to answer the question: {cards[currentQuestion].shots}</Typography>
+                            <Typography paragraph>Number of attempts to answer the question: {cards ? cards[currentQuestion].shots : 'shots'}</Typography>
                         </CardContent>
                         <CardActions className={s.buttonShow} disableSpacing>
                             <SuperButton name={'Show answer'} callback={handleExpandClick}/>
@@ -114,13 +98,10 @@ export const LearnCardPack = () =>  {
                                     <CardActions  className={s.buttonNext} disableSpacing>
                                         <SuperButton name={'Next'} callback={onNextClickHandler }/>
                                     </CardActions>
-
                                 </FormControl>
                             </CardContent>
                         </Collapse>
                     </Card>
-            </>
-                )}
         </div>
     );
 }

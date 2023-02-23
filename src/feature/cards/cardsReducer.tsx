@@ -82,8 +82,9 @@ export const getUserCardByPackId =
 
 export const getAllUserCards =
     (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+
       dispatch(setAppStatus("loading"));
-      let pageCount = getState().cards.cardsTotalCount
+      let pageCount = getState().cards.cardsTotalCount === undefined ? 50 : getState().cards.cardsTotalCount
       console.log(pageCount, 'PAGE COUNT')
       try {
         const res = await cardsAPI.getCards(packID, {pageCount});
@@ -100,15 +101,12 @@ export const getAllUserCards =
       }
     };
 export const updateUserCard =
-    (grade:number, cardId:string, packID?:any) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+    (grade:number, cardId:string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
       dispatch(setAppStatus("loading"));
       const cards = getState().cards
-      console.log( grade, "GRADE SHOOOT")
       try {
-        await cardsAPI.udpateCard( grade,cardId );
-        const res = await cardsAPI.udpateCard(grade,cardId );
-        console.log("res cards", res);
-        // dispatch(getAllUserCards(packID))
+        await cardsAPI.udpateCard(grade,cardId );
+
         dispatch(getCards(cards));
 
       } catch (e) {

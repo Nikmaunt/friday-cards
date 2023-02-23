@@ -10,7 +10,7 @@ import {useSelector} from "react-redux";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import {useNavigate, useParams} from "react-router-dom";
-import {addNewCardTC, getCards, getUserCardByPackId} from "./cardsReducer";
+import {addNewCardTC, getAllUserCards, getCards, getUserCardByPackId} from "./cardsReducer";
 import {selectAppStatus} from "../../app/appSelectors";
 import {Skeleton} from "@mui/material";
 
@@ -33,6 +33,9 @@ export const Cards = () => {
 
     const learnFriendPackHandler = () => {
         navigate(`${PATH.LEARN_PACK}${id}`);
+        if (id) {
+            dispatch(getAllUserCards(id));
+        }
     };
 
     const CardEmpty = {
