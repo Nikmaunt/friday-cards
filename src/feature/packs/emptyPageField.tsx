@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {selectorPackName, selectorPackUserId} from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
-import { addNewCardTC } from "../cards/cardsReducer";
-import { selectAppStatus, selectorPackId } from "../../app/appSelectors";
+import {selectAppStatus, selectorPackId, selectorUserId} from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
-import {selectorUserId} from "./packsSelectors";
+import {useState} from "react";
+import {AddNewCardModal} from "../../common/modal/addNewCardModal";
 
 export const EmptyPageField = () => {
   const navigate = useNavigate();
