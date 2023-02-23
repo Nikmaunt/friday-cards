@@ -87,6 +87,7 @@ export const LoginRegistration = () => {
 
   if (isAuth) {
     return <Navigate to={PATH.PACKS} />;
+    //return <Navigate to={PATH.PACKS_FULL} />;
   }
 
   return (

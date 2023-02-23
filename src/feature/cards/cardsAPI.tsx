@@ -1,23 +1,24 @@
 import { instanceHeroku } from "../../app/appAPI";
-
-// export const cardsAPI = {
-//   getCards(packID: string) {
-//     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
-//   },
-//   addCard(newCard: NewCardRequestType) {
-//     return instanceHeroku.post("cards/card", newCard);
-//   },
-// };
+import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
   getCards(packID: string,params:any) {
     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
   },
-   udpateCard(grade: number, card_id:any) {
+  setCards(packID: string,params:any) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
+  },
+  udpateCard(grade: number, card_id:any) {
     return instanceHeroku.put<CardResponseType>('cards/grade',{grade,card_id});
   },
   addCard(newCard: NewCardRequestType) {
-    return instanceHeroku.post('cards/card',newCard);
+    return instanceHeroku.post("cards/card", newCard);
+  },
+  deleteCard(id: string) {
+    return instanceHeroku.delete(`cards/card?id=${id}`);
+  },
+  editCard(editCard: editCardType) {
+    return instanceHeroku.put(`cards/card`, editCard);
   },
 };
 

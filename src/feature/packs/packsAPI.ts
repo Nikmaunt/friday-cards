@@ -1,7 +1,8 @@
 import { instanceHeroku } from "../../app/appAPI";
+import { PackParamsType } from "./packsReducer";
 
 export const packsAPI = {
-  getPacks(params: GetPacksParamsType) {
+  getPacks(params: PackParamsType) {
     return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
   },
   addPack(newPack: AddPackParamsType) {

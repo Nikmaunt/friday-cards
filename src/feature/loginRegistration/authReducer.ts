@@ -4,6 +4,7 @@ import { setAppStatus, setAuth, setIsInitialized, toggleIsSignUp } from "../../a
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { profileAPI } from "../profile/profileAPI";
+import { setIsActiveMyPacks, setPacksParams } from "../packs/packsReducer";
 
 const initialAuthState = {
   isLogin: false,
@@ -94,10 +95,14 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
 
 export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
+  dispatch(setPacksParams({}));
+  dispatch(setAuth(false));
+  dispatch(setIsActiveMyPacks(false));
   try {
     await authAPI.logout();
     dispatch(setLoginUser(false));
     dispatch(setAuth(false));
+    dispatch(setPacksParams({}));
     dispatch(setIsInitialized(false));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;

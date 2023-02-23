@@ -7,27 +7,33 @@ import { useSelector } from "react-redux";
 import {selectorPackName, selectorPackUserId} from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
 import { addNewCardTC } from "../cards/cardsReducer";
-import {selectorUserId} from "./packsSelectors";
 import { selectAppStatus, selectorPackId } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
+import {selectorUserId} from "./packsSelectors";
 
 export const EmptyPageField = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const packName = useSelector(selectorPackName);
   const packId = useSelector(selectorPackId);
+  const statusApp = useSelector(selectAppStatus);
   const userAuthId = useSelector(selectorUserId);
   const userPackId = useSelector(selectorPackUserId);
-  const statusApp = useSelector(selectAppStatus);
 
-  const isUserCardPack = userAuthId === userPackId
+  const [activeAddNewCard, setActiveAddNewCard] = useState(false);
+
+  const isUserCardPack = userAuthId === userPackId;
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
   };
 
-  const addNewCardHandler = async () => {
-    await dispatch(addNewCardTC(packId));
-    navigate(`${PATH.CARDS_LIST}${packId}`);
+  // const addNewCardHandler = async () => {
+  //   await dispatch(addNewCardTC(packId));
+  // navigate(`${PATH.CARDS_LIST}${packId}`);
+  // };
+
+  const addNewPackModalHandler = async () => {
+    setActiveAddNewCard(true);
   };
   return (
     <div className={s.emptyPageWrapper}>
@@ -38,12 +44,14 @@ export const EmptyPageField = () => {
         <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
       ) : (
         <div className={s.textEmptyContainer}>
-          <p>This pack is empty.Click add new card to fill this pack</p>
+          {isUserCardPack ? <p>This pack is empty.Click add new card to fill this pack</p> : <p>This pack is empty.</p>}
           <div className={s.emptyPageButton}>
-            <SuperButton name={"Add new card"} callback={addNewCardHandler} />
+            {/*{isUserCardPack && <SuperButton name={"Add new card"} callback={addNewCardHandler} />}*/}
+            {isUserCardPack && <SuperButton name={"Add new card"} callback={addNewPackModalHandler} />}
           </div>
+          <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={packId} />
         </div>
-      ) }
+      )}
     </div>
   );
 };

@@ -3,3 +3,7 @@
     color: #1976D2;
     size: 10px
 }
+
+.deleteButton :hover {
+    color: #b21232;
+}

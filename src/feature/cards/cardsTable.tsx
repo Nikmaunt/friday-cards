@@ -2,7 +2,9 @@ import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import { selectorCards } from "./cardsSelectors";
+import { useNavigate, useParams } from "react-router-dom";
+import { selectorCardsPage} from "./cardsSelectors";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
@@ -11,6 +13,7 @@ import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
 import { getUserCardByPackId } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
+import Skeleton from "react-loading-skeleton";
 import PATH from "../../common/constans/path/path";
 import {selectorCards, selectorCardsPage} from "./cardsSelectors";
 import Skeleton from "react-loading-skeleton";
@@ -39,7 +42,13 @@ export const CardsList = () => {
       card.answer,
       card.updated,
       card.grade,
-      <CardsActionsIconPack user_id={card.user_id} />
+      <CardsActionsIconPack
+        user_id={card.user_id}
+        questionTitle={card.question}
+        answer={card.answer}
+        card_id={card._id}
+        pack_id={card.cardsPack_id}
+      />
     );
   });
   useEffect(() => {
