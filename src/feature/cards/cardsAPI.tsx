@@ -1,13 +1,5 @@
 import { instanceHeroku } from "../../app/appAPI";
-
-// export const cardsAPI = {
-//   getCards(packID: string) {
-//     return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`);
-//   },
-//   addCard(newCard: NewCardRequestType) {
-//     return instanceHeroku.post("cards/card", newCard);
-//   },
-// };
+import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
   getCards(packID: string, params: any) {
@@ -21,6 +13,9 @@ export const cardsAPI = {
   },
   deleteCard(id: string) {
     return instanceHeroku.delete(`cards/card?id=${id}`);
+  },
+  editCard(editCard: editCardType) {
+    return instanceHeroku.put(`cards/card`, editCard);
   },
 };
 

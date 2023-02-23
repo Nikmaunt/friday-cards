@@ -10,7 +10,6 @@ type PropsType = {
 };
 
 export const DeletePackModal = (props: DeletePackModalPropsType) => {
-  // return <DeleteConfirmation title={"Delete Pack"} removeItem={"Pack Name"} />;
   return (
     <DeleteConfirmation
       title={"Delete Pack"}

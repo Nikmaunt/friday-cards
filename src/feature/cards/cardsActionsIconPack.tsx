@@ -5,20 +5,23 @@ import React, { useState } from "react";
 import { selectorIdUser } from "../loginRegistration/selectors";
 import { useSelector } from "react-redux";
 import { DeleteCardModal } from "../../common/modal/deleteCardModal";
+import { EditCardModal } from "../../common/modal/editCardModal";
 
 type ActionsIconPackType = {
   user_id: string;
   questionTitle: string;
   card_id: string;
+  pack_id: string;
 };
 
 export const CardsActionsIconPack = (props: ActionsIconPackType) => {
   const userAuthId = useSelector(selectorIdUser);
 
   const [openDeleteModalCard, setOpenDeleteModalCard] = useState(false);
+  const [openEditModalCard, setOpenEditModalCard] = useState(false);
 
   const editPackCallback = () => {
-    alert("Edit card");
+    setOpenEditModalCard(true);
   };
 
   const deletePackCallback = () => {
@@ -33,6 +36,13 @@ export const CardsActionsIconPack = (props: ActionsIconPackType) => {
         active={openDeleteModalCard}
         setActive={setOpenDeleteModalCard}
         questionTitle={props.questionTitle}
+        card_id={props.card_id}
+        pack_id={props.pack_id}
+      />
+      <EditCardModal
+        active={openEditModalCard}
+        setActive={setOpenEditModalCard}
+        pack_id={props.pack_id}
         card_id={props.card_id}
       />
     </div>

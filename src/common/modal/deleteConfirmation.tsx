@@ -10,12 +10,11 @@ type DeleteConfirmationPropsType = ActivateModalPropsType & PropsType;
 type PropsType = {
   title: string;
   removeItem: string;
-  pack_id?: string;
+  pack_id: string;
   card_id?: string;
 };
 
 export const DeleteConfirmation = (props: DeleteConfirmationPropsType) => {
-  console.log("DeleteConfirmation card_id", props.card_id);
   return (
     <ActionModal title={props.title} active={props.active} setActive={props.setActive}>
       <div className={s.deleteBox}>
@@ -27,7 +26,7 @@ export const DeleteConfirmation = (props: DeleteConfirmationPropsType) => {
         </Typography>
       </div>
       {props.card_id ? (
-        <ModalButtons mode={"deleteCard"} card_id={props.card_id} />
+        <ModalButtons mode={"deleteCard"} card_id={props.card_id} pack_id={props.pack_id} />
       ) : (
         <ModalButtons mode={"deletePack"} pack_id={props.pack_id} />
       )}

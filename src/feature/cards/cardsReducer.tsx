@@ -14,8 +14,6 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
       return { ...state, pageCount: action.payload.pageCount };
     case CardsActions.SetCardsPageNumber:
       return { ...state, page: action.payload.page };
-    // case CardsActions.DeleteCard:
-    //   return { ...state}
     default:
       return state;
   }
@@ -62,7 +60,6 @@ export const getUserCardByPackId =
     dispatch(setAppStatus("loading"));
     const { page, pageCount } = getState().cards;
     try {
-      // await cardsAPI.getCards(packID,{page,pageCount});
       const res = await cardsAPI.getCards(packID, { page, pageCount });
       console.log("res cards", res);
       dispatch(setCurrentPackId(packID));
@@ -94,7 +91,6 @@ export const addNewCardTC = (id: string, question: string, answer: string) => as
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
   } finally {
-    // dispatch(setIsInitialized(true));
     dispatch(setAppStatus("succeeded"));
   }
 };
@@ -114,6 +110,27 @@ export const deleteCardTC = (card_id: string, pack_id: string) => async (dispatc
   }
 };
 
+export const editCardTC =
+  (pack_id: string, card_id: string, question: string, answer: string) => async (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatus("loading"));
+    const editCard: editCardType = {
+      card: {
+        _id: card_id,
+        question,
+        answer,
+      },
+    };
+    try {
+      await cardsAPI.editCard(editCard);
+      await dispatch(getUserCardByPackId(pack_id));
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>;
+      errorUtils(err, dispatch);
+    } finally {
+      dispatch(setAppStatus("succeeded"));
+    }
+  };
+
 //////////// types //////////////
 
 export const CardsActions = {
@@ -127,3 +144,11 @@ export type CardsActionCreatorsType =
   | ReturnType<typeof getCards>
   | ReturnType<typeof SetCardsPageCount>
   | ReturnType<typeof SetCardsPageNumber>;
+
+export type editCardType = {
+  card: {
+    _id: string;
+    question: string;
+    answer: string;
+  };
+};

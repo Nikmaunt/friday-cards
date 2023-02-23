@@ -4,7 +4,6 @@ import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectorCardsPage } from "./cardsSelectors";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
@@ -19,7 +18,6 @@ import PATH from "../../common/constans/path/path";
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
-  let cardsPage = useSelector(selectorCardsPage);
   const status = useSelector(selectAppStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -40,7 +38,12 @@ export const CardsList = () => {
       card.answer,
       card.updated,
       card.grade,
-      <CardsActionsIconPack user_id={card.user_id} questionTitle={card.question} card_id={card._id} />
+      <CardsActionsIconPack
+        user_id={card.user_id}
+        questionTitle={card.question}
+        card_id={card._id}
+        pack_id={card.cardsPack_id}
+      />
     );
   });
   useEffect(() => {

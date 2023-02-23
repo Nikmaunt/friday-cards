@@ -1,6 +1,5 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import { ActionModal } from "./actionModal";
-import { ModalButtons } from "./modalButtons";
 import { EditPack } from "./editPack";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
