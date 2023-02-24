@@ -25,7 +25,7 @@ export const TitleWithButton = (props: TitleWithButtonPropsType) => {
   };
   return (
     <div className={s.titleButton}>
-      <h2>{title} </h2>
+      <h2>{title}</h2>
       {id && (
         <span className={s.learnIcon} onClick={learnPackHandler}>
           <SchoolOutlinedIcon className={s.learnIcon} />
