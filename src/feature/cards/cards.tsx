@@ -64,7 +64,7 @@ export const Cards = () => {
       {statusApp === "loading" ? (
         <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
       ) : (
-        <TitleWithButton title={packName} nameButton={"Add new card" } callback={addLearnHandler} />
+        <TitleWithButton title={packName} nameButton={resNameButton } callback={addLearnHandler} />
       )}
       <div className={s.search}>
         <SearchField />

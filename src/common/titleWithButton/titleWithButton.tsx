@@ -29,8 +29,7 @@ export const TitleWithButton = (props: TitleWithButtonPropsType) => {
             id && <span className={s.learnIcon} onClick={learnPackHandler}><SchoolOutlinedIcon className={s.learnIcon}/></span>
         }
             <div className={s.button}>
-                {userAuthId === userPackId ?
-                    <SuperButton name={nameButton} callback={callback}/> : null}
+                    <SuperButton name={nameButton} callback={callback}/>
             </div>
         </div>
     );

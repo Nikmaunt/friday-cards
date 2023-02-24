@@ -19,7 +19,6 @@ import Skeleton from "react-loading-skeleton";
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
-  let cardsPage = useSelector(selectorCardsPage);
   const status = useSelector(selectAppStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

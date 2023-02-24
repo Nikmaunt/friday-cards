@@ -54,7 +54,8 @@ export const LearnCardPack = () =>  {
         navigate(PATH.PACKS);
     };
     const onNextClickHandler =  () => {
-        const nextQuestion = generateRandomQuestion(cards)
+        // const nextQuestion = generateRandomQuestion(cards)
+        const nextQuestion = currentQuestion + 1
         if (nextQuestion < cards.length ) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)

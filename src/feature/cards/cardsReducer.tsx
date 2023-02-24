@@ -63,9 +63,10 @@ export const getUserCardByPackId =
     (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
         dispatch(setAppStatus("loading"));
         const {params} = getState().cards;
+        console.log(params,'params')
         try {
             // await cardsAPI.getCards(packID,{page,pageCount});
-            const res = await cardsAPI.getCards(packID, params);
+            const res = await cardsAPI.getCards(packID, {params});
             console.log("res cards", res);
             dispatch(setCurrentPackId(packID));
             dispatch(getCards(res.data));
@@ -105,9 +106,7 @@ export const updateUserCard =
         const cards = getState().cards
         try {
             await cardsAPI.udpateCard(grade, cardId);
-
             dispatch(getCards(cards));
-
         } catch (e) {
             const err = e as Error | AxiosError<{ error: string }>;
             errorUtils(err, dispatch);
