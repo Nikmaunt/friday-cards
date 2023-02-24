@@ -3,9 +3,7 @@ import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
   getCards(packID: string, params: any) {
-    console.log("cardAPI packID", packID);
-    const id = packID.replace(":id", "");
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${id}`, { params });
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`, { params });
   },
   udpateCard(grade: number, card_id: any) {
     return instanceHeroku.put<CardResponseType>("cards/grade", { grade, card_id });
