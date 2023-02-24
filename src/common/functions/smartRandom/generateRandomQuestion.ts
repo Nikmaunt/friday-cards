@@ -9,5 +9,5 @@ export const generateRandomQuestion = (cards: CardsType[]) => {
         }
         , {sum: 0, id: -1});
 
-    return res.id;
+    return Math.abs(res.id) ;
 }

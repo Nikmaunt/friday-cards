@@ -25,7 +25,6 @@ export const CardsList = () => {
   const statusApp = useSelector(selectAppStatus);
   useEffect(() => {
     if (id) {
-      console.log("1 use");
       dispatch(getUserCardByPackId(id));
     }
   }, []);
@@ -51,8 +50,6 @@ export const CardsList = () => {
   });
   useEffect(() => {
     if (cards && cards.length === 0 && status === "idle") {
-      console.log("2 use");
-
       navigate(PATH.EMPTY_PACK);
     }
   }, [status]);

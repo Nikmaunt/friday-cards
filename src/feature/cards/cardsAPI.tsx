@@ -2,16 +2,16 @@ import { instanceHeroku } from "../../app/appAPI";
 import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
-  getCards(packID: string,params:any) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`,{params});
+  getCards(packID: string,params?:CardParamsType) {
+    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`, {params});
   },
-  udpateCard(grade: number, card_id:any) {
-    return instanceHeroku.put<CardResponseType>('cards/grade',{grade,card_id});
+  udpateCard(grade: number, card_id:string) {
+    return instanceHeroku.put<GradeResponseType>('cards/grade',{grade,card_id});
   },
   addCard(newCard: NewCardRequestType) {
     return instanceHeroku.post("cards/card", newCard);
   },
-  deleteCard(id: string) {
+  deleteCard(id:string) {
     return instanceHeroku.delete(`cards/card?id=${id}`);
   },
   editCard(editCard: editCardType) {
@@ -21,6 +21,15 @@ export const cardsAPI = {
 
 
 ////////////////// types /////////////////
+export type GradeResponseType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
+}
+
 export type CardsType = {
   _id: string;
   cardsPack_id: string;
@@ -43,7 +52,7 @@ export type CardsType = {
 };
 export type CardResponseType = {
   cards: CardsType[];
-  params?:{}
+  params?: CardParamsType
   cardsTotalCount: number;
   maxGrade: number;
   minGrade: number;
@@ -58,6 +67,17 @@ export type CardResponseType = {
   tokenDeathTime: string;
 };
 
+export type CardParamsType = {
+      cardAnswer?:string;
+      cardQuestion?:string ;
+      cardsPack_id?:string;
+      min?:number;
+      max?:number;
+      sortCards?:"0grade";
+      page?:number;
+      pageCount?:number;
+
+}
 export type NewCardRequestType = {
   card: {
     cardsPack_id: string;

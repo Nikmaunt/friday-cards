@@ -30,7 +30,7 @@ export const Cards = () => {
   };
 
   const learnFriendPackHandler = () => {
-    console.log("LEARN PACK");
+    navigate(`${PATH.LEARN_PACK}${id}`);
   };
 
   const CardEmpty = {

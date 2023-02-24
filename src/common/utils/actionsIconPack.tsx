@@ -18,19 +18,25 @@ type ActionsIconPackType = {
     pack_id: string;
     user_id: string;
     pack_name: string;
+    cards_count: number
 };
 
-export const ActionsIconPack = ({user_id, pack_id, pack_name}: ActionsIconPackType) => {
-    const dispatch = useAppDispatch();
+export const ActionsIconPack = ({user_id, pack_id, pack_name, cards_count}: ActionsIconPackType) => {
     const navigate = useNavigate()
+    const dispatch = useAppDispatch();
     const [activeEditPack, setActiveEditPack] = useState(false);
     const [activeDeletePack, setActiveDeletePack] = useState(false);
     const userAuthId = useSelector(selectorIdUser);
 
     const learnPackCallback = () => {
-        dispatch(getAllUserCards(pack_id))
-        navigate(`${PATH.LEARN_PACK}${pack_id}`)
-    };
+            if (cards_count === 0) {
+                navigate(PATH.EMPTY_PACK);
+            } else {
+                dispatch(getAllUserCards(pack_id));
+                navigate(`${PATH.LEARN_PACK}${pack_id}`)
+            }
+        }
+    ;
 
     const editPackModalHandler = () => {
         setActiveEditPack(true);

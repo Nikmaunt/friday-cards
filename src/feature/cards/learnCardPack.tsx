@@ -14,12 +14,12 @@ import {useSelector} from "react-redux";
 import {selectorCards, selectorPackName} from "./cardsSelectors";
 import {useAppDispatch} from "../../app/store";
 import { useEffect} from "react";
-import {getAllUserCards,  updateUserCard} from "./cardsReducer";
+import {getAllUserCards, getCards, updateUserCard} from "./cardsReducer";
 import {useNavigate, useParams} from "react-router-dom";
 import {SuperButton} from "../../common/superButton/superButton";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
-import { selectorAuth} from "../../app/appSelectors";
+import {selectAppStatus, selectorAuth} from "../../app/appSelectors";
 import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
 
 
@@ -34,12 +34,14 @@ export const LearnCardPack = () =>  {
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
     const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : '');
     const [cardGrade , setCardGrade] = React.useState<number>(cards?  cards[currentQuestion].grade : 0);
+    // const [cardShot , setCardShot] = React.useState<number>(cards?  cards[currentQuestion].shots : 0);
 
     useEffect(() => {
         if (isAuth && cards === undefined && id) {
             dispatch(getAllUserCards(id));
         }
     },[isAuth])
+
 
     useEffect(() => {
         if (cards && cards[currentQuestion]) {
@@ -54,17 +56,16 @@ export const LearnCardPack = () =>  {
         navigate(PATH.PACKS);
     };
     const onNextClickHandler =  () => {
-        // const nextQuestion = generateRandomQuestion(cards)
-        const nextQuestion = currentQuestion + 1
+        const nextQuestion = generateRandomQuestion(cards)
         if (nextQuestion < cards.length ) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)
             dispatch(updateUserCard(cardGrade,cardId))
             setExpanded(!expanded)
         }
-        if (nextQuestion === cards.length) {
+        else {
             setExpanded(!expanded)
-            setCurrentQuestion(0)
+            dispatch(updateUserCard(cardGrade,cardId))
         }
     }
     return (
