@@ -12,9 +12,11 @@ export const EditPack = (props: EditPackPropsType) => {
   const dispatch = useAppDispatch();
   const [packName, setPackName] = useState<string | undefined>(props.pack_name);
   const [addPackName, setAddPackName] = useState<string>("");
-  const [checked, setChecked] = useState([true, false]);
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked([event.target.checked, checked[1]]);
+  const [checked, setChecked] = useState(false);
+
+  const handleChange = () => {
+    console.log("checked", checked);
+    setChecked(!checked);
   };
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +28,7 @@ export const EditPack = (props: EditPackPropsType) => {
   };
 
   const onKeyDownSaveAddPackNameHandler = async () => {
-    const newPack = { cardsPack: { name: addPackName } };
+    const newPack = { cardsPack: { name: addPackName, private: checked } };
     await dispatch(addPackTC(newPack));
     props.setActive(false);
   };
@@ -49,8 +51,9 @@ export const EditPack = (props: EditPackPropsType) => {
       />
       <FormControlLabel
         label="Private pack"
+        value={checked}
         className={s.checkbox}
-        control={<Checkbox checked={checked[1]} onChange={handleChange} />}
+        control={<Checkbox checked={checked} onChange={handleChange} />}
       />
       <ModalButtons
         mode={"editPack"}
