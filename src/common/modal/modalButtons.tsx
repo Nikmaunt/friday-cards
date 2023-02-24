@@ -5,14 +5,6 @@ import { addPackTC, deletePackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { deleteCardTC } from "../../feature/cards/cardsReducer";
 
-export type ButtonsPropsType = {
-  mode: "add" | "editPack" | "deleteCard" | "deletePack" | "addCard" | "editCard";
-  pack_id?: string;
-  card_id?: string;
-  changeName?: () => void;
-  onKeyDownSaveChangeNameHandler?: () => void;
-};
-
 export const ModalButtons = (props: ButtonsPropsType) => {
   const dispatch = useAppDispatch();
   const addNewPacksHandler = () => {
@@ -29,7 +21,9 @@ export const ModalButtons = (props: ButtonsPropsType) => {
     }
   };
 
-  const cancelButtonHandler = () => {};
+  const cancelButtonHandler = () => {
+    props.setActive(false);
+  };
 
   return (
     <div className={s.buttonBox}>
@@ -51,4 +45,14 @@ export const ModalButtons = (props: ButtonsPropsType) => {
       )}
     </div>
   );
+};
+
+export type ButtonsPropsType = {
+  mode: "add" | "editPack" | "deleteCard" | "deletePack" | "addCard" | "editCard";
+  pack_id?: string;
+  card_id?: string;
+  changeName?: () => void;
+  onKeyDownSaveChangeNameHandler?: () => void;
+  active: boolean;
+  setActive: any;
 };

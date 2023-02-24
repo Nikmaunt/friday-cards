@@ -4,12 +4,12 @@ import PATH from "../../common/constans/path/path";
 import { useAppDispatch } from "../../app/store";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {selectorPackName, selectorPackUserId} from "../cards/cardsSelectors";
+import { selectorCards, selectorPackName, selectorPackUserId } from "../cards/cardsSelectors";
 import { SuperButton } from "../../common/superButton/superButton";
-import {selectAppStatus, selectorPackId, selectorUserId} from "../../app/appSelectors";
+import { selectAppStatus, selectorPackId, selectorUserId } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
-import {useState} from "react";
-import {AddNewCardModal} from "../../common/modal/addNewCardModal";
+import { useState } from "react";
+import { AddNewCardModal } from "../../common/modal/addNewCardModal";
 
 export const EmptyPageField = () => {
   const navigate = useNavigate();
@@ -27,10 +27,9 @@ export const EmptyPageField = () => {
     navigate(PATH.PACKS);
   };
 
-  // const addNewCardHandler = async () => {
-  //   await dispatch(addNewCardTC(packId));
-  // navigate(`${PATH.CARDS_LIST}${packId}`);
-  // };
+  const addNewCardsHandler = () => {
+    setActiveAddNewCard(true);
+  };
 
   const addNewPackModalHandler = async () => {
     setActiveAddNewCard(true);
@@ -47,7 +46,8 @@ export const EmptyPageField = () => {
           {isUserCardPack ? <p>This pack is empty.Click add new card to fill this pack</p> : <p>This pack is empty.</p>}
           <div className={s.emptyPageButton}>
             {/*{isUserCardPack && <SuperButton name={"Add new card"} callback={addNewCardHandler} />}*/}
-            {isUserCardPack && <SuperButton name={"Add new card"} callback={addNewPackModalHandler} />}
+            {/*{isUserCardPack && <SuperButton name={"Add new card"} callback={addNewPackModalHandler} />}*/}
+            {isUserCardPack && <SuperButton name={"Add new card"} callback={addNewCardsHandler} />}
           </div>
           <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={packId} />
         </div>

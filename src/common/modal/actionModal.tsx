@@ -6,13 +6,6 @@ import s from "./actionModal.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { FC, ReactNode } from "react";
 
-type PropsType = {
-  children?: ReactNode;
-  title: string;
-  active: boolean;
-  setActive: any;
-};
-
 export const ActionModal: FC<PropsType> = ({ children, title, active, setActive }) => {
   const handleClose = () => {
     setActive(false);
@@ -37,4 +30,11 @@ export const ActionModal: FC<PropsType> = ({ children, title, active, setActive 
       </Modal>
     </div>
   );
+};
+
+type PropsType = {
+  children?: ReactNode;
+  title: string;
+  active: boolean;
+  setActive: any;
 };

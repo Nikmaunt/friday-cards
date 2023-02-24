@@ -9,13 +9,6 @@ import Checkbox from "@mui/material/Checkbox";
 import { EditPack } from "./editPack";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type PackIdType = {
-  pack_id: string;
-  pack_name: string;
-};
-
-type EditPackModalPropsType = ActivateModalPropsType & PackIdType;
-
 export const EditPackModal = (props: EditPackModalPropsType) => {
   return (
     <ActionModal title="Edit pack" active={props.active} setActive={props.setActive}>
@@ -23,3 +16,10 @@ export const EditPackModal = (props: EditPackModalPropsType) => {
     </ActionModal>
   );
 };
+
+type PackIdType = {
+  pack_id: string;
+  pack_name: string;
+};
+
+type EditPackModalPropsType = ActivateModalPropsType & PackIdType;

@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addNewCardTC, getCards } from "./cardsReducer";
 import {selectAppStatus, selectorUserId} from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
+import { AddNewPackModal } from "../../common/modal/addNewPackModal";
+import { AddNewCardModal } from "../../common/modal/addNewCardModal";
 
 export const Cards = () => {
   const { id } = useParams();
@@ -22,11 +24,11 @@ export const Cards = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
-  const addNewCardsHandler = async () => {
-    if (id) await dispatch(addNewCardTC(id,'',''));
-    //await dispatch(getUserCardByPackId(packId));
-    //return <Navigate to={`${PATH.CARDS_LIST}:${packId}`} />;
-    //navigate(`${PATH.CARDS_LIST}:${packId}`);
+
+  const [activeAddNewCard, setActiveAddNewCard] = useState(false);
+
+  const addNewCardsHandler = () => {
+    setActiveAddNewCard(true);
   };
 
   const learnFriendPackHandler = () => {
@@ -69,7 +71,8 @@ export const Cards = () => {
       <div className={s.search}>
         <SearchField />
       </div>
-
+      <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={id} />
+      {/*<AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />*/}
       {/*{statusApp === "loading" ? (*/}
       {/*  <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />*/}
       {/*) : (*/}

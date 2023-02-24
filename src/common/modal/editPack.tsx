@@ -8,13 +8,6 @@ import { useAppDispatch } from "../../app/store";
 import { ModalButtons } from "./modalButtons";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type EditPackPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  pack_id?: string;
-  pack_name?: string;
-};
-
 export const EditPack = (props: EditPackPropsType) => {
   const dispatch = useAppDispatch();
   const [packName, setPackName] = useState<string | undefined>(props.pack_name);
@@ -62,6 +55,8 @@ export const EditPack = (props: EditPackPropsType) => {
       <ModalButtons
         mode={"editPack"}
         pack_id={props.pack_id}
+        active={props.active}
+        setActive={props.setActive}
         changeName={() => changeName}
         onKeyDownSaveChangeNameHandler={
           props.pack_id ? onKeyDownSaveChangePackNameHandler : onKeyDownSaveAddPackNameHandler
@@ -69,4 +64,11 @@ export const EditPack = (props: EditPackPropsType) => {
       />
     </div>
   );
+};
+
+type EditPackPropsType = ActivateModalPropsType & Partial<PropsType>;
+
+type PropsType = {
+  pack_id: string;
+  pack_name: string;
 };

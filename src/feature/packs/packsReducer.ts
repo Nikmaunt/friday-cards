@@ -58,6 +58,7 @@ export const setSearchFieldEmpty = (value: boolean) => {
 export const setIsActiveMyPacks = (value: boolean) => {
   return { type: PacksActions.SetActivePacks, payload: { value } as const };
 };
+
 /////////////////// THUNK CREATORS ////////////////////////
 export const fetchPacksTC = () => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
   dispatch(setAppStatus("loading"));
@@ -87,10 +88,8 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
 };
 
 export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
-  console.log("deletePackTC packId", id);
   dispatch(setAppStatus("loading"));
   try {
-    // const res = await packsAPI.deletePack(id);
     await packsAPI.deletePack(id);
     await dispatch(fetchPacksTC());
   } catch (e) {
@@ -110,7 +109,6 @@ export const editPackTC = (id: string, newName: string) => async (dispatch: AppT
     },
   };
   try {
-    // const res = await packsAPI.editPack(editCardPack);
     await packsAPI.editPack(editCardPack);
     await dispatch(fetchPacksTC());
   } catch (e) {
@@ -143,6 +141,7 @@ export const PacksActions = {
   SetParams: "SET_PARAMS",
   SetSearchField: "SET_SEARCH_FIELD",
   SetActivePacks: "SET-ACTIVE-PACKS",
+  SetActiveModalPack: "SET-MODAL-PACK",
 } as const;
 
 export type PackParamsType = {

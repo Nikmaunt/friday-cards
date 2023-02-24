@@ -4,7 +4,6 @@ export const selectorRowsPerPage = (state: RootReducerType) => state.packs.pageC
 export const selectorPage = (state: RootReducerType) => state.packs.page;
 export const selectorPacks = (state: RootReducerType) => state.packs;
 export const selectorPacksParams = (state: RootReducerType) => state.packs.params;
-export const selectorPackName = (state: RootReducerType) => state.packs.params.packName;
 export const selectorMinn = (state: RootReducerType) => state.packs.minCardsCount;
 export const selectorMaxxx = (state: RootReducerType) => state.packs.maxCardsCount;
 export const selectorMin = (state: RootReducerType) => state.packs.params.min;
