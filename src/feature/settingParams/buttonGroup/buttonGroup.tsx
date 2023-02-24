@@ -3,49 +3,34 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import s from "../searchField/SearchField.module.css";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectorIdUser } from "../../loginRegistration/selectors";
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setIsActiveMyPacks, setPacksParams } from "../../packs/packsReducer";
+import { setIsActiveMyPacks, setPacksParams } from "../../packs/packsReducer";
 import { selectorIsActiveMyPacks } from "../../packs/packsSelectors";
 
 export const GroupButtons = () => {
-  console.log("GroupButtons rerender");
   const idUser = useSelector(selectorIdUser);
   const isActiveMyPacks = useSelector(selectorIsActiveMyPacks);
-  console.log("idUser", idUser);
   const dispatch = useAppDispatch();
-  const [activeMy, setActiveMy] = useState<boolean>(isActiveMyPacks);
-  const [activeAll, setActiveAll] = useState<boolean>(!activeMy);
 
-  const colorActiveMyButton = activeMy ? "#FFFFFF" : "#000000";
-  const colorActiveAllButton = activeAll ? "#FFFFFF" : "#000000";
-  const bgColorMyButton = activeMy ? "#366EFF;" : "#FFFFFF";
-  const bgColorAllButton = activeAll ? "#366EFF;" : "#FFFFFF";
+  const colorActiveMyButton = isActiveMyPacks ? "#FFFFFF" : "#000000";
+  const colorActiveAllButton = !isActiveMyPacks ? "#FFFFFF" : "#000000";
+  const bgColorMyButton = isActiveMyPacks ? "#366EFF;" : "#FFFFFF";
+  const bgColorAllButton = !isActiveMyPacks ? "#366EFF;" : "#FFFFFF";
 
   const myButtonHandler = () => {
-    if (!activeMy) {
-      setActiveMy(true);
-      setActiveAll(false);
-    }
     const params = { user_id: idUser };
     dispatch(setIsActiveMyPacks(true));
     dispatch(setPacksParams(params));
-    //dispatch(fetchPacksTC());
   };
 
   const allButtonHandler = () => {
-    if (!activeAll) {
-      setActiveAll(true);
-      setActiveMy(false);
-    }
     const params = { user_id: "" };
     dispatch(setIsActiveMyPacks(false));
-
     dispatch(setPacksParams(params));
-    //dispatch(fetchPacksTC());
   };
+
   const buttons = [
     <Button
       onClick={myButtonHandler}
