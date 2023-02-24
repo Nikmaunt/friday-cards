@@ -1,9 +1,9 @@
 import { instanceHeroku } from "../../app/appAPI";
-import { editCardType } from "./cardsReducer";
+import {CardParamsType, CardsType, editCardType} from "./cardsReducer";
 
 export const cardsAPI = {
-  getCards(packID: string,params?:CardParamsType) {
-    return instanceHeroku.get<CardResponseType>(`cards/card?cardsPack_id=${packID}`, {params});
+  getCards(packID: string, params?:CardParamsType) {
+    return instanceHeroku.get<CardRequestType>(`cards/card?cardsPack_id=${packID}`, {params});
   },
   udpateCard(grade: number, card_id:string) {
     return instanceHeroku.put<GradeResponseType>('cards/grade',{grade,card_id});
@@ -21,38 +21,9 @@ export const cardsAPI = {
 
 
 ////////////////// types /////////////////
-export type GradeResponseType = {
-    _id: string
-    cardsPack_id: string
-    card_id: string
-    user_id: string
-    grade: number
-    shots: number
-}
 
-export type CardsType = {
-  _id: string;
-  cardsPack_id: string;
-  user_id: string;
-  question: string;
-  answer: string;
-  grade: number;
-  shots: number;
-  questionImg: string;
-  answerImg: string;
-  comments: string;
-  type: string;
-  rating: number;
-  more_id: string;
-  created: string;
-  updated: string;
-  _v: number;
-  answerVideo: string;
-  questionVideo: string;
-};
-export type CardResponseType = {
+export type CardRequestType = {
   cards: CardsType[];
-  params?: CardParamsType
   cardsTotalCount: number;
   maxGrade: number;
   minGrade: number;
@@ -67,17 +38,16 @@ export type CardResponseType = {
   tokenDeathTime: string;
 };
 
-export type CardParamsType = {
-      cardAnswer?:string;
-      cardQuestion?:string ;
-      cardsPack_id?:string;
-      min?:number;
-      max?:number;
-      sortCards?:"0grade";
-      page?:number;
-      pageCount?:number;
 
+export type GradeResponseType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
+
 export type NewCardRequestType = {
   card: {
     cardsPack_id: string;

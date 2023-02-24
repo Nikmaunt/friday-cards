@@ -1,4 +1,5 @@
-import {CardsType} from "../../../feature/cards/cardsAPI";
+import {CardsType} from "../../../feature/cards/cardsReducer";
+
 
 export const generateRandomQuestion = (cards: CardsType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);

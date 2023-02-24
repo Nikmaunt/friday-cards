@@ -2,9 +2,9 @@ import { AppThunkDispatch, RootReducerType } from "../../app/store";
 import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
+import {cardsAPI, NewCardRequestType} from "./cardsAPI";
 
-const initialCardsState = {} as CardResponseType;
+const initialCardsState = {} as CardStateType;
 
 // const initialCardsState = {
 //     cards: [],
@@ -32,7 +32,7 @@ const initialCardsState = {} as CardResponseType;
 //     tokenDeathTime: '',
 // };
 
-export const cardsReducer = (state = initialCardsState, action: CardsActionCreatorsType): CardResponseType => {
+export const cardsReducer = (state = initialCardsState, action: CardsActionCreatorsType): CardStateType => {
   switch (action.type) {
     case CardsActions.GetCards:
       return { ...action.payload.cards };
@@ -48,7 +48,7 @@ export const cardsReducer = (state = initialCardsState, action: CardsActionCreat
 };
 
 /////////////////// ACTION CREATORS ///////////////////////
-export const getCards = (cards: CardResponseType) => {
+export const getCards = (cards: CardStateType) => {
   return {
     type: CardsActions.GetCards,
     payload: {
@@ -80,7 +80,7 @@ export const deleteCard = (id: string) => {
     },
   };
 };
-export const setCardsParams = (params: any) => {
+export const setCardsParams = (params: CardParamsType) => {
   return { type: CardsActions.SetParams, payload: { params } as const };
 };
 /////////////////// THUNK CREATORS ////////////////////////
@@ -91,6 +91,7 @@ export const getUserCardByPackId =
         try {
             const res = await cardsAPI.getCards(packID, {...params});
             dispatch(setCurrentPackId(packID));
+            console.log(res.data , 'RES DATA')
             dispatch(getCards(res.data));
         } catch (e) {
             const err = e as Error | AxiosError<{ error: string }>;
@@ -122,7 +123,7 @@ export const updateUserCard =
         dispatch(setAppStatus("loading"));
         const cards = getState().cards;
         try {
-            await cardsAPI.udpateCard(grade, cardId);
+             await cardsAPI.udpateCard(grade, cardId);
             dispatch(getCards(cards));
         } catch (e) {
             const err = e as Error | AxiosError<{ error: string }>;
@@ -187,7 +188,54 @@ export const editCardTC =
   };
 
 //////////// types //////////////
+export type CardsType = {
+    _id: string;
+    cardsPack_id: string;
+    user_id: string;
+    question: string;
+    answer: string;
+    grade: number;
+    shots: number;
+    questionImg: string;
+    answerImg: string;
+    comments: string;
+    type: string;
+    rating: number;
+    more_id: string;
+    created: string;
+    updated: string;
+    _v: number;
+    answerVideo: string;
+    questionVideo: string;
+};
+export type CardStateType = {
+    cards: CardsType[];
+    params?: CardParamsType
+    cardsTotalCount: number;
+    maxGrade: number;
+    minGrade: number;
+    packCreated: string;
+    packName: string;
+    packPrivate: boolean;
+    packUpdated: string;
+    packUserId: string;
+    page: number;
+    pageCount: number;
+    token: string;
+    tokenDeathTime: string;
+};
 
+export type CardParamsType = {
+    cardAnswer?:string;
+    cardQuestion?:string ;
+    cardsPack_id?:string;
+    min?:number;
+    max?:number;
+    sortCards?:"0grade";
+    page?:number;
+    pageCount?:number;
+
+}
 export const CardsActions = {
   GetCards: "GET-CARDS",
   SetCardsPageNumber: "SET-PAGE-NUMBER",
