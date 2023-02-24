@@ -13,7 +13,6 @@ import { logoutUser } from "../../feature/loginRegistration/authReducer";
 import { useAppDispatch } from "../../app/store";
 import PATH from "../constans/path/path";
 import { useNavigate } from "react-router-dom";
-
 import profileUserLogo from "./img/profileUserLogo.png";
 import arrowIcon from "../../feature/profile/img/logOutArrow.png";
 
@@ -40,29 +39,21 @@ export const HeaderDropdown = () => {
 
   return (
     <div>
-      <Button
-        id="basic-button"
-        aria-controls={open ? "basic-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
-      >
+      <Button onClick={handleClick}>
         <Stack className={s.userProfile} direction="row" spacing={1}>
-          <h4 style={{ color: "black" }}>{userName}</h4>
-          <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />
+          <h4 className={s.titleName}>{userName}</h4>
+          <Avatar className={s.avatar} alt="userName" src={userPhoto} />
         </Stack>
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem onClick={goToProfile}> <img src={profileUserLogo } style={{ width: 12, height: 12, marginRight:3 }} alt="profileUserLogo" />Profile</MenuItem>
-        <MenuItem onClick={logOutHandler}> <img src={arrowIcon} style={{ width: 20, height: 20, marginLeft:-6}} alt="logoutIcon" />Logout</MenuItem>
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <MenuItem className={s.menuItem} onClick={goToProfile}>
+          <img className={s.profileUserLogo} src={profileUserLogo} alt="profileUserLogo" />
+          Profile
+        </MenuItem>
+        <MenuItem className={s.menuItem} onClick={logOutHandler}>
+          <img className={s.logoutIcon} src={arrowIcon} alt="logoutIcon" />
+          Logout
+        </MenuItem>
       </Menu>
     </div>
   );

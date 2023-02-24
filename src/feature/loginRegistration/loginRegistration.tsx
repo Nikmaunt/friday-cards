@@ -87,7 +87,6 @@ export const LoginRegistration = () => {
 
   if (isAuth) {
     return <Navigate to={PATH.PACKS} />;
-    //return <Navigate to={PATH.PACKS_FULL} />;
   }
 
   return (
@@ -155,7 +154,7 @@ export const LoginRegistration = () => {
                   checked={formik.values.rememberMe}
                 />
                 <div className={s.linkToPassword}>
-                  <NavLink to="/friday-cards/forgot-password">Forgot Password?</NavLink>
+                  <NavLink to={PATH.FORGOT_PASSWORD}>Forgot Password?</NavLink>
                 </div>
               </div>
             )}

@@ -12,7 +12,6 @@ import { EmptyPageField } from "../feature/packs/emptyPageField";
 import { LearnCardPack } from "../feature/cards/learnCardPack";
 
 export const Pages = () => {
-  //const auth = useSelector(selectorAuth);
   return (
     <Routes>
       <Route path={PATH.LOGIN} element={<LoginRegistration />}></Route>

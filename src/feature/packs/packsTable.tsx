@@ -10,9 +10,8 @@ import { PacksTableBody } from "./packsTableBody";
 import { PacksTablePagination } from "./packsTablePagination";
 import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
 import { NotFoundPage } from "./notFoundPage";
-
+import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
@@ -42,7 +41,7 @@ export const PacksTable = () => {
       pack.name,
       pack.cardsCount,
       pack.user_name,
-      pack.updated.substring(0,10),
+      pack.updated.substring(0, 10),
       pack._id,
       <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} />
     );
@@ -51,7 +50,7 @@ export const PacksTable = () => {
   return (
     <div>
       {statusApp === "loading" ? (
-        <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
+        <SkeletonLoader count={5} height={"60px"} />
       ) : (
         <div>
           {isPacksEmpty ? (

@@ -7,24 +7,22 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/store";
 import { setPacksParams } from "../../packs/packsReducer";
-import { selectorMax, selectorMaxxx, selectorMin, selectorMinn } from "../../packs/packsSelectors";
+import { selectorIsClearSearchField, selectorMax, selectorMin } from "../../packs/packsSelectors";
 
 export const SliderField = () => {
   const dispatch = useAppDispatch();
 
-  const minValueParamsCards = useSelector(selectorMin);
-  const minValue = useSelector(selectorMinn);
-  const maxValueParamsCards = useSelector(selectorMax);
-  const maxValue = useSelector(selectorMaxxx);
+  const isClearField = useSelector(selectorIsClearSearchField);
+  const minValue = useSelector(selectorMin);
+  const maxValue = useSelector(selectorMax);
 
   useEffect(() => {
-    if (minValueParamsCards === 0 && maxValueParamsCards === 0) {
-      // dispatch(setPacksParams({ min: minValue, max: maxValue }));
+    if (isClearField) {
       setValue([minValue, maxValue]);
     }
-  }, [minValueParamsCards, maxValueParamsCards, minValue, maxValue]);
+  }, [isClearField]);
 
-  const [value, setValue] = useState([minValueParamsCards as number, maxValueParamsCards as number]);
+  const [value, setValue] = useState([minValue, maxValue]);
 
   const handlerChangeCommitted = (event: React.SyntheticEvent | Event, newValue: number | Array<number>) => {
     setValue(newValue as number[]);

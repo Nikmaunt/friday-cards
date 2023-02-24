@@ -142,6 +142,7 @@ export const PacksActions = {
   SetSearchField: "SET_SEARCH_FIELD",
   SetActivePacks: "SET-ACTIVE-PACKS",
   SetActiveModalPack: "SET-MODAL-PACK",
+  ClearMaxMinCardsValue: "CLEAR-MAX-MIN-VALUE",
 } as const;
 
 export type PackParamsType = {

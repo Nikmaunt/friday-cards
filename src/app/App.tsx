@@ -15,8 +15,6 @@ const App = () => {
   return (
     <>
       <Header />
-      {/*{!isInitialized && <InitializedLoader />}*/}
-      {/*{status === "loading" && <StatusLoader />}*/}
       <Pages />
       <ErrorSnackbar />
     </>

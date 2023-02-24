@@ -44,6 +44,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const SearchField = () => {
   const dispatch = useAppDispatch();
   const isClearField = useSelector(selectorIsClearSearchField);
+  const [isClear, setClear] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isClearField) {
+      setSearchText("");
+      dispatch(setSearchFieldEmpty(false));
+    }
+  }, [isClearField]);
+
   const useDebounce = (value: string, delay?: number) => {
     const [debouncedValue, setDebouncedValue] = useState<string>(value);
     useEffect(() => {
@@ -61,21 +70,16 @@ export const SearchField = () => {
   const debouncedValue = useDebounce(searchText, 800);
 
   useEffect(() => {
-    const params = { packName: debouncedValue };
-    if (debouncedValue) {
+    if (isClear) {
+      const params = { packName: debouncedValue };
       dispatch(setPacksParams(params));
+      setClear(false);
     }
   }, [debouncedValue]);
 
-  useEffect(() => {
-    if (isClearField) {
-      setSearchText("");
-      dispatch(setSearchFieldEmpty(false));
-    }
-  }, [isClearField]);
-
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
+    setClear(true);
   };
   return (
     <div className={s.wrapper}>
