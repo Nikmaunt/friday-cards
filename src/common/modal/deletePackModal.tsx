@@ -2,13 +2,6 @@ import React from "react";
 import { DeleteConfirmation } from "./deleteConfirmation";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type DeletePackModalPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  pack_id: string;
-  pack_name: string;
-};
-
 export const DeletePackModal = (props: DeletePackModalPropsType) => {
   return (
     <DeleteConfirmation
@@ -19,4 +12,11 @@ export const DeletePackModal = (props: DeletePackModalPropsType) => {
       pack_id={props.pack_id}
     />
   );
+};
+
+type DeletePackModalPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
+  pack_id: string;
+  pack_name: string;
 };

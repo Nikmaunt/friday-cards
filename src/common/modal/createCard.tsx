@@ -1,25 +1,16 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import s from "./actionModal.module.css";
 import { TextField } from "@mui/material";
 import { SelectQuestion } from "./selectQuestion";
 import { ModalButtons } from "./modalButtons";
 import { useAppDispatch } from "../../app/store";
-import { addNewCardTC, editCardTC, getUserCardByPackId } from "../../feature/cards/cardsReducer";
+import { addNewCardTC, editCardTC } from "../../feature/cards/cardsReducer";
+import { useNavigate } from "react-router-dom";
+import PATH from "../../common/constans/path/path";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type CreateNewCardPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  mode: "editCard" | "addCard";
-  pack_id: string;
-  card_id?: string;
-  changeName: () => void;
-  pack_name?: string;
-  questionTitle?: string;
-  answer?: string;
-};
-
 export const CreateCard = (props: CreateNewCardPropsType) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
@@ -33,12 +24,16 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   };
 
   const onKeyDownSaveAddCardHandler = async () => {
-    await dispatch(addNewCardTC(props.pack_id, question, answer));
-    props.setActive(false);
+    if (props.pack_id) {
+      console.log("add card");
+      await dispatch(addNewCardTC(props.pack_id, question, answer));
+      navigate(PATH.CARDS_LIST_BY_ID);
+      // props.setActive(false);
+    }
   };
 
   const onKeyDownSaveChangeCardHandler = () => {
-    if (props.card_id) {
+    if (props.card_id && props.pack_id) {
       dispatch(editCardTC(props.pack_id, props.card_id, question, answer));
     }
   };
@@ -65,6 +60,8 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
         <ModalButtons
           mode={"editCard"}
           pack_id={props.pack_id}
+          active={props.active}
+          setActive={props.setActive}
           // changePackName={() => alert("pack")}
           changeName={props.changeName}
           onKeyDownSaveChangeNameHandler={onKeyDownSaveChangeCardHandler}
@@ -73,6 +70,8 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
         <ModalButtons
           mode={"addCard"}
           pack_id={props.pack_id}
+          active={props.active}
+          setActive={props.setActive}
           // changePackName={() => alert("pack")}
           changeName={props.changeName}
           onKeyDownSaveChangeNameHandler={onKeyDownSaveAddCardHandler}
@@ -80,4 +79,18 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
       )}
     </div>
   );
+};
+
+type CreateNewCardPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
+  mode: "editCard" | "addCard";
+  pack_id: string | undefined;
+  card_id?: string;
+  changeName: () => void;
+  pack_name?: string;
+  questionTitle?: string;
+  answer?: string;
+  active: boolean;
+  setActive: string;
 };

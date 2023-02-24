@@ -118,6 +118,7 @@ export const addNewCardTC = (id: string, question: string, answer: string) => as
   };
   try {
     await cardsAPI.addCard(newCard);
+    console.log("reducer id", id);
     await dispatch(getUserCardByPackId(id));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;

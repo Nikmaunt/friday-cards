@@ -14,6 +14,7 @@ import { getCards } from "./cardsReducer";
 import { selectAppStatus, selectorUserId } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
 import { AddNewPackModal } from "../../common/modal/addNewPackModal";
+import { AddNewCardModal } from "../../common/modal/addNewCardModal";
 
 export const Cards = () => {
   const { id } = useParams();
@@ -24,10 +25,10 @@ export const Cards = () => {
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
 
-  const [activeAddNewPack, setActiveAddNewPack] = useState(false);
+  const [activeAddNewCard, setActiveAddNewCard] = useState(false);
 
-  const addNewCardsHandler = async () => {
-    setActiveAddNewPack(true);
+  const addNewCardsHandler = () => {
+    setActiveAddNewCard(true);
   };
 
   const learnFriendPackHandler = () => {
@@ -70,8 +71,8 @@ export const Cards = () => {
       <div className={s.search}>
         <SearchField />
       </div>
-      <AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />
-
+      <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={id} />
+      {/*<AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />*/}
       {/*{statusApp === "loading" ? (*/}
       {/*  <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />*/}
       {/*) : (*/}

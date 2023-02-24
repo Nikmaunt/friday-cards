@@ -5,15 +5,6 @@ import Typography from "@mui/material/Typography";
 import { ModalButtons } from "./modalButtons";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type DeleteConfirmationPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  title: string;
-  removeItem: string;
-  pack_id: string;
-  card_id?: string;
-};
-
 export const DeleteConfirmation = (props: DeleteConfirmationPropsType) => {
   return (
     <ActionModal title={props.title} active={props.active} setActive={props.setActive}>
@@ -26,10 +17,25 @@ export const DeleteConfirmation = (props: DeleteConfirmationPropsType) => {
         </Typography>
       </div>
       {props.card_id ? (
-        <ModalButtons mode={"deleteCard"} card_id={props.card_id} pack_id={props.pack_id} />
+        <ModalButtons
+          mode={"deleteCard"}
+          card_id={props.card_id}
+          pack_id={props.pack_id}
+          active={props.active}
+          setActive={props.setActive}
+        />
       ) : (
-        <ModalButtons mode={"deletePack"} pack_id={props.pack_id} />
+        <ModalButtons mode={"deletePack"} pack_id={props.pack_id} active={props.active} setActive={props.setActive} />
       )}
     </ActionModal>
   );
+};
+
+type DeleteConfirmationPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
+  title: string;
+  removeItem: string;
+  pack_id: string;
+  card_id?: string;
 };

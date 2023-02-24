@@ -3,12 +3,6 @@ import { ActionModal } from "./actionModal";
 import { CreateCard } from "./createCard";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type AddNewCardModalPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  pack_id: string;
-};
-
 export const AddNewCardModal = (props: AddNewCardModalPropsType) => {
   console.log("pack_id", props.pack_id);
   return (
@@ -22,4 +16,10 @@ export const AddNewCardModal = (props: AddNewCardModalPropsType) => {
       />
     </ActionModal>
   );
+};
+
+type AddNewCardModalPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
+  pack_id: string | undefined;
 };

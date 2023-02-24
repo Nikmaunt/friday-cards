@@ -3,15 +3,6 @@ import { ActionModal } from "./actionModal";
 import { CreateCard } from "./createCard";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 
-type EditModalPropsType = ActivateModalPropsType & PropsType;
-
-type PropsType = {
-  pack_id: string;
-  card_id?: string;
-  questionTitle: string;
-  answer: string;
-};
-
 export const EditCardModal = (props: EditModalPropsType) => {
   return (
     <ActionModal title="Edit card" active={props.active} setActive={props.setActive}>
@@ -27,4 +18,13 @@ export const EditCardModal = (props: EditModalPropsType) => {
       />
     </ActionModal>
   );
+};
+
+type EditModalPropsType = ActivateModalPropsType & PropsType;
+
+type PropsType = {
+  pack_id: string;
+  card_id?: string;
+  questionTitle: string;
+  answer: string;
 };
