@@ -3,10 +3,10 @@ import React from "react";
 import s from "../SettingParams.module.css";
 import { useSearchParams } from "react-router-dom";
 import { useAppDispatch } from "../../../app/store";
-import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
+import { setIsActiveMyPacks, setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
+
 export const ClearButton = () => {
   const dispatch = useAppDispatch();
-
   let [searchParams, setSearchParams] = useSearchParams();
 
   const clearParams = () => {
@@ -21,8 +21,8 @@ export const ClearButton = () => {
       block: false,
     };
     dispatch(setSearchFieldEmpty(true));
+    dispatch(setIsActiveMyPacks(false));
     dispatch(setPacksParams(params));
-    //dispatch(fetchPacksTC());
   };
   return (
     <div onClick={clearParams} className={s.wrapperClearButton}>

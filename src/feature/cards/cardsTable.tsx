@@ -4,7 +4,7 @@ import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectorCardsPage} from "./cardsSelectors";
+import { selectorCardsPage } from "./cardsSelectors";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
@@ -25,6 +25,7 @@ export const CardsList = () => {
   const statusApp = useSelector(selectAppStatus);
   useEffect(() => {
     if (id) {
+      console.log("1 use");
       dispatch(getUserCardByPackId(id));
     }
   }, []);
@@ -37,7 +38,7 @@ export const CardsList = () => {
     return createData(
       card.question,
       card.answer,
-      card.updated.substring(0,10),
+      card.updated.substring(0, 10),
       card.grade,
       <CardsActionsIconPack
         user_id={card.user_id}
@@ -50,6 +51,8 @@ export const CardsList = () => {
   });
   useEffect(() => {
     if (cards && cards.length === 0 && status === "idle") {
+      console.log("2 use");
+
       navigate(PATH.EMPTY_PACK);
     }
   }, [status]);

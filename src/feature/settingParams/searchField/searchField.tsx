@@ -44,7 +44,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const SearchField = () => {
   const dispatch = useAppDispatch();
   const isClearField = useSelector(selectorIsClearSearchField);
-
   const useDebounce = (value: string, delay?: number) => {
     const [debouncedValue, setDebouncedValue] = useState<string>(value);
     useEffect(() => {
@@ -86,6 +85,7 @@ export const SearchField = () => {
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
+          value={searchText}
           placeholder="Provide your text"
           inputProps={{ "aria-label": "search" }}
           onChange={onChangeHandler}
