@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardsList } from "./cardsTable";
 import { useAppDispatch } from "../../app/store";
 import s from "../cards/Cards.module.css";
@@ -10,9 +10,10 @@ import { useSelector } from "react-redux";
 import { ReturnBack } from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { useNavigate, useParams } from "react-router-dom";
-import { addNewCardTC, getCards } from "./cardsReducer";
-import {selectAppStatus, selectorUserId} from "../../app/appSelectors";
+import { getCards } from "./cardsReducer";
+import { selectAppStatus, selectorUserId } from "../../app/appSelectors";
 import Skeleton from "react-loading-skeleton";
+import { AddNewPackModal } from "../../common/modal/addNewPackModal";
 
 export const Cards = () => {
   const { id } = useParams();
@@ -22,11 +23,11 @@ export const Cards = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
+
+  const [activeAddNewPack, setActiveAddNewPack] = useState(false);
+
   const addNewCardsHandler = async () => {
-    if (id) await dispatch(addNewCardTC(id,'',''));
-    //await dispatch(getUserCardByPackId(packId));
-    //return <Navigate to={`${PATH.CARDS_LIST}:${packId}`} />;
-    //navigate(`${PATH.CARDS_LIST}:${packId}`);
+    setActiveAddNewPack(true);
   };
 
   const learnFriendPackHandler = () => {
@@ -55,8 +56,8 @@ export const Cards = () => {
   };
 
   const resNameButton = userAuthId === userPackId ? "Add new card" : "Learn to pack";
-  const addLearnHandler = () => (userAuthId === userPackId ? addNewCardsHandler() : learnFriendPackHandler());
 
+  const addLearnHandler = () => (userAuthId === userPackId ? addNewCardsHandler() : learnFriendPackHandler());
 
   return (
     <div className={s.wrapper}>
@@ -64,11 +65,12 @@ export const Cards = () => {
       {statusApp === "loading" ? (
         <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
       ) : (
-        <TitleWithButton title={packName} nameButton={"Add new card" } callback={addLearnHandler} />
+        <TitleWithButton title={packName} nameButton={"Add new card"} callback={addLearnHandler} />
       )}
       <div className={s.search}>
         <SearchField />
       </div>
+      <AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />
 
       {/*{statusApp === "loading" ? (*/}
       {/*  <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />*/}
