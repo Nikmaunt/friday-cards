@@ -14,7 +14,6 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   const dispatch = useAppDispatch();
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
-
   const addQuestion = (e: ChangeEvent<HTMLInputElement>) => {
     setQuestion(e.currentTarget.value);
   };
@@ -25,10 +24,10 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
 
   const onKeyDownSaveAddCardHandler = async () => {
     if (props.pack_id) {
-      console.log("add card");
       await dispatch(addNewCardTC(props.pack_id, question, answer));
-      navigate(PATH.CARDS_LIST_BY_ID);
-      // props.setActive(false);
+      props.setActive(false);
+      navigate(`${PATH.CARDS_LIST_BY_ID}${props.pack_id}`);
+      console.log("navigate", props.pack_id);
     }
   };
 

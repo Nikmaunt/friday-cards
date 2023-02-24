@@ -1,11 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { ActionModal } from "./actionModal";
-import s from "./actionModal.module.css";
-import Button from "@mui/material/Button";
-import { ModalButtons } from "./modalButtons";
-import { TextField } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+
 import { EditPack } from "./editPack";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 

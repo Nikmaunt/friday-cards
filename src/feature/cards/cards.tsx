@@ -27,6 +27,7 @@ export const Cards = () => {
 
   const [activeAddNewCard, setActiveAddNewCard] = useState(false);
 
+  console.log("Cards id", id);
   const addNewCardsHandler = () => {
     setActiveAddNewCard(true);
   };

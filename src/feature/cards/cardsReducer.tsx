@@ -63,6 +63,7 @@ export const getUserCardByPackId =
     dispatch(setAppStatus("loading"));
     const { params } = getState().cards;
     try {
+      console.log("getUserCardByPackId packID", packID);
       const res = await cardsAPI.getCards(packID, { params });
       dispatch(setCurrentPackId(packID));
       dispatch(getCards(res.data));
