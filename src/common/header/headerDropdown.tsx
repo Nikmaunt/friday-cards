@@ -13,7 +13,6 @@ import {logoutUser} from "../../feature/loginRegistration/authReducer";
 import {useAppDispatch} from "../../app/store";
 import PATH from "../constans/path/path";
 import {useNavigate} from "react-router-dom";
-
 import profileUserLogo from "./img/profileUserLogo.png";
 import arrowIcon from "../../feature/profile/img/logOutArrow.png";
 
@@ -44,6 +43,7 @@ export const HeaderDropdown = () => {
                 id="basic-button"
                 aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="false"
+                aria-hidden="false"
                 aria-expanded={open ? "true" : undefined}
                 onClick={handleClick}
                 disableRipple
@@ -54,6 +54,7 @@ export const HeaderDropdown = () => {
                 </Stack>
             </Button>
             <Menu
+                aria-hidden="false"
                 sx={{marginTop: -1}}
                 id="basic-menu"
                 anchorEl={anchorEl}
