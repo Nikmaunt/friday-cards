@@ -7,23 +7,24 @@ import { addPackTC, editPackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { ModalButtons } from "./modalButtons";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
-import {useParams} from "react-router-dom";
-import {getAllUserCards} from "../../feature/cards/cardsReducer";
+import { useParams } from "react-router-dom";
+import { getAllUserCards } from "../../feature/cards/cardsReducer";
 
 export const EditPack = (props: EditPackPropsType) => {
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useAppDispatch();
   const [packName, setPackName] = useState<string | undefined>(props.pack_name);
   const [disabled, setDisabled] = useState(false);
   const [addPackName, setAddPackName] = useState<string>("");
   const [checked, setChecked] = useState(false);
+  const [error, setError] = useState<null | string>(null);
 
   const handleChange = () => {
-    console.log("checked", checked);
     setChecked(!checked);
   };
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setError("");
     if (props.pack_id) {
       setPackName(e.currentTarget.value);
     } else {
@@ -31,16 +32,47 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
+  // const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setName(e.currentTarget.value);
+  //   if (name.trim() === "") {
+  //     setError("Title is required");
+  //   } else {
+  //     setError("");
+  //     if (props.pack_id) {
+  //       setPackName(e.currentTarget.value);
+  //     } else {
+  //       setAddPackName(e.currentTarget.value);
+  //     }
+  //   }
+  // };
+
   const addNewPackName = async () => {
     const newPack = { cardsPack: { name: addPackName, private: checked } };
-    setDisabled(true);
-    await dispatch(addPackTC(newPack));
-    setDisabled(false);
-    props.setActive(false);
+    if (addPackName.trim() !== "") {
+      setDisabled(true);
+      await dispatch(addPackTC(newPack));
+      setDisabled(false);
+      props.setActive(false);
+    } else {
+      setError("Title is required");
+    }
   };
 
+  // const saveChangePackName = async () => {
+  //   if (props.pack_id && packName) {
+  //     setDisabled(true);
+  //     await dispatch(editPackTC(props.pack_id, packName));
+  //     setDisabled(false);
+  //     if (id) {
+  //       await dispatch(getAllUserCards(id));
+  //     }
+  //     props.setActive(false);
+  //   }
+  // };
+
   const saveChangePackName = async () => {
-    if (props.pack_id && packName) {
+    if (props.pack_id && packName && packName.trim() !== "") {
+      setError("");
       setDisabled(true);
       await dispatch(editPackTC(props.pack_id, packName));
       setDisabled(false);
@@ -48,6 +80,8 @@ export const EditPack = (props: EditPackPropsType) => {
         await dispatch(getAllUserCards(id));
       }
       props.setActive(false);
+    } else {
+      setError("Title is required");
     }
   };
 
@@ -59,6 +93,8 @@ export const EditPack = (props: EditPackPropsType) => {
         variant="standard"
         className={s.nameInput}
         onChange={changeName}
+        error={!!error}
+        helperText={error}
       />
       <FormControlLabel
         label="Private pack"
