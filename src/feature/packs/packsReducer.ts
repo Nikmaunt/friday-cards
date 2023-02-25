@@ -1,4 +1,4 @@
-import { AppThunkDispatch, RootReducerType } from "../../app/store";
+import { AppThunkDispatch } from "../../app/store";
 import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
@@ -6,16 +6,6 @@ import { AddPackParamsType, EditCardPackRequestType, PackReturnType, packsAPI, P
 
 const initialPacksState = {
   cardPacks: [],
-  params: {
-    packName: "",
-    min: 0,
-    max: 0,
-    sortPacks: "0updated",
-    page: 1,
-    pageCount: 4,
-    user_id: "",
-    block: false,
-  },
   page: 0,
   pageCount: 4,
   cardPacksTotalCount: 0,
@@ -24,7 +14,6 @@ const initialPacksState = {
   token: "",
   tokenDeathTime: 0,
   isClearSearchField: false,
-  isActiveMyPacks: false,
 };
 
 export const packsReducer = (
@@ -34,12 +23,8 @@ export const packsReducer = (
   switch (action.type) {
     case PacksActions.SetPacks:
       return { ...state, ...action.payload.packs };
-    case PacksActions.SetParams:
-      return { ...state, params: { ...state.params, ...action.payload.params } };
     case PacksActions.SetSearchField:
       return { ...state, isClearSearchField: action.payload.value };
-    case PacksActions.SetActivePacks:
-      return { ...state, isActiveMyPacks: action.payload.value };
     default:
       return state;
   }
@@ -49,20 +34,13 @@ export const packsReducer = (
 export const setPacksAC = (packs: PacksReturnType) => {
   return { type: PacksActions.SetPacks, payload: { packs } as const };
 };
-export const setPacksParams = (params: PackParamsType) => {
-  return { type: PacksActions.SetParams, payload: { params } as const };
-};
 export const setSearchFieldEmpty = (value: boolean) => {
   return { type: PacksActions.SetSearchField, payload: { value } as const };
 };
-export const setIsActiveMyPacks = (value: boolean) => {
-  return { type: PacksActions.SetActivePacks, payload: { value } as const };
-};
 
 /////////////////// THUNK CREATORS ////////////////////////
-export const fetchPacksTC = () => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+export const fetchPacksTC = (params: PackParamsType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
-  const { params } = getState().packs;
   try {
     const res = await packsAPI.getPacks(params);
     dispatch(setPacksAC(res.data));
@@ -78,7 +56,7 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
   dispatch(setAppStatus("loading"));
   try {
     await packsAPI.addPack(newPack);
-    dispatch(fetchPacksTC());
+    dispatch(fetchPacksTC({}));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -91,7 +69,7 @@ export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) =
   dispatch(setAppStatus("loading"));
   try {
     await packsAPI.deletePack(id);
-    await dispatch(fetchPacksTC());
+    await dispatch(fetchPacksTC({}));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -110,7 +88,7 @@ export const editPackTC = (id: string, newName: string) => async (dispatch: AppT
   };
   try {
     await packsAPI.editPack(editCardPack);
-    await dispatch(fetchPacksTC());
+    await dispatch(fetchPacksTC({}));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -122,7 +100,6 @@ export const editPackTC = (id: string, newName: string) => async (dispatch: AppT
 /////////// types /////////////
 export type PacksResponseType = {
   cardPacks: Array<PackReturnType>;
-  params: PackParamsType;
   page: number;
   pageCount: number;
   cardPacksTotalCount: number;
@@ -131,17 +108,14 @@ export type PacksResponseType = {
   token: string;
   tokenDeathTime: number;
   isClearSearchField: boolean;
-  isActiveMyPacks: boolean;
 };
 
 export const PacksActions = {
   SetPacks: "SET-PACKS",
   AddPack: "ADD-PACK",
   SetPackId: "SET-PACK-ID",
-  SetParams: "SET_PARAMS",
   SetSearchField: "SET_SEARCH_FIELD",
   SetActivePacks: "SET-ACTIVE-PACKS",
-  SetActiveModalPack: "SET-MODAL-PACK",
 } as const;
 
 export type PackParamsType = {
@@ -154,8 +128,4 @@ export type PackParamsType = {
   user_id?: string;
   block?: boolean;
 };
-export type PacksActionCreatorsType =
-  | ReturnType<typeof setPacksAC>
-  | ReturnType<typeof setPacksParams>
-  | ReturnType<typeof setSearchFieldEmpty>
-  | ReturnType<typeof setIsActiveMyPacks>;
+export type PacksActionCreatorsType = ReturnType<typeof setPacksAC> | ReturnType<typeof setSearchFieldEmpty>;

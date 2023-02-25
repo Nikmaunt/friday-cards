@@ -1,10 +1,8 @@
 import { AppThunkDispatch } from "../../app/store";
 import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
-import { setAppStatus, setAuth, setIsInitialized, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus, setAuth, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { profileAPI } from "../profile/profileAPI";
-import { setIsActiveMyPacks, setPacksParams } from "../packs/packsReducer";
 
 const initialAuthState = {
   isLogin: false,
@@ -17,7 +15,7 @@ const initialAuthState = {
     created: "",
     updated: "",
     isAdmin: false,
-    verified: false, // подтвердил ли почту
+    verified: false,
     rememberMe: false,
     error: "",
   },
@@ -33,7 +31,6 @@ export const authReducer = (state = initialAuthState, action: AuthActionCreators
       return { ...state, user: { ...state.user, name: action.payload.name } };
     default:
       return state;
-    //
   }
 };
 
@@ -42,15 +39,7 @@ export const setLoginUser = (value: boolean, data?: UserDataType) =>
   ({ type: AuthActions.SetAuthUser, payload: { value, data } } as const);
 export const setCurrentUser = (user: UserDataType) =>
   ({ type: AuthActions.SetCurrentUser, payload: { user } } as const);
-
-export const updateName = (name: string) => {
-  return {
-    type: AuthActions.UpdateUserName,
-    payload: {
-      name,
-    },
-  } as const;
-};
+export const updateName = (name: string) => ({ type: AuthActions.UpdateUserName, payload: { name } } as const);
 
 /////////////////// THUNK CREATORS ////////////////////////
 export const registrationUser = (values: RegistrationRequestType) => async (dispatch: AppThunkDispatch) => {
@@ -87,23 +76,16 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
     dispatch(setAuth(true));
-  } catch (e) {
-  } finally {
-    dispatch(setIsInitialized(true));
-  }
+  } catch (e) {}
 };
 
 export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
-  dispatch(setPacksParams({}));
   dispatch(setAuth(false));
-  dispatch(setIsActiveMyPacks(false));
   try {
     await authAPI.logout();
     dispatch(setLoginUser(false));
     dispatch(setAuth(false));
-    dispatch(setPacksParams({}));
-    dispatch(setIsInitialized(false));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -115,13 +97,12 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
 export const updateUser = (name: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
-    await profileAPI.updateUserName(name);
+    await authAPI.updateUserName(name);
     dispatch(updateName(name));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
   } finally {
-    dispatch(setIsInitialized(true));
     dispatch(setAppStatus("succeeded"));
   }
 };

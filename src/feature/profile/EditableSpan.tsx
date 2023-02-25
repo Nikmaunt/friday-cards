@@ -45,9 +45,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   };
 
   const onButtonClickHandler = () => {
-    console.log("click save");
     if (name !== "") {
-      console.log("click save in if");
       dispatch(updateUser(name));
       setEditMode(!editMode);
     } else {
@@ -63,9 +61,10 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     }
   };
   const onBlurHandler = () => {
-    if (name !== "") setEditMode(!editMode);
-    else {
+    if (name == userName) setEditMode(!editMode);
+    if (name === "") {
       setErrors("Name is required!");
+      setEditMode(!editMode);
     }
   };
 
@@ -79,7 +78,6 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
       {editMode ? (
         <TextField
           variant="standard"
-          style={{ width: 347 }}
           label="Nickname"
           onKeyPress={onKeyPressHandler}
           error={name === ""}
@@ -94,7 +92,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                 size="small"
                 style={{ marginBottom: "3px" }}
                 variant="contained"
-                //disableElevation
+                disabled={name === ""}
               >
                 SAVE
               </Button>

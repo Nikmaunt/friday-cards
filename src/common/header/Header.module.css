@@ -1,8 +1,6 @@
 .topNav {
-
   padding: 0 136px;
   background-color: #FCFCFC;
-  /*margin-bottom: 36px;*/
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,12 +27,39 @@
 
 .button {
   width: 113px;
-
 }
 
 .userProfile {
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  text-decoration: underline dotted
+}
+
+.menuItem{
+  width: 120px;
+  padding: 5px 20px 0 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.titleName{
+  color: black
+}
+
+.avatar{
+  padding-top: 12px;
+  width: 36px;
+  height: 36px;
+}
+
+.profileUserLogo{
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+margin-right: 5px;
+}
+
+.logoutIcon{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }

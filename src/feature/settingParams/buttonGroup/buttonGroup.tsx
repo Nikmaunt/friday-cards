@@ -5,30 +5,30 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import s from "../searchField/SearchField.module.css";
 import { useSelector } from "react-redux";
 import { selectorIdUser } from "../../loginRegistration/selectors";
-import { useAppDispatch } from "../../../app/store";
-import { setIsActiveMyPacks, setPacksParams } from "../../packs/packsReducer";
-import { selectorIsActiveMyPacks } from "../../packs/packsSelectors";
+import { useSearchParams } from "react-router-dom";
 
 export const GroupButtons = () => {
   const idUser = useSelector(selectorIdUser);
-  const isActiveMyPacks = useSelector(selectorIsActiveMyPacks);
-  const dispatch = useAppDispatch();
 
-  const colorActiveMyButton = isActiveMyPacks ? "#FFFFFF" : "#000000";
-  const colorActiveAllButton = !isActiveMyPacks ? "#FFFFFF" : "#000000";
-  const bgColorMyButton = isActiveMyPacks ? "#366EFF;" : "#FFFFFF";
-  const bgColorAllButton = !isActiveMyPacks ? "#366EFF;" : "#FFFFFF";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLid = searchParams.get("user_id");
+  const URLParams = Object.fromEntries(searchParams);
+
+  const colorActiveMyButton = URLid ? "#FFFFFF" : "#000000";
+  const colorActiveAllButton = !URLid ? "#FFFFFF" : "#000000";
+  const bgColorMyButton = URLid ? "#366EFF;" : "#FFFFFF";
+  const bgColorAllButton = !URLid ? "#366EFF;" : "#FFFFFF";
 
   const myButtonHandler = () => {
-    const params = { user_id: idUser };
-    dispatch(setIsActiveMyPacks(true));
-    dispatch(setPacksParams(params));
+    const params = { ...URLParams, user_id: idUser };
+
+    setSearchParams(params);
   };
 
   const allButtonHandler = () => {
-    const params = { user_id: "" };
-    dispatch(setIsActiveMyPacks(false));
-    dispatch(setPacksParams(params));
+    const params = { ...URLParams, user_id: "" };
+
+    setSearchParams(params);
   };
 
   const buttons = [

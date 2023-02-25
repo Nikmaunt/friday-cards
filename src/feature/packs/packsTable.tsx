@@ -3,28 +3,29 @@ import Table from "@mui/material/Table";
 import { fetchPacksTC, setSearchFieldEmpty } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPacks, selectorPacksParams } from "./packsSelectors";
+import { selectorPacks } from "./packsSelectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
 import { PacksTablePagination } from "./packsTablePagination";
 import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
 import { NotFoundPage } from "./notFoundPage";
-
+import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
+import { useSearchParams } from "react-router-dom";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
-  const packsParams = useSelector(selectorPacksParams);
   const isPacksEmpty = packs.cardPacks.length === 0;
+  const [searchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
 
   useEffect(() => {
     dispatch(setSearchFieldEmpty(false));
-    dispatch(fetchPacksTC());
-  }, [packsParams]);
+    dispatch(fetchPacksTC(URLParams));
+  }, [dispatch, searchParams]);
 
   function createData(
     name: string,
@@ -42,7 +43,7 @@ export const PacksTable = () => {
       pack.name,
       pack.cardsCount,
       pack.user_name,
-      pack.updated.substring(0,10),
+      pack.updated.substring(0, 10),
       pack._id,
       <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} />
     );
@@ -51,7 +52,7 @@ export const PacksTable = () => {
   return (
     <div>
       {statusApp === "loading" ? (
-        <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
+        <SkeletonLoader count={5} height={"60px"} />
       ) : (
         <div>
           {isPacksEmpty ? (

@@ -5,31 +5,29 @@ import s from "../searchField/SearchField.module.css";
 import styles from "./SliderField.module.css";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../../app/store";
-import { setPacksParams } from "../../packs/packsReducer";
-import { selectorMax, selectorMaxxx, selectorMin, selectorMinn } from "../../packs/packsSelectors";
+import { selectorIsClearSearchField, selectorMax, selectorMin } from "../../packs/packsSelectors";
+import { useSearchParams } from "react-router-dom";
 
 export const SliderField = () => {
-  const dispatch = useAppDispatch();
-
-  const minValueParamsCards = useSelector(selectorMin);
-  const minValue = useSelector(selectorMinn);
-  const maxValueParamsCards = useSelector(selectorMax);
-  const maxValue = useSelector(selectorMaxxx);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
+  const isClearField = useSelector(selectorIsClearSearchField);
+  const minValue = useSelector(selectorMin);
+  const maxValue = useSelector(selectorMax);
 
   useEffect(() => {
-    if (minValueParamsCards === 0 && maxValueParamsCards === 0) {
-      // dispatch(setPacksParams({ min: minValue, max: maxValue }));
-      setValue([minValue, maxValue]);
-    }
-  }, [minValueParamsCards, maxValueParamsCards, minValue, maxValue]);
+    setValue([Number(searchParams.get("min")) || minValue, Number(searchParams.get("max")) || maxValue]);
+  }, [isClearField, minValue, maxValue]);
 
-  const [value, setValue] = useState([minValueParamsCards as number, maxValueParamsCards as number]);
+  const [value, setValue] = useState([
+    Number(searchParams.get("min")) || minValue,
+    Number(searchParams.get("max")) || maxValue,
+  ]);
 
   const handlerChangeCommitted = (event: React.SyntheticEvent | Event, newValue: number | Array<number>) => {
     setValue(newValue as number[]);
-    const params = { min: value[0], max: value[1] };
-    dispatch(setPacksParams(params));
+    const params = { ...URLParams, min: String(value[0]), max: String(value[1]) };
+    setSearchParams(params);
   };
   const handlerChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);

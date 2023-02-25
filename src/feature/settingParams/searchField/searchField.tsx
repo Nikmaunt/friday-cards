@@ -3,11 +3,12 @@ import { styled } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import s from "./SearchField.module.css";
 import { ChangeEvent, useEffect, useState } from "react";
-
 import { useAppDispatch } from "../../../app/store";
-import { setPacksParams, setSearchFieldEmpty } from "../../packs/packsReducer";
+import { setSearchFieldEmpty } from "../../packs/packsReducer";
 import { useSelector } from "react-redux";
 import { selectorIsClearSearchField } from "../../packs/packsSelectors";
+import { useSearchParams } from "react-router-dom";
+import { useDebounce } from "../../../common/functions/useDebounce";
 
 const Search = styled("div")(({ theme }) => ({
   border: "solid 1px #DEDBDC",
@@ -44,28 +45,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export const SearchField = () => {
   const dispatch = useAppDispatch();
   const isClearField = useSelector(selectorIsClearSearchField);
-  const useDebounce = (value: string, delay?: number) => {
-    const [debouncedValue, setDebouncedValue] = useState<string>(value);
-    useEffect(() => {
-      const timer = setTimeout(() => {
-        setDebouncedValue(value);
-      }, delay || 800);
-      return () => {
-        clearTimeout(timer);
-      };
-    }, [value, delay]);
-    return debouncedValue;
-  };
-
+  const [isClear, setClear] = useState<boolean>(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
   const [searchText, setSearchText] = useState<string>("");
   const debouncedValue = useDebounce(searchText, 800);
-
-  useEffect(() => {
-    const params = { packName: debouncedValue };
-    if (debouncedValue) {
-      dispatch(setPacksParams(params));
-    }
-  }, [debouncedValue]);
 
   useEffect(() => {
     if (isClearField) {
@@ -74,8 +58,17 @@ export const SearchField = () => {
     }
   }, [isClearField]);
 
+  useEffect(() => {
+    if (isClear) {
+      const params = { ...URLParams, packName: debouncedValue };
+      setSearchParams(params);
+      setClear(false);
+    }
+  }, [debouncedValue]);
+
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
+    setClear(true);
   };
   return (
     <div className={s.wrapper}>

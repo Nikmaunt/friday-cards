@@ -14,6 +14,9 @@ export const authAPI = {
   logout() {
     return instanceHeroku.delete<LogOutResponse>("/auth/me");
   },
+  updateUserName(name: string) {
+    return instanceHeroku.put<ResponseUpdateUserNameAvatar>("/auth/me", { name });
+  },
 };
 ////////////////////////// types /////////////////////////////
 
@@ -35,4 +38,9 @@ export type LoginRequestType = {
 type LogOutResponse = {
   info: string;
   error: string;
+};
+
+type ResponseUpdateUserNameAvatar = {
+  updatedUser: UserDataType;
+  error?: string;
 };

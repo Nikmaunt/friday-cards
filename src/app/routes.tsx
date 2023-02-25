@@ -12,12 +12,11 @@ import { EmptyPageField } from "../feature/packs/emptyPageField";
 import { LearnCardPack } from "../feature/cards/learnCardPack";
 
 export const Pages = () => {
-  //const auth = useSelector(selectorAuth);
   return (
     <Routes>
       <Route path={PATH.LOGIN} element={<LoginRegistration />}></Route>
       <Route path={PATH.PROFILE} element={<Profile />}></Route>
-      <Route path={"/"} element={<Navigate to={PATH.LOGIN} />}></Route>
+      <Route path={"/"} element={<Packs />}></Route>
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />}></Route>
       <Route path={PATH.CHECK_EMAIL} element={<CheckEmail />}></Route>
       <Route path={PATH.SET_NEW_PASSWORD} element={<CreatePassword />}></Route>

@@ -1,46 +1,42 @@
 import React, { ChangeEvent, useState } from "react";
 import { TextField } from "@mui/material";
-import "./forgotPassword.css";
+import s from "./password.module.css";
 import { useAppDispatch } from "../../app/store";
 import { recoveryPasswordTC } from "./forgotPasswordReducer";
 import { SuperButton } from "../../common/superButton/superButton";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
-import { useSelector } from "react-redux";
-import { selectorEmailSend } from "./selectors";
 
 export const ForgotPassword = () => {
-  const isEmailSend = useSelector(selectorEmailSend);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<null | string>("");
-  //ввод email
+
+  const navigate = useNavigate();
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.currentTarget.value);
     setError("");
   };
-  //отправка инструкции восстановления пароля на email
-  const sendRecoveryPasswordInstructions = () => {
-    //проверка корректности email
+
+  const sendRecoveryPasswordInstructions = async () => {
     if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
       setError("Invalid email address");
     } else {
-      dispatch(recoveryPasswordTC(email));
+      await dispatch(recoveryPasswordTC(email));
+      navigate(PATH.CHECK_EMAIL);
     }
   };
-  if (isEmailSend) {
-    // return <Navigate to={PATH.CHECK_EMAIL} />;
-  }
+
   return (
-    <div className={"forgotPassword"}>
-      <div className={"title"}>Forgot your password?</div>
-      <TextField label="Email" variant="standard" className={"textField"} onChange={onChangeHandler} fullWidth />
-      {error && <div className="error-message">{error}</div>}
-      <div className={"description"}>Enter your email address and we will send you further instructions</div>
+    <div className={s.wrapper}>
+      <div className={s.title}>Forgot your password?</div>
+      <TextField label="Email" variant="standard" className={s.textFieldForgot} onChange={onChangeHandler} fullWidth />
+      {error && <div className={s.errorMessage}>{error}</div>}
+      <div className={s.description}>Enter your email address and we will send you further instructions</div>
       <SuperButton name={"Send Instructions"} callback={sendRecoveryPasswordInstructions} />
-      <div className={"rememberPassword"}>Did you remember your password?</div>
-      <div className={"link"}>
-        <NavLink className={"linkTry"} to="/friday-cards/login">
+      <div className={s.rememberPassword}>Did you remember your password?</div>
+      <div className={s.link}>
+        <NavLink className={s.linkTry} to={PATH.LOGIN}>
           Try logging in
         </NavLink>
       </div>

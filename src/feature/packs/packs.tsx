@@ -5,9 +5,9 @@ import s from "./Packs.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { AddNewPackModal } from "../../common/modal/addNewPackModal";
-import PATH from "../../common/constans/path/path";
 import { useSelector } from "react-redux";
 import { selectorAuth } from "../../app/appSelectors";
+import PATH from "../../common/constans/path/path";
 import { Navigate } from "react-router-dom";
 
 export const Packs = () => {
@@ -18,9 +18,10 @@ export const Packs = () => {
     setActiveAddNewPack(true);
   };
 
-  if (!auth) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
+  // if (!auth) {
+  //   return <Navigate to={PATH.LOGIN} />;
+  // }
+
   return (
     <div className={s.wrapper}>
       <TitleWithButton title={"Packs list"} nameButton={"Add new pack"} callback={addNewPacksHandler} />

@@ -1,6 +1,5 @@
 const initialState = {
   isSignUp: false,
-  isInitialized: false,
   isAuth: false,
   status: "idle" as RequestStatusType,
   error: null as ErrorType,
@@ -13,8 +12,6 @@ export const appReducer = (state = initialState, action: AppActionCreatorsType):
       return { ...state, isSignUp: action.payload.value };
     case AppActions.SetAuth:
       return { ...state, isAuth: action.payload.value };
-    case AppActions.SetInitialized:
-      return { ...state, isInitialized: action.payload.value };
     case AppActions.SetStatus:
       return { ...state, status: action.payload.status };
     case AppActions.SetError:
@@ -29,7 +26,6 @@ export const appReducer = (state = initialState, action: AppActionCreatorsType):
 //////////////////////// ACTIONS CREATORS /////////////////////
 
 export const toggleIsSignUp = (value: boolean) => ({ type: AppActions.ToggleIsSignUp, payload: { value } } as const);
-export const setIsInitialized = (value: boolean) => ({ type: AppActions.SetInitialized, payload: { value } } as const);
 export const setAppStatus = (status: RequestStatusType) =>
   ({ type: AppActions.SetStatus, payload: { status } } as const);
 export const setAppError = (error: ErrorType) => ({ type: AppActions.SetError, payload: { error } } as const);
@@ -46,7 +42,6 @@ export type SetAppErrorType = ReturnType<typeof setAppError>;
 
 export type AppActionCreatorsType =
   | ReturnType<typeof toggleIsSignUp>
-  | ReturnType<typeof setIsInitialized>
   | ReturnType<typeof setAppStatus>
   | SetAppErrorType
   | ReturnType<typeof setAuth>
@@ -54,7 +49,6 @@ export type AppActionCreatorsType =
 
 export const AppActions = {
   ToggleIsSignUp: "TOGGLE-IS-SIGN-UP",
-  SetInitialized: "SET-INITIALIZED",
   SetStatus: "SET-STATUS",
   SetError: "SET-ERROR",
   SetAuth: "SET-AUTH",

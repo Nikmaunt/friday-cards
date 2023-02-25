@@ -1,5 +1,5 @@
 import { AppThunkDispatch, RootReducerType } from "../../app/store";
-import { setAppStatus, setCurrentPackId, setIsInitialized } from "../../app/appReducer";
+import { setAppStatus, setCurrentPackId } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { CardResponseType, cardsAPI, NewCardRequestType } from "./cardsAPI";
@@ -71,7 +71,6 @@ export const getUserCardByPackId =
       const err = e as Error | AxiosError<{ error: string }>;
       errorUtils(err, dispatch);
     } finally {
-      dispatch(setIsInitialized(true));
       dispatch(setAppStatus("idle"));
     }
   };
@@ -88,7 +87,6 @@ export const getAllUserCards =
       const err = e as Error | AxiosError<{ error: string }>;
       errorUtils(err, dispatch);
     } finally {
-      dispatch(setIsInitialized(true));
       dispatch(setAppStatus("succeeded"));
     }
   };
@@ -104,7 +102,6 @@ export const updateUserCard =
       const err = e as Error | AxiosError<{ error: string }>;
       errorUtils(err, dispatch);
     } finally {
-      dispatch(setIsInitialized(true));
       dispatch(setAppStatus("succeeded"));
     }
   };
