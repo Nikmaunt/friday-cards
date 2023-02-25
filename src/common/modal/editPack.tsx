@@ -7,8 +7,11 @@ import { addPackTC, editPackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { ModalButtons } from "./modalButtons";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
+import {useParams} from "react-router-dom";
+import {getAllUserCards} from "../../feature/cards/cardsReducer";
 
 export const EditPack = (props: EditPackPropsType) => {
+  const {id} = useParams();
   const dispatch = useAppDispatch();
   const [packName, setPackName] = useState<string | undefined>(props.pack_name);
   const [addPackName, setAddPackName] = useState<string>("");
@@ -34,6 +37,9 @@ export const EditPack = (props: EditPackPropsType) => {
   const onKeyDownSaveChangePackNameHandler = async () => {
     if (props.pack_id && packName) {
       await dispatch(editPackTC(props.pack_id, packName));
+      if (id) {
+        await dispatch(getAllUserCards(id));
+      }
       props.setActive(false);
     }
   };
