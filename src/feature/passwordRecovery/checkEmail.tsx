@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 export const CheckEmail = () => {
   const navigate = useNavigate();
   const onClickHandler = () => {
-    return navigate("/friday-cards/login");
+    // return navigate("/friday-cards/login");
+    return navigate("/login");
   };
   return (
     <div className={"checkEmail"}>

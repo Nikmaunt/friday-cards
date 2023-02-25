@@ -155,7 +155,8 @@ export const LoginRegistration = () => {
                   checked={formik.values.rememberMe}
                 />
                 <div className={s.linkToPassword}>
-                  <NavLink to="/friday-cards/forgot-password">Forgot Password?</NavLink>
+                  {/*<NavLink to="/friday-cards/forgot-password">Forgot Password?</NavLink>*/}
+                  <NavLink to={PATH.FORGOT_PASSWORD}>Forgot Password?</NavLink>
                 </div>
               </div>
             )}

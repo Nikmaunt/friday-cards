@@ -3,6 +3,7 @@ import { AppThunkDispatch } from "../../app/store";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 import { setAppStatus } from "../../app/appReducer";
+import { useParams } from "react-router-dom";
 
 const initialState = {
   isEmailSend: false,
@@ -34,7 +35,8 @@ export const recoveryPasswordTC = (email: string) => async (dispatch: AppThunkDi
     email: email,
     from: `test-front-admin <ai73a@yandex.by>`,
     message: `<div style="background-color: lime; padding: 15px"> 
-                password recovery link: <a href='http://localhost:3000/friday-cards/set-new-password/$token$'>link</a>
+<!--                password recovery link: <a href='http://localhost:3000/friday-cards/set-new-password/$token$'>link</a>-->
+                password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a>
                 </div>`,
   };
   try {
@@ -49,13 +51,18 @@ export const recoveryPasswordTC = (email: string) => async (dispatch: AppThunkDi
 };
 
 export const changePasswordTC = (password: string) => async (dispatch: AppThunkDispatch) => {
+  const { token } = useParams<{ token: string }>();
+
   dispatch(setAppStatus("loading"));
+
+  console.log("useParams token", token);
   //url из строки браузера
   const URL = window.location.href;
   const resetPasswordToken = URL.replace(/^.*[\\\/]/, "");
   const newPassword = {
     password: password,
     resetPasswordToken: resetPasswordToken,
+    // resetPasswordToken: token,
   };
   //токен
   try {

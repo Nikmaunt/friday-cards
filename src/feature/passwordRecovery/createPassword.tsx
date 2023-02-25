@@ -10,6 +10,7 @@ import PATH from "../../common/constans/path/path";
 import { useSelector } from "react-redux";
 import { selectorSetNewPassword } from "./selectors";
 export const CreatePassword = () => {
+  console.log("Create");
   const isNewPasswordSet = useSelector(selectorSetNewPassword);
   const dispatch = useAppDispatch();
 
@@ -50,7 +51,8 @@ export const CreatePassword = () => {
     }
   };
   if (isNewPasswordSet) {
-    return <Navigate to={PATH.LOGIN} />;
+    // return <Navigate to={PATH.LOGIN} />;
+    return <Navigate to={PATH.SET_NEW_PASSWORD} />;
   }
   return (
     <div className={"createPassword"}>

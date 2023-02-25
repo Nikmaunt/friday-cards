@@ -29,7 +29,7 @@ export const ForgotPassword = () => {
     }
   };
   if (isEmailSend) {
-    return <Navigate to={PATH.CHECK_EMAIL} />;
+    // return <Navigate to={PATH.CHECK_EMAIL} />;
   }
   return (
     <div className={"forgotPassword"}>
