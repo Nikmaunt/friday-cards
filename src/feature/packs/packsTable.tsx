@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Table from "@mui/material/Table";
-import { fetchPacksTC, setSearchFieldEmpty } from "./packsReducer";
+import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
 import { selectorPacks, selectorPacksParams } from "./packsSelectors";
@@ -12,18 +12,30 @@ import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
 import { NotFoundPage } from "./notFoundPage";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
+import { useSearchParams } from "react-router-dom";
+import { getActualPacksParams } from "../../common/utils/params/getActualParams";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
-  const packsParams = useSelector(selectorPacksParams);
+  const packsStateParams = useSelector(selectorPacksParams);
   const isPacksEmpty = packs.cardPacks.length === 0;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLParams = useMemo(() => getActualPacksParams(searchParams), [searchParams]);
+
+  // useEffect(() => {
+  //   if (JSON.stringify(packsStateParams) !== JSON.stringify(URLParams)) {
+  //     dispatch(setPacksParams(URLParams));
+  //   }
+  // }, [dispatch, URLParams]);
 
   useEffect(() => {
     dispatch(setSearchFieldEmpty(false));
+    // @ts-ignore
+    //setSearchParams(packsStateParams);
     dispatch(fetchPacksTC());
-  }, [packsParams]);
+  }, [dispatch, packsStateParams]);
 
   function createData(
     name: string,

@@ -8,10 +8,11 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../app/store";
 import { setPacksParams } from "../../packs/packsReducer";
 import { selectorIsClearSearchField, selectorMax, selectorMin } from "../../packs/packsSelectors";
+import { useSearchParams } from "react-router-dom";
 
 export const SliderField = () => {
   const dispatch = useAppDispatch();
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const isClearField = useSelector(selectorIsClearSearchField);
   const minValue = useSelector(selectorMin);
   const maxValue = useSelector(selectorMax);
@@ -20,7 +21,9 @@ export const SliderField = () => {
     if (isClearField) {
       setValue([minValue, maxValue]);
     }
-  }, [isClearField]);
+    setValue([minValue, maxValue]);
+    // добавить в параметры новые значени слайдера
+  }, [isClearField, minValue, maxValue]);
 
   const [value, setValue] = useState([minValue, maxValue]);
 

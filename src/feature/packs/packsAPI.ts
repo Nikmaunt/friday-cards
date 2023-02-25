@@ -27,6 +27,7 @@ export type GetPacksParamsType = {
   user_id?: string;
   block?: boolean;
 };
+
 export type AddPackParamsType = {
   cardsPack: {
     name?: string;

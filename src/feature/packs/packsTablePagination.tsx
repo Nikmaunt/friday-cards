@@ -1,27 +1,33 @@
 import TablePagination from "@mui/material/TablePagination";
-import React, { useState } from "react";
-import { fetchPacksTC, setPacksParams } from "./packsReducer";
+import React, { useEffect, useState } from "react";
+import { PackParamsType, setPacksParams } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPacksTotalCount, selectorPage, selectorRowsPerPage } from "./packsSelectors";
+import { selectorPacksParams, selectorPacksTotalCount, selectorRowsPerPage } from "./packsSelectors";
+import { useSearchParams } from "react-router-dom";
 
 export const PacksTablePagination = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const totalPacksCount = useSelector(selectorPacksTotalCount);
+  const packsStateParams = useSelector(selectorPacksParams);
   const rowPerPage = useSelector(selectorRowsPerPage);
-  const selPage = useSelector(selectorPage);
-  console.log("selPage", selPage);
-  const [page, setPage] = useState(selPage - 1);
-  console.log("page", page);
-
+  console.log(searchParams);
+  const [page, setPage] = useState<number>(Number(searchParams.get("page")) - 1 || 1);
   const [rowsPerPage, setRowsPerPage] = useState(rowPerPage);
 
+  useEffect(() => {
+    setPage(Number(searchParams.get("page")) || 1);
+  }, [packsStateParams]);
+
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    const params = { page: newPage + 1 };
+    const urlParams: PackParamsType = { page: newPage };
+    console.log("urlParams", urlParams);
+    // @ts-ignore
+    setSearchParams(urlParams);
 
-    console.log("newPage", newPage);
+    const params = { page: newPage };
     dispatch(setPacksParams(params));
-
     setPage(newPage);
   };
 

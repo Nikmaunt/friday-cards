@@ -18,9 +18,10 @@ export const Packs = () => {
     setActiveAddNewPack(true);
   };
 
-  if (!auth) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
+  // if (!auth) {
+  //   return <Navigate to={PATH.LOGIN} />;
+  // }
+
   return (
     <div className={s.wrapper}>
       <TitleWithButton title={"Packs list"} nameButton={"Add new pack"} callback={addNewPacksHandler} />
