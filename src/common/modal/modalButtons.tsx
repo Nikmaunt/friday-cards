@@ -3,9 +3,12 @@ import s from "./actionModal.module.css";
 import Button from "@mui/material/Button";
 import { addPackTC, deletePackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
-import { deleteCardTC } from "../../feature/cards/cardsReducer";
+import {deleteCardTC} from "../../feature/cards/cardsReducer";
+import {useNavigate} from "react-router-dom";
+import PATH from "../constans/path/path";
 
 export const ModalButtons = (props: ButtonsPropsType) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const addNewPacksHandler = async () => {
     const newPacks = { cardsPack: { name: "newName" } };
@@ -18,6 +21,7 @@ export const ModalButtons = (props: ButtonsPropsType) => {
     }
     if (props.pack_id && props.mode === "deletePack") {
       dispatch(deletePackTC(props.pack_id));
+      navigate(PATH.PACKS);
     }
   };
 

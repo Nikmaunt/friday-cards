@@ -11,22 +11,24 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import {useSelector} from "react-redux";
-import {selectorCards, selectorPackName} from "./cardsSelectors";
+import {selectorCards, selectorCardsTotalCount, selectorPackName} from "./cardsSelectors";
 import {useAppDispatch} from "../../app/store";
 import { useEffect} from "react";
-import {getAllUserCards,  updateUserCard} from "./cardsReducer";
+import {getAllUserCards, getCards, updateUserCard} from "./cardsReducer";
 import {useNavigate, useParams} from "react-router-dom";
 import {SuperButton} from "../../common/superButton/superButton";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
-import { selectorAuth} from "../../app/appSelectors";
+import {selectAppStatus, selectorAuth} from "../../app/appSelectors";
 import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
+import Skeleton from "react-loading-skeleton";
 
 
 export const LearnCardPack = () =>  {
     const { id } = useParams();
     const dispatch = useAppDispatch();
     const cards =  useSelector(selectorCards);
+    const cardTOTALCOUNT =  useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
     const cardsPackName = useSelector(selectorPackName );
     const navigate = useNavigate();
@@ -34,6 +36,8 @@ export const LearnCardPack = () =>  {
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
     const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : '');
     const [cardGrade , setCardGrade] = React.useState<number>(cards?  cards[currentQuestion].grade : 0);
+    const [cardShot , setCardShot] = React.useState<number>(cards?  cards[currentQuestion].shots : 0);
+    const statusApp = useSelector(selectAppStatus);
 
     useEffect(() => {
         if (isAuth && cards === undefined && id) {
@@ -58,16 +62,22 @@ export const LearnCardPack = () =>  {
         if (nextQuestion < cards.length ) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)
+            setCardShot(cardShot+1)
             dispatch(updateUserCard(cardGrade,cardId))
+            setCardShot(cardShot)
             setExpanded(!expanded)
         }
-        if (nextQuestion === cards.length) {
+        else {
             setExpanded(!expanded)
-            setCurrentQuestion(0)
+            dispatch(updateUserCard(cardGrade,cardId))
+
         }
     }
     return (
         <div className={s.wrapper}>
+            {statusApp === "loading" ? (
+                <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
+            ) : ( <>
                     <ReturnBack callback={returnToPackHandler}/>
                     <h2 className={s.title}> Learn {cardsPackName } </h2>
                     <Card className={s.card}>
@@ -101,6 +111,9 @@ export const LearnCardPack = () =>  {
                             </CardContent>
                         </Collapse>
                     </Card>
+            </>
+
+                )  }
         </div>
     );
 }

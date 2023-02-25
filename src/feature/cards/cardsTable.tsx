@@ -4,14 +4,12 @@ import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
 import { useNavigate, useParams } from "react-router-dom";
-import { selectorCardsPage } from "./cardsSelectors";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
-import { CardsType } from "./cardsAPI";
 import { CardsTableHead } from "./cardsTableHead";
 import { CardsTableBody } from "./cardsTableBody";
 import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
-import { getUserCardByPackId } from "./cardsReducer";
+import {CardsType, getUserCardByPackId} from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
 import PATH from "../../common/constans/path/path";
 import Skeleton from "react-loading-skeleton";
@@ -19,14 +17,12 @@ import Skeleton from "react-loading-skeleton";
 export const CardsList = () => {
   const { id } = useParams();
   const cards = useSelector(selectorCards);
-  let cardsPage = useSelector(selectorCardsPage);
   const status = useSelector(selectAppStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const statusApp = useSelector(selectAppStatus);
   useEffect(() => {
     if (id) {
-      console.log("1 use");
       dispatch(getUserCardByPackId(id));
     }
   }, []);
@@ -52,8 +48,6 @@ export const CardsList = () => {
   });
   useEffect(() => {
     if (cards && cards.length === 0 && status === "idle") {
-      console.log("2 use");
-
       navigate(PATH.EMPTY_PACK);
     }
   }, [status]);

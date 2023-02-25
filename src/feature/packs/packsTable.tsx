@@ -45,7 +45,7 @@ export const PacksTable = () => {
       pack.user_name,
       pack.updated.substring(0, 10),
       pack._id,
-      <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} />
+      <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} cards_count={pack.cardsCount} />
     );
   });
 
