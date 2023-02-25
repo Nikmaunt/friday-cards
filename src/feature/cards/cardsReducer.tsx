@@ -2,7 +2,7 @@ import { AppThunkDispatch, RootReducerType } from "../../app/store";
 import { setAppStatus, setCurrentPackId } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import {cardsAPI, NewCardRequestType} from "./cardsAPI";
+import { cardsAPI, NewCardRequestType } from "./cardsAPI";
 
 const initialCardsState = {} as CardStateType;
 
@@ -85,54 +85,51 @@ export const setCardsParams = (params: CardParamsType) => {
 };
 /////////////////// THUNK CREATORS ////////////////////////
 export const getUserCardByPackId =
-    (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
-        dispatch(setAppStatus("loading"));
-        const {params} = getState().cards;
-        try {
-            const res = await cardsAPI.getCards(packID, {...params});
-            dispatch(setCurrentPackId(packID));
-            console.log(res.data , 'RES DATA')
-            dispatch(getCards(res.data));
-        } catch (e) {
-            const err = e as Error | AxiosError<{ error: string }>;
-            errorUtils(err, dispatch);
-        } finally {
-            dispatch(setIsInitialized(true));
-            dispatch(setAppStatus("idle"));
-        }
-    };
+  (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+    dispatch(setAppStatus("loading"));
+    const { params } = getState().cards;
+    try {
+      const res = await cardsAPI.getCards(packID, { ...params });
+      dispatch(setCurrentPackId(packID));
+      console.log(res.data, "RES DATA");
+      dispatch(getCards(res.data));
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>;
+      errorUtils(err, dispatch);
+    } finally {
+      dispatch(setAppStatus("idle"));
+    }
+  };
 
 export const getAllUserCards =
-    (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
-        dispatch(setAppStatus("loading"));
-        let pageCount = getState().cards.cardsTotalCount === undefined ? 50 : getState().cards.cardsTotalCount;
-        try {
-            const res = await cardsAPI.getCards(packID, {pageCount});
-            dispatch(setCurrentPackId(packID));
-            dispatch(getCards(res.data));
-        } catch (e) {
-            const err = e as Error | AxiosError<{ error: string }>;
-            errorUtils(err, dispatch);
-        } finally {
-            dispatch(setIsInitialized(true));
-            dispatch(setAppStatus("succeeded"));
-        }
-    };
+  (packID: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+    dispatch(setAppStatus("loading"));
+    let pageCount = getState().cards.cardsTotalCount === undefined ? 50 : getState().cards.cardsTotalCount;
+    try {
+      const res = await cardsAPI.getCards(packID, { pageCount });
+      dispatch(setCurrentPackId(packID));
+      dispatch(getCards(res.data));
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>;
+      errorUtils(err, dispatch);
+    } finally {
+      dispatch(setAppStatus("succeeded"));
+    }
+  };
 export const updateUserCard =
-    (grade: number, cardId: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
-        dispatch(setAppStatus("loading"));
-        const cards = getState().cards;
-        try {
-             await cardsAPI.udpateCard(grade, cardId);
-            dispatch(getCards(cards));
-        } catch (e) {
-            const err = e as Error | AxiosError<{ error: string }>;
-            errorUtils(err, dispatch);
-        } finally {
-            dispatch(setIsInitialized(true));
-            dispatch(setAppStatus("succeeded"));
-        }
-    };
+  (grade: number, cardId: string) => async (dispatch: AppThunkDispatch, getState: () => RootReducerType) => {
+    dispatch(setAppStatus("loading"));
+    const cards = getState().cards;
+    try {
+      await cardsAPI.udpateCard(grade, cardId);
+      dispatch(getCards(cards));
+    } catch (e) {
+      const err = e as Error | AxiosError<{ error: string }>;
+      errorUtils(err, dispatch);
+    } finally {
+      dispatch(setAppStatus("succeeded"));
+    }
+  };
 export const addNewCardTC = (id: string, question: string, answer: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   const newCard: NewCardRequestType = {
@@ -189,53 +186,52 @@ export const editCardTC =
 
 //////////// types //////////////
 export type CardsType = {
-    _id: string;
-    cardsPack_id: string;
-    user_id: string;
-    question: string;
-    answer: string;
-    grade: number;
-    shots: number;
-    questionImg: string;
-    answerImg: string;
-    comments: string;
-    type: string;
-    rating: number;
-    more_id: string;
-    created: string;
-    updated: string;
-    _v: number;
-    answerVideo: string;
-    questionVideo: string;
+  _id: string;
+  cardsPack_id: string;
+  user_id: string;
+  question: string;
+  answer: string;
+  grade: number;
+  shots: number;
+  questionImg: string;
+  answerImg: string;
+  comments: string;
+  type: string;
+  rating: number;
+  more_id: string;
+  created: string;
+  updated: string;
+  _v: number;
+  answerVideo: string;
+  questionVideo: string;
 };
 export type CardStateType = {
-    cards: CardsType[];
-    params?: CardParamsType
-    cardsTotalCount: number;
-    maxGrade: number;
-    minGrade: number;
-    packCreated: string;
-    packName: string;
-    packPrivate: boolean;
-    packUpdated: string;
-    packUserId: string;
-    page: number;
-    pageCount: number;
-    token: string;
-    tokenDeathTime: string;
+  cards: CardsType[];
+  params?: CardParamsType;
+  cardsTotalCount: number;
+  maxGrade: number;
+  minGrade: number;
+  packCreated: string;
+  packName: string;
+  packPrivate: boolean;
+  packUpdated: string;
+  packUserId: string;
+  page: number;
+  pageCount: number;
+  token: string;
+  tokenDeathTime: string;
 };
 
 export type CardParamsType = {
-    cardAnswer?:string;
-    cardQuestion?:string ;
-    cardsPack_id?:string;
-    min?:number;
-    max?:number;
-    sortCards?:"0grade";
-    page?:number;
-    pageCount?:number;
-
-}
+  cardAnswer?: string;
+  cardQuestion?: string;
+  cardsPack_id?: string;
+  min?: number;
+  max?: number;
+  sortCards?: "0grade";
+  page?: number;
+  pageCount?: number;
+};
 export const CardsActions = {
   GetCards: "GET-CARDS",
   SetCardsPageNumber: "SET-PAGE-NUMBER",
