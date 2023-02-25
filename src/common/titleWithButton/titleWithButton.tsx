@@ -9,7 +9,7 @@ import {useSelector} from "react-redux";
 import {selectorUserId} from "../../app/appSelectors";
 import {selectorPackName, selectorPackUserId} from "../../feature/cards/cardsSelectors";
 import {TitleDropdown} from "./titleDropdown";
-
+import learnIcon from "../../img/learnIcon.svg";
 export const TitleWithButton = (props: TitleWithButtonPropsType) => {
     const {title, nameButton, callback} = props;
     const {id} = useParams();
@@ -27,7 +27,7 @@ export const TitleWithButton = (props: TitleWithButtonPropsType) => {
             <h2>{id === userPackId ? packName : title}</h2>
             {id  && < TitleDropdown pack_id={id} pack_name={packName}/>  }
             {id && (
-                <button className={s.learnIcon} onClick={learnPackHandler}><SchoolOutlinedIcon /> </button>
+                <button className={s.learnButton} onClick={learnPackHandler}><img className={s.learnIcon}  src={learnIcon } alt=""/> </button>
             )}
             <div className={s.button}>
                 <SuperButton name={nameButton} callback={callback}/>

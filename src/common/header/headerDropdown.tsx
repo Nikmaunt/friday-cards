@@ -58,10 +58,11 @@ export const HeaderDropdown = () => {
                 id="basic-menu"
                 anchorEl={anchorEl}
                 open={open}
+                transitionDuration={0}
                 onClose={handleClose}
-                MenuListProps={{
-                    "aria-labelledby": "basic-button",
-                }}
+                // MenuListProps={{
+                //     "aria-labelledby": "basic-button",
+                // }}
             >
                 <MenuItem onClick={goToProfile}> <img src={profileUserLogo}
                                                       style={{width: 12, height: 12, marginRight: 3}}

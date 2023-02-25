@@ -9,8 +9,17 @@
     height: 36px;
 }
 
-.learnIcon {
+.learnButton {
     margin-right: auto;
     cursor: pointer;
-    border: none;;
+    border: none;
+    background: none;
+    box-shadow: none;
+    color: #fff;
+}
+
+.learnIcon {
+    height: 21px;
+    width: 21px;
+    margin-top: 2px;
 }
