@@ -3,7 +3,6 @@ import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
 import { setAppStatus, setAuth, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { setIsActiveMyPacks } from "../packs/packsReducer";
 
 const initialAuthState = {
   isLogin: false,
@@ -87,7 +86,6 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
     await authAPI.logout();
     dispatch(setLoginUser(false));
     dispatch(setAuth(false));
-    dispatch(setIsActiveMyPacks(false));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);

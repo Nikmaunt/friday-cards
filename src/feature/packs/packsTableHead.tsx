@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
@@ -7,14 +7,13 @@ import s from "./Packs.module.css";
 import TableSortLabel from "@mui/material/TableSortLabel";
 
 import { DataRows } from "./packsTable";
-import { setPacksParams } from "./packsReducer";
+
 import { useAppDispatch } from "../../app/store";
 import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 export const PacksTableHead = () => {
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof DataRows>("cards");
-  const dispatch = useAppDispatch();
 
   const onRequestSort = (event: React.MouseEvent<unknown>, property: keyof DataRows) => {
     const isAsc = orderBy === property && order === "asc";

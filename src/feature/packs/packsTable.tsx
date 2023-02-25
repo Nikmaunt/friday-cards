@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
-import { fetchPacksTC, setPacksParams, setSearchFieldEmpty } from "./packsReducer";
+import { fetchPacksTC, setSearchFieldEmpty } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
-import { selectorPacks, selectorPacksParams } from "./packsSelectors";
+import { selectorPacks } from "./packsSelectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
 import { PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
@@ -13,29 +13,19 @@ import { selectAppStatus } from "../../app/appSelectors";
 import { NotFoundPage } from "./notFoundPage";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 import { useSearchParams } from "react-router-dom";
-import { getActualPacksParams } from "../../common/utils/params/getActualParams";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
-  const packsStateParams = useSelector(selectorPacksParams);
   const isPacksEmpty = packs.cardPacks.length === 0;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const URLParams = useMemo(() => getActualPacksParams(searchParams), [searchParams]);
-
-  // useEffect(() => {
-  //   if (JSON.stringify(packsStateParams) !== JSON.stringify(URLParams)) {
-  //     dispatch(setPacksParams(URLParams));
-  //   }
-  // }, [dispatch, URLParams]);
+  const [searchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
 
   useEffect(() => {
     dispatch(setSearchFieldEmpty(false));
-    // @ts-ignore
-    //setSearchParams(packsStateParams);
-    dispatch(fetchPacksTC());
-  }, [dispatch, packsStateParams]);
+    dispatch(fetchPacksTC(URLParams));
+  }, [dispatch, searchParams]);
 
   function createData(
     name: string,
