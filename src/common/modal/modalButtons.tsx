@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import s from "./actionModal.module.css";
 import Button from "@mui/material/Button";
 import { addPackTC, deletePackTC } from "../../feature/packs/packsReducer";
@@ -7,9 +7,9 @@ import { deleteCardTC } from "../../feature/cards/cardsReducer";
 
 export const ModalButtons = (props: ButtonsPropsType) => {
   const dispatch = useAppDispatch();
-  const addNewPacksHandler = () => {
+  const addNewPacksHandler = async () => {
     const newPacks = { cardsPack: { name: "newName" } };
-    dispatch(addPackTC(newPacks));
+    await dispatch(addPackTC(newPacks));
   };
 
   const deleteHandler = () => {
@@ -38,6 +38,7 @@ export const ModalButtons = (props: ButtonsPropsType) => {
         <Button
           variant="contained"
           className={s.save}
+          disabled={props.disabled}
           onClick={props.mode === "add" ? addNewPacksHandler : props.onKeyDownSaveChangeNameHandler}
         >
           Save
@@ -53,6 +54,7 @@ export type ButtonsPropsType = {
   card_id?: string;
   changeName?: () => void;
   onKeyDownSaveChangeNameHandler?: () => void;
+  disabled?: boolean;
   active: boolean;
   setActive: any;
 };

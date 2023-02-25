@@ -11,6 +11,7 @@ import { ActivateModalPropsType } from "../../feature/packs/packs";
 export const EditPack = (props: EditPackPropsType) => {
   const dispatch = useAppDispatch();
   const [packName, setPackName] = useState<string | undefined>(props.pack_name);
+  const [disabled, setDisabled] = useState(false);
   const [addPackName, setAddPackName] = useState<string>("");
   const [checked, setChecked] = useState(false);
 
@@ -27,15 +28,19 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
-  const onKeyDownSaveAddPackNameHandler = async () => {
+  const addNewPackName = async () => {
     const newPack = { cardsPack: { name: addPackName, private: checked } };
+    setDisabled(true);
     await dispatch(addPackTC(newPack));
+    setDisabled(false);
     props.setActive(false);
   };
 
-  const onKeyDownSaveChangePackNameHandler = async () => {
+  const saveChangePackName = async () => {
     if (props.pack_id && packName) {
+      setDisabled(true);
       await dispatch(editPackTC(props.pack_id, packName));
+      setDisabled(false);
       props.setActive(false);
     }
   };
@@ -59,11 +64,10 @@ export const EditPack = (props: EditPackPropsType) => {
         mode={"editPack"}
         pack_id={props.pack_id}
         active={props.active}
+        disabled={disabled}
         setActive={props.setActive}
         changeName={() => changeName}
-        onKeyDownSaveChangeNameHandler={
-          props.pack_id ? onKeyDownSaveChangePackNameHandler : onKeyDownSaveAddPackNameHandler
-        }
+        onKeyDownSaveChangeNameHandler={props.pack_id ? saveChangePackName : addNewPackName}
       />
     </div>
   );

@@ -14,6 +14,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   const dispatch = useAppDispatch();
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
+  const [disabled, setDisabled] = useState(false);
   const addQuestion = (e: ChangeEvent<HTMLInputElement>) => {
     setQuestion(e.currentTarget.value);
   };
@@ -22,18 +23,21 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
     setAnswer(e.currentTarget.value);
   };
 
-  const onKeyDownSaveAddCardHandler = async () => {
+  const addNewCard = async () => {
     if (props.pack_id) {
+      setDisabled(true);
       await dispatch(addNewCardTC(props.pack_id, question, answer));
+      setDisabled(false);
       props.setActive(false);
       navigate(`${PATH.CARDS_LIST}${props.pack_id}`);
       console.log("navigate", props.pack_id);
     }
   };
 
-  const onKeyDownSaveChangeCardHandler = () => {
+  const saveChangeCard = async () => {
     if (props.card_id && props.pack_id) {
-      dispatch(editCardTC(props.pack_id, props.card_id, question, answer));
+      await dispatch(editCardTC(props.pack_id, props.card_id, question, answer));
+      props.setActive(false);
     }
   };
 
@@ -60,20 +64,22 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
           mode={"editCard"}
           pack_id={props.pack_id}
           active={props.active}
+          disabled={disabled}
           setActive={props.setActive}
           // changePackName={() => alert("pack")}
           changeName={props.changeName}
-          onKeyDownSaveChangeNameHandler={onKeyDownSaveChangeCardHandler}
+          onKeyDownSaveChangeNameHandler={saveChangeCard}
         />
       ) : (
         <ModalButtons
           mode={"addCard"}
           pack_id={props.pack_id}
           active={props.active}
+          disabled={disabled}
           setActive={props.setActive}
           // changePackName={() => alert("pack")}
           changeName={props.changeName}
-          onKeyDownSaveChangeNameHandler={onKeyDownSaveAddCardHandler}
+          onKeyDownSaveChangeNameHandler={addNewCard}
         />
       )}
     </div>
