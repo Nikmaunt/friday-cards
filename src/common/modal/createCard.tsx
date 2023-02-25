@@ -27,7 +27,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
     if (props.pack_id) {
       console.log("add card");
       await dispatch(addNewCardTC(props.pack_id, question, answer));
-      navigate(PATH.CARDS_LIST_BY_ID);
+      navigate(`${PATH.CARDS_LIST_BY_ID}${props.pack_id}`);
       // props.setActive(false);
     }
   };
