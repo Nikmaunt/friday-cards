@@ -17,6 +17,9 @@ export const authAPI = {
   updateUserName(name: string) {
     return instanceHeroku.put<ResponseUpdateUserNameAvatar>("/auth/me", { name });
   },
+  updateUserAvatar(avatar: string) {
+    return instanceHeroku.put<ResponseUpdateUserNameAvatar>("/auth/me", { avatar });
+  },
 };
 ////////////////////////// types /////////////////////////////
 
