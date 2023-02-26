@@ -14,3 +14,22 @@
 .wrapperLogOut{
     padding-bottom: 48px;
 }
+
+.invisibleInput {
+    display: none;
+}
+
+.uploadFile {
+    width: 32px;
+    height: 32px;
+}
+
+.uploadFile :hover {
+    width: 40px;
+    height: 40px;
+}
+
+.uploadImg {
+    width: 32px;
+    height: 32px;
+}
