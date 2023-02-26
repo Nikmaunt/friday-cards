@@ -16,24 +16,30 @@ import profileUserLogo from "./img/profileUserLogo.png";
 import arrowIcon from "../../feature/profile/img/logOutArrow.png";
 
 export const HeaderDropdown = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userAvatar = useSelector(selectUserAvatar);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const userName = useSelector(selectUserName);
+
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const userAvatar = useSelector(selectUserAvatar);
+  const userName = useSelector(selectUserName);
+
+  const menuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const logOutHandler = useCallback(() => {
     dispatch(logoutUser());
   }, []);
 
-  const goToProfile = () => {
+  const goToProfileHandler = () => {
     setAnchorEl(null);
     navigate(PATH.PROFILE);
   };
-  const handleClose = () => {
+
+  const closeHandler = () => {
     setAnchorEl(null);
   };
 
@@ -45,7 +51,7 @@ export const HeaderDropdown = () => {
         aria-haspopup="false"
         aria-hidden="false"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={menuHandler}
         disableRipple
         className={s.menuButton}
       >
@@ -61,12 +67,9 @@ export const HeaderDropdown = () => {
         anchorEl={anchorEl}
         open={open}
         transitionDuration={0}
-        onClose={handleClose}
-        // MenuListProps={{
-        //     "aria-labelledby": "basic-button",
-        // }}
+        onClose={closeHandler}
       >
-        <MenuItem onClick={goToProfile}>
+        <MenuItem onClick={goToProfileHandler}>
           {" "}
           <img className={s.menuProfileLogo} src={profileUserLogo} alt="profileUserLogo" />
           Profile

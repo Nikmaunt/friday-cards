@@ -1,10 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import smallPhotoIcon from "./img/smallPhotoIcon.png";
-import userPhoto from "./img/userPhoto.png";
 import { IconButton } from "@mui/material";
 import s from "./Profile.module.css";
 import defaultAvatar from "./img/defaultAvatar.png";
@@ -26,13 +25,10 @@ const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
 };
 
 export const BadgeAvatar = (props: PropsType) => {
-  const dispatch = useAppDispatch();
   const [avatar, setAvatar] = useState(props.userAvatar);
   const [isAvatarBroken, setIsAvatarBroken] = useState(false);
 
-  // useEffect(() => {
-  //   console.log("avatar changed");
-  // }, [setAva]);
+  const dispatch = useAppDispatch();
 
   const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length) {
@@ -42,16 +38,11 @@ export const BadgeAvatar = (props: PropsType) => {
         convertFileToBase64(file, (file64: string) => {
           setAvatar(file64);
           // setAvatar("111");
-          console.log("file64: ", file64);
           dispatch(updateUserAvatar(file64));
         });
-        console.log("add request");
       } else {
         console.error("Error: ", "Файл слишком большого размера");
       }
-      console.log("file: ", file);
-      console.log("file.size: ", file.size);
-      console.log("file.type: ", file.type);
     }
   };
 
