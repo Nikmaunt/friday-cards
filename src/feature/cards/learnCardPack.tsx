@@ -15,7 +15,7 @@ import {selectorCards, selectorCardsTotalCount, selectorPackName} from "./cardsS
 import {useAppDispatch} from "../../app/store";
 import { useEffect} from "react";
 import {getAllUserCards, getCards, updateUserCard} from "./cardsReducer";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {SuperButton} from "../../common/superButton/superButton";
 import {ReturnBack} from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
@@ -26,12 +26,15 @@ import Skeleton from "react-loading-skeleton";
 
 export const LearnCardPack = () =>  {
     const { id } = useParams();
+    const navigate = useNavigate();
+
     const dispatch = useAppDispatch();
+
     const cards =  useSelector(selectorCards);
     const cardTOTALCOUNT =  useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
     const cardsPackName = useSelector(selectorPackName );
-    const navigate = useNavigate();
+    console.log(cards)
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
     const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : '');
@@ -43,6 +46,7 @@ export const LearnCardPack = () =>  {
         if (isAuth && cards === undefined && id) {
             dispatch(getAllUserCards(id));
         }
+
     },[isAuth])
 
     useEffect(() => {
@@ -51,12 +55,8 @@ export const LearnCardPack = () =>  {
         }
     }, [cards]);
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-    const returnToPackHandler = () => {
-        navigate(PATH.PACKS);
-    };
+    const handleExpandClick = () => {setExpanded(!expanded);};
+    const returnToPackHandler = () => {navigate(PATH.PACKS);};
     const onNextClickHandler =  () => {
         const nextQuestion = generateRandomQuestion(cards)
         if (nextQuestion < cards.length ) {
@@ -70,7 +70,6 @@ export const LearnCardPack = () =>  {
         else {
             setExpanded(!expanded)
             dispatch(updateUserCard(cardGrade,cardId))
-
         }
     }
     return (
