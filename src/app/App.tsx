@@ -4,7 +4,6 @@ import { ErrorSnackbar } from "../common/errorSnackbar/errorSnackbar";
 import { authMe } from "../feature/loginRegistration/authReducer";
 import { useAppDispatch } from "./store";
 import { Pages } from "./routes";
-import { CreatePassword } from "../feature/passwordRecovery/createPassword";
 
 const App = () => {
   const dispatch = useAppDispatch();

@@ -15,22 +15,44 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string>("");
   const [disabled, setDisabled] = useState(false);
+  const [errorQuestion, setErrorQuestion] = useState<null | string>(null);
+  const [errorAnswer, setErrorAnswer] = useState<null | string>(null);
+
   const addQuestion = (e: ChangeEvent<HTMLInputElement>) => {
+    setErrorQuestion("");
     setQuestion(e.currentTarget.value);
   };
 
   const addAnswer = (e: ChangeEvent<HTMLInputElement>) => {
+    setErrorAnswer("");
     setAnswer(e.currentTarget.value);
   };
 
+  // const addNewCard = async () => {
+  //   if (props.pack_id) {
+  //     setDisabled(true);
+  //     await dispatch(addNewCardTC(props.pack_id, question, answer));
+  //     setDisabled(false);
+  //     props.setActive(false);
+  //     navigate(`${PATH.CARDS_LIST}${props.pack_id}`);
+  //     console.log("navigate", props.pack_id);
+  //   }
+  // };
+
   const addNewCard = async () => {
-    if (props.pack_id) {
+    if (props.pack_id && question.trim() !== "" && answer.trim() !== "") {
       setDisabled(true);
       await dispatch(addNewCardTC(props.pack_id, question, answer));
       setDisabled(false);
       props.setActive(false);
       navigate(`${PATH.CARDS_LIST}${props.pack_id}`);
       console.log("navigate", props.pack_id);
+    }
+    if (question.trim() === "") {
+      setErrorQuestion("Question is required");
+    }
+    if (answer.trim() === "") {
+      setErrorAnswer("Answer is required");
     }
   };
 
@@ -49,6 +71,8 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
         variant="standard"
         className={s.nameInput}
         onChange={addQuestion}
+        error={!!errorQuestion}
+        helperText={errorQuestion}
         defaultValue={props.questionTitle ? props.questionTitle : question}
       />
       <TextField
@@ -56,32 +80,44 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
         defaultValue={props.answer ? props.answer : answer}
         variant="standard"
         className={s.nameInput}
+        error={!!errorAnswer}
+        helperText={errorAnswer}
         style={{ marginBottom: "108px" }}
         onChange={addAnswer}
       />
-      {props.mode === "editCard" ? (
-        <ModalButtons
-          mode={"editCard"}
-          pack_id={props.pack_id}
-          active={props.active}
-          disabled={disabled}
-          setActive={props.setActive}
-          // changePackName={() => alert("pack")}
-          changeName={props.changeName}
-          onKeyDownSaveChangeNameHandler={saveChangeCard}
-        />
-      ) : (
-        <ModalButtons
-          mode={"addCard"}
-          pack_id={props.pack_id}
-          active={props.active}
-          disabled={disabled}
-          setActive={props.setActive}
-          // changePackName={() => alert("pack")}
-          changeName={props.changeName}
-          onKeyDownSaveChangeNameHandler={addNewCard}
-        />
-      )}
+
+      {/*{props.mode === "editCard" ? (*/}
+      {/*  <ModalButtons*/}
+      {/*    mode={"editCard"}*/}
+      {/*    pack_id={props.pack_id}*/}
+      {/*    active={props.active}*/}
+      {/*    disabled={disabled}*/}
+      {/*    setActive={props.setActive}*/}
+      {/*    // changePackName={() => alert("pack")}*/}
+      {/*    changeName={props.changeName}*/}
+      {/*    onKeyDownSaveChangeNameHandler={saveChangeCard}*/}
+      {/*  />*/}
+      {/*) : (*/}
+      {/*  <ModalButtons*/}
+      {/*    mode={"addCard"}*/}
+      {/*    pack_id={props.pack_id}*/}
+      {/*    active={props.active}*/}
+      {/*    disabled={disabled}*/}
+      {/*    setActive={props.setActive}*/}
+      {/*    // changePackName={() => alert("pack")}*/}
+      {/*    changeName={props.changeName}*/}
+      {/*    onKeyDownSaveChangeNameHandler={addNewCard}*/}
+      {/*  />)}*/}
+
+      <ModalButtons
+        mode={props.mode === "editCard" ? "editCard" : "addCard"}
+        pack_id={props.pack_id}
+        active={props.active}
+        disabled={disabled}
+        setActive={props.setActive}
+        changeName={props.changeName}
+        onKeyDownSaveChangeNameHandler={props.mode === "editCard" ? saveChangeCard : addNewCard}
+      />
     </div>
   );
 };

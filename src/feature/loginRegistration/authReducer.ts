@@ -29,6 +29,8 @@ export const authReducer = (state = initialAuthState, action: AuthActionCreators
       return { ...state, user: { ...action.payload.user } };
     case AuthActions.UpdateUserName:
       return { ...state, user: { ...state.user, name: action.payload.name } };
+    case AuthActions.UpdateUserAvatar:
+      return { ...state, user: { ...state.user, avatar: action.payload.avatar } };
     default:
       return state;
   }
@@ -40,6 +42,7 @@ export const setLoginUser = (value: boolean, data?: UserDataType) =>
 export const setCurrentUser = (user: UserDataType) =>
   ({ type: AuthActions.SetCurrentUser, payload: { user } } as const);
 export const updateName = (name: string) => ({ type: AuthActions.UpdateUserName, payload: { name } } as const);
+export const updateAvatar = (avatar: string) => ({ type: AuthActions.UpdateUserAvatar, payload: { avatar } } as const);
 
 /////////////////// THUNK CREATORS ////////////////////////
 export const registrationUser = (values: RegistrationRequestType) => async (dispatch: AppThunkDispatch) => {
@@ -94,11 +97,24 @@ export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
   }
 };
 
-export const updateUser = (name: string) => async (dispatch: AppThunkDispatch) => {
+export const updateUserName = (name: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
     await authAPI.updateUserName(name);
     dispatch(updateName(name));
+  } catch (e) {
+    const err = e as Error | AxiosError<{ error: string }>;
+    errorUtils(err, dispatch);
+  } finally {
+    dispatch(setAppStatus("succeeded"));
+  }
+};
+
+export const updateUserAvatar = (avatar: string) => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
+  try {
+    await authAPI.updateUserAvatar(avatar);
+    dispatch(updateAvatar(avatar));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -112,6 +128,7 @@ export const AuthActions = {
   SetAuthUser: "SET-AUTH-USER",
   SetCurrentUser: "SET-CURRENT-USER",
   UpdateUserName: "UPDATE-NAME",
+  UpdateUserAvatar: "UPDATE-AVATAR",
 } as const;
 
 type InitialAuthStateType = typeof initialAuthState;
@@ -119,7 +136,8 @@ type InitialAuthStateType = typeof initialAuthState;
 export type AuthActionCreatorsType =
   | ReturnType<typeof setLoginUser>
   | ReturnType<typeof setCurrentUser>
-  | ReturnType<typeof updateName>;
+  | ReturnType<typeof updateName>
+  | ReturnType<typeof updateAvatar>;
 
 export type UserDataType = {
   _id: string;
