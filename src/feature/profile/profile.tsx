@@ -25,9 +25,9 @@ export const Profile = () => {
     dispatch(logoutUser());
   }, []);
 
-  if (!isLogin) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
+  // if (!isLogin) {
+  //   return <Navigate to={PATH.LOGIN} />;
+  // }
 
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);

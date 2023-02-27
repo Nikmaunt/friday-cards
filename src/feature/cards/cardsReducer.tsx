@@ -97,7 +97,7 @@ export const getUserCardByPackId =
             const err = e as Error | AxiosError<{ error: string }>;
             errorUtils(err, dispatch);
         } finally {
-            dispatch(setIsInitialized(true));
+            // dispatch(setIsInitialized(true));
             dispatch(setAppStatus("idle"));
         }
     };
@@ -114,7 +114,7 @@ export const getAllUserCards =
             const err = e as Error | AxiosError<{ error: string }>;
             errorUtils(err, dispatch);
         } finally {
-            dispatch(setIsInitialized(true));
+            // dispatch(setIsInitialized(true));
             dispatch(setAppStatus("succeeded"));
         }
     };
@@ -129,7 +129,7 @@ export const updateUserCard =
             const err = e as Error | AxiosError<{ error: string }>;
             errorUtils(err, dispatch);
         } finally {
-            dispatch(setIsInitialized(true));
+            // dispatch(setIsInitialized(true));
             dispatch(setAppStatus("succeeded"));
         }
     };
