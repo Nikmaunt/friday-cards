@@ -22,7 +22,7 @@ import PATH from "../../common/constans/path/path";
 import {selectAppStatus, selectorAuth} from "../../app/appSelectors";
 import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
 import Skeleton from "react-loading-skeleton";
-import {log} from "util";
+
 
 
 export const LearnCardPack = () => {
