@@ -22,6 +22,7 @@ import PATH from "../../common/constans/path/path";
 import {selectAppStatus, selectorAuth} from "../../app/appSelectors";
 import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
 import Skeleton from "react-loading-skeleton";
+import {log} from "util";
 
 
 export const LearnCardPack = () =>  {
@@ -31,22 +32,26 @@ export const LearnCardPack = () =>  {
     const dispatch = useAppDispatch();
 
     const cards =  useSelector(selectorCards);
+    console.log(cards)
     const cardTOTALCOUNT =  useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
+    console.log(isAuth)
     const cardsPackName = useSelector(selectorPackName );
-    console.log(cards)
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
     const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : '');
     const [cardGrade , setCardGrade] = React.useState<number>(cards?  cards[currentQuestion].grade : 0);
     const [cardShot , setCardShot] = React.useState<number>(cards?  cards[currentQuestion].shots : 0);
     const statusApp = useSelector(selectAppStatus);
-
+    console.log('USE', id)
+    console.log(!cards, "NE CARDS")
+    console.log(cards === undefined, "NE UND")
     useEffect(() => {
-        if (isAuth && cards === undefined && id) {
+        if ( cards === undefined ) {
+            // @ts-ignore
             dispatch(getAllUserCards(id));
+            console.log('USE')
         }
-
     },[isAuth])
 
     useEffect(() => {

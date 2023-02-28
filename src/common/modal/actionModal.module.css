@@ -95,5 +95,28 @@
 
 .questionFormatInput {
     height: 36px;
-    min-width: 347px;
+    width: 347px;
+}
+
+.uploadButtons {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 350px;
+}
+.questionImg {
+    display: block;
+    margin: -9px auto 10px;
+    max-height: 108px;
+    max-width: 170px;
+}
+.answerImg {
+    display: block;
+    margin: 10px auto -13px;
+    max-height: 120px;
+    max-width: 170px;
+}
+
+.invisibleInput {
+    display: none;
 }

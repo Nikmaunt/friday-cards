@@ -15,7 +15,7 @@ const StyledAvatar = styled(Avatar)(({ theme }) => ({
   height: 96,
 }));
 
-const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
+export const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
   const reader = new FileReader();
   reader.onloadend = () => {
     const file64 = reader.result as string;

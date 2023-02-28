@@ -27,8 +27,8 @@ export const CardsList = () => {
     }
   }, []);
 
-  function createData(question: string, answer: string, lastUpdated: string, grade: number, actions: any): DataCards {
-    return { question, answer, lastUpdated, grade, actions };
+  function createData(question: string, answer: string, lastUpdated: string, grade: number,answerImg:string,questionImg:string, actions: any): DataCards {
+    return { question, answer, lastUpdated, grade,answerImg,questionImg, actions };
   }
 
   const rows = cards?.map((card: CardsType) => {
@@ -37,10 +37,14 @@ export const CardsList = () => {
       card.answer,
       card.updated.substring(0, 10),
       card.grade,
+      card.answerImg,
+      card.questionImg,
       <CardsActionsIconPack
         user_id={card.user_id}
         questionTitle={card.question}
         answer={card.answer}
+        answerImg={card.answerImg}
+        questionImg={card.questionImg}
         card_id={card._id}
         pack_id={card.cardsPack_id}
       />
@@ -76,5 +80,7 @@ export type DataCards = {
   answer: string;
   lastUpdated: string;
   grade: number;
+  answerImg:string;
+  questionImg:string;
   actions: string;
 };
