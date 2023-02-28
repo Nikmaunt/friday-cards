@@ -35,7 +35,6 @@ export const LearnCardPack = () =>  {
     console.log(cards)
     const cardTOTALCOUNT =  useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
-    console.log(isAuth)
     const cardsPackName = useSelector(selectorPackName );
     const [expanded, setExpanded] = React.useState<boolean>(false);
     const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
@@ -47,8 +46,7 @@ export const LearnCardPack = () =>  {
     console.log(!cards, "NE CARDS")
     console.log(cards === undefined, "NE UND")
     useEffect(() => {
-        if ( cards === undefined ) {
-            // @ts-ignore
+        if (isAuth && cards === undefined  && id) {
             dispatch(getAllUserCards(id));
             console.log('USE')
         }
