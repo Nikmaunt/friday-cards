@@ -3,7 +3,7 @@ import { ActionModal } from "./actionModal";
 import s from "./actionModal.module.css";
 import Typography from "@mui/material/Typography";
 import { ModalButtons } from "./modalButtons";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { ActivateModalPropsType } from "./addNewPackModal";
 
 export const DeleteConfirmation = (props: DeleteConfirmationPropsType) => {
   return (

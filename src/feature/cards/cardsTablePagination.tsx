@@ -1,40 +1,34 @@
 import TablePagination from "@mui/material/TablePagination";
-import React from "react";
-import {getUserCardByPackId, SetCardsPageCount, setCardsParams} from "./cardsReducer";
-import {useAppDispatch} from "../../app/store";
-import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectorCardsPage, selectorCardsRowsPerPage, selectorCardsTotalCount} from "./cardsSelectors";
-
+import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectorCardsTotalCount } from "./cardsSelectors";
 
 export const CardsTablePagination = () => {
-  const dispatch = useAppDispatch();
-  const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
   const cardsTotalCount = useSelector(selectorCardsTotalCount);
-  const rowPerPage = useSelector(selectorCardsRowsPerPage)
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(rowPerPage);
-  const selPage = useSelector(selectorCardsPage);
-  const [page, setPage] = React.useState(selPage-1);
+  const selPage = Number(searchParams.get("page")) || 1;
+  const rowPerPage = Number(searchParams.get("pageCount")) || 4;
+
+  const [rowsPerPage, setRowsPerPage] = useState<number>(rowPerPage);
+  const [page, setPage] = useState<number>(selPage - 1);
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    const params = { page: newPage + 1 };
-    dispatch(setCardsParams(params));
-    if (id)
-    dispatch(getUserCardByPackId(id));
+    const params = { ...URLParams, page: String(newPage + 1) };
+    setSearchParams(params);
     setPage(newPage);
   };
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(SetCardsPageCount(+event.target.value));
-    const params = { pageCount: parseInt(event.target.value, 10), page: 1 };
-    dispatch(setCardsParams(params));
-    if (id)
-    dispatch(getUserCardByPackId(id));
+    const params = { ...URLParams, pageCount: String(event.target.value), page: "1" };
+    setSearchParams(params);
+    setRowsPerPage(+event.target.value);
   };
   return (
     <TablePagination
-      rowsPerPageOptions={[4, 10, 25]}
+      rowsPerPageOptions={[4, 10, 20]}
       component="div"
-      count={cardsTotalCount }
+      count={cardsTotalCount}
       rowsPerPage={rowsPerPage}
       page={page}
       onPageChange={handleChangePage}

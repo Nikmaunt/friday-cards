@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, FC, useState } from "react";
 import { TextField } from "@mui/material";
 import s from "./actionModal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -6,25 +6,27 @@ import Checkbox from "@mui/material/Checkbox";
 import { addPackTC, editPackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { ModalButtons } from "./modalButtons";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
-import {useParams} from "react-router-dom";
-import {getAllUserCards} from "../../feature/cards/cardsReducer";
+import { ActivateModalPropsType } from "./addNewPackModal";
+import { EditCardPackRequestType } from "../../feature/packs/packsAPI";
 
-export const EditPack = (props: EditPackPropsType) => {
-  const {id} = useParams();
+export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setActive, active }) => {
   const dispatch = useAppDispatch();
-  const [packName, setPackName] = useState<string | undefined>(props.pack_name);
-  const [disabled, setDisabled] = useState(false);
+  const [packName, setPackName] = useState<string | undefined>(pack_name);
+  const [disabled, setDisabled] = useState(true);
   const [addPackName, setAddPackName] = useState<string>("");
   const [checked, setChecked] = useState(false);
 
   const handleChange = () => {
-    console.log("checked", checked);
     setChecked(!checked);
   };
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
-    if (props.pack_id) {
+    if (e.currentTarget.value) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+    if (pack_id) {
       setPackName(e.currentTarget.value);
     } else {
       setAddPackName(e.currentTarget.value);
@@ -36,18 +38,20 @@ export const EditPack = (props: EditPackPropsType) => {
     setDisabled(true);
     await dispatch(addPackTC(newPack));
     setDisabled(false);
-    props.setActive(false);
+    setActive(false);
   };
 
   const saveChangePackName = async () => {
-    if (props.pack_id && packName) {
+    if (pack_id && packName) {
       setDisabled(true);
-      await dispatch(editPackTC(props.pack_id, packName));
+      const editPack: EditCardPackRequestType = {
+        cardsPack: {
+          _id: pack_id,
+          name: packName,
+        },
+      };
+      await dispatch(editPackTC(editPack));
       setDisabled(false);
-      if (id) {
-        await dispatch(getAllUserCards(id));
-      }
-      props.setActive(false);
     }
   };
 
@@ -55,7 +59,7 @@ export const EditPack = (props: EditPackPropsType) => {
     <div>
       <TextField
         label={"Name pack"}
-        defaultValue={props.pack_id ? props.pack_name : addPackName}
+        defaultValue={pack_id ? pack_name : addPackName}
         variant="standard"
         className={s.nameInput}
         onChange={changeName}
@@ -68,12 +72,11 @@ export const EditPack = (props: EditPackPropsType) => {
       />
       <ModalButtons
         mode={"editPack"}
-        pack_id={props.pack_id}
-        active={props.active}
+        pack_id={pack_id}
+        active={active}
         disabled={disabled}
-        setActive={props.setActive}
-        changeName={() => changeName}
-        onKeyDownSaveChangeNameHandler={props.pack_id ? saveChangePackName : addNewPackName}
+        setActive={setActive}
+        onKeyDownSaveChangeNameHandler={pack_id ? saveChangePackName : addNewPackName}
       />
     </div>
   );

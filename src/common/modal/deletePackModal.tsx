@@ -1,6 +1,6 @@
 import React from "react";
 import { DeleteConfirmation } from "./deleteConfirmation";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { ActivateModalPropsType } from "./addNewPackModal";
 
 export const DeletePackModal = (props: DeletePackModalPropsType) => {
   return (

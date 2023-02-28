@@ -6,6 +6,6 @@ export const SkeletonLoader: FC<Props> = ({ height, count }) => {
 };
 
 type Props = {
-  height: string;
-  count: number;
+  height?: string;
+  count?: number;
 };

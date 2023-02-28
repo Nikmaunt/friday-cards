@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CardsList } from "./cardsTable";
-import { useAppDispatch } from "../../app/store";
 import s from "../cards/Cards.module.css";
 import { TitleWithButton } from "../../common/titleWithButton/titleWithButton";
 import { SearchField } from "../settingParams/searchField/searchField";
@@ -9,22 +8,20 @@ import { useSelector } from "react-redux";
 import { ReturnBack } from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { useNavigate, useParams } from "react-router-dom";
-import { getCards } from "./cardsReducer";
-import { selectAppStatus, selectorUserId } from "../../app/appSelectors";
-import Skeleton from "react-loading-skeleton";
+import { selectAppStatus, selectorPackId, selectorUserId } from "../../app/appSelectors";
 import { AddNewCardModal } from "../../common/modal/addNewCardModal";
-import { selectorPacksParams } from "../packs/packsSelectors";
+import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 
 export const Cards = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // replace on packId ?
   const userAuthId = useSelector(selectorUserId);
   const userPackId = useSelector(selectorPackUserId);
   const packName = useSelector(selectorPackName);
-  const dispatch = useAppDispatch();
+  const packId = useSelector(selectorPackId);
   const navigate = useNavigate();
   const statusApp = useSelector(selectAppStatus);
   const [activeAddNewCard, setActiveAddNewCard] = useState(false);
-  const packsParams = useSelector(selectorPacksParams);
+
   const addNewCardsHandler = () => {
     setActiveAddNewCard(true);
   };
@@ -32,26 +29,8 @@ export const Cards = () => {
   const learnFriendPackHandler = () => {
     navigate(`${PATH.LEARN_PACK}${id}`);
   };
-  useEffect(() => {}, [packsParams]);
-
-  const CardEmpty = {
-    cards: [],
-    cardsTotalCount: 0,
-    maxGrade: 0,
-    minGrade: 0,
-    packCreated: "",
-    packName: "",
-    packPrivate: false,
-    packUpdated: "",
-    packUserId: "",
-    page: 1,
-    pageCount: 4,
-    token: "",
-    tokenDeathTime: "",
-  };
 
   const returnToPackHandler = () => {
-    dispatch(getCards(CardEmpty));
     navigate(PATH.PACKS);
   };
 
@@ -62,7 +41,7 @@ export const Cards = () => {
     <div className={s.wrapper}>
       <ReturnBack callback={returnToPackHandler} />
       {statusApp === "loading" ? (
-        <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
+        <SkeletonLoader height={"50px"} />
       ) : (
         <TitleWithButton title={packName} nameButton={resNameButton} callback={addLearnHandler} />
       )}
@@ -70,13 +49,6 @@ export const Cards = () => {
         <SearchField />
       </div>
       <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={id} />
-      {/*<AddNewPackModal active={activeAddNewPack} setActive={setActiveAddNewPack} />*/}
-      {/*{statusApp === "loading" ? (*/}
-      {/*  <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />*/}
-      {/*) : (*/}
-      {/*  <CardsList />*/}
-      {/*)}*/}
-
       <CardsList />
     </div>
   );

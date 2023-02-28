@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../app/store";
 import { addNewCardTC, editCardTC } from "../../feature/cards/cardsReducer";
 import { useNavigate } from "react-router-dom";
 import PATH from "../../common/constans/path/path";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { ActivateModalPropsType } from "./addNewPackModal";
 
 export const CreateCard = (props: CreateNewCardPropsType) => {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
           disabled={disabled}
           setActive={props.setActive}
           // changePackName={() => alert("pack")}
-          changeName={props.changeName}
+
           onKeyDownSaveChangeNameHandler={saveChangeCard}
         />
       ) : (
@@ -78,7 +78,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
           disabled={disabled}
           setActive={props.setActive}
           // changePackName={() => alert("pack")}
-          changeName={props.changeName}
+
           onKeyDownSaveChangeNameHandler={addNewCard}
         />
       )}

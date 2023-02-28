@@ -65,11 +65,11 @@ export const addPackTC = (newPack: AddPackParamsType) => async (dispatch: AppThu
   }
 };
 
-export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) => {
+export const deletePackTC = (packId: string, user_id: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
-    await packsAPI.deletePack(id);
-    await dispatch(fetchPacksTC({}));
+    await packsAPI.deletePack(packId);
+    await dispatch(fetchPacksTC({ user_id }));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
     errorUtils(err, dispatch);
@@ -78,16 +78,10 @@ export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) =
   }
 };
 
-export const editPackTC = (id: string, newName: string) => async (dispatch: AppThunkDispatch) => {
+export const editPackTC = (cardsPack: EditCardPackRequestType) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
-  const editCardPack: EditCardPackRequestType = {
-    cardsPack: {
-      _id: id,
-      name: newName,
-    },
-  };
   try {
-    await packsAPI.editPack(editCardPack);
+    await packsAPI.editPack(cardsPack);
     await dispatch(fetchPacksTC({}));
   } catch (e) {
     const err = e as Error | AxiosError<{ error: string }>;
@@ -112,10 +106,7 @@ export type PacksResponseType = {
 
 export const PacksActions = {
   SetPacks: "SET-PACKS",
-  AddPack: "ADD-PACK",
-  SetPackId: "SET-PACK-ID",
   SetSearchField: "SET_SEARCH_FIELD",
-  SetActivePacks: "SET-ACTIVE-PACKS",
 } as const;
 
 export type PackParamsType = {

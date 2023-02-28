@@ -1,7 +1,7 @@
 import React from "react";
 import { ActionModal } from "./actionModal";
 import { CreateCard } from "./createCard";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { ActivateModalPropsType } from "./addNewPackModal";
 
 export const EditCardModal = (props: EditModalPropsType) => {
   return (

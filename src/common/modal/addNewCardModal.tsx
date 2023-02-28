@@ -1,18 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
 import { ActionModal } from "./actionModal";
 import { CreateCard } from "./createCard";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { ActivateModalPropsType } from "./addNewPackModal";
 
-export const AddNewCardModal = (props: AddNewCardModalPropsType) => {
-  console.log("pack_id", props.pack_id);
+export const AddNewCardModal: FC<AddNewCardModalPropsType> = ({ setActive, active, pack_id }) => {
   return (
-    <ActionModal title="Add new card" active={props.active} setActive={props.setActive}>
+    <ActionModal title="Add new card" active={active} setActive={setActive}>
       <CreateCard
         mode={"addCard"}
-        pack_id={props.pack_id}
+        pack_id={pack_id}
         changeName={() => alert("pack")}
-        active={props.active}
-        setActive={props.setActive}
+        active={active}
+        setActive={setActive}
       />
     </ActionModal>
   );
@@ -21,5 +20,5 @@ export const AddNewCardModal = (props: AddNewCardModalPropsType) => {
 type AddNewCardModalPropsType = ActivateModalPropsType & PropsType;
 
 type PropsType = {
-  pack_id: string | undefined;
+  pack_id?: string;
 };

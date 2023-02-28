@@ -1,27 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import s from "./actionModal.module.css";
 import Button from "@mui/material/Button";
-import { addPackTC, deletePackTC } from "../../feature/packs/packsReducer";
+import { deletePackTC } from "../../feature/packs/packsReducer";
 import { useAppDispatch } from "../../app/store";
-import {deleteCardTC} from "../../feature/cards/cardsReducer";
-import {useNavigate} from "react-router-dom";
-import PATH from "../constans/path/path";
+import { deleteCardTC } from "../../feature/cards/cardsReducer";
+import { useSearchParams } from "react-router-dom";
 
 export const ModalButtons = (props: ButtonsPropsType) => {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("user_id") || "";
   const dispatch = useAppDispatch();
-  const addNewPacksHandler = async () => {
-    const newPacks = { cardsPack: { name: "newName" } };
-    await dispatch(addPackTC(newPacks));
-  };
 
   const deleteHandler = () => {
     if (props.card_id && props.pack_id && props.mode === "deleteCard") {
       dispatch(deleteCardTC(props.card_id, props.pack_id));
     }
     if (props.pack_id && props.mode === "deletePack") {
-      dispatch(deletePackTC(props.pack_id));
-      navigate(PATH.PACKS);
+      dispatch(deletePackTC(props.pack_id, userId));
     }
   };
 
@@ -43,7 +38,8 @@ export const ModalButtons = (props: ButtonsPropsType) => {
           variant="contained"
           className={s.save}
           disabled={props.disabled}
-          onClick={props.mode === "add" ? addNewPacksHandler : props.onKeyDownSaveChangeNameHandler}
+          // onClick={props.mode === "add" ? addNewPacksHandler : props.onKeyDownSaveChangeNameHandler}
+          onClick={props.onKeyDownSaveChangeNameHandler}
         >
           Save
         </Button>
@@ -56,7 +52,6 @@ export type ButtonsPropsType = {
   mode: "add" | "editPack" | "deleteCard" | "deletePack" | "addCard" | "editCard";
   pack_id?: string;
   card_id?: string;
-  changeName?: () => void;
   onKeyDownSaveChangeNameHandler?: () => void;
   disabled?: boolean;
   active: boolean;

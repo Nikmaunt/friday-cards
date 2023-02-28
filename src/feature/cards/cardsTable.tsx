@@ -3,29 +3,31 @@ import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
 import { selectorCards } from "./cardsSelectors";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { CardsActionsIconPack } from "./cardsActionsIconPack";
 import { CardsTableHead } from "./cardsTableHead";
 import { CardsTableBody } from "./cardsTableBody";
 import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
-import {CardsType, getUserCardByPackId} from "./cardsReducer";
+import { getUserCardByPackId } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
 import PATH from "../../common/constans/path/path";
-import Skeleton from "react-loading-skeleton";
+import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
+import { CardsType } from "./cardsAPI";
 
 export const CardsList = () => {
-  const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const URLParams = Object.fromEntries(searchParams);
+
   const cards = useSelector(selectorCards);
   const status = useSelector(selectAppStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const statusApp = useSelector(selectAppStatus);
+
   useEffect(() => {
-    if (id) {
-      dispatch(getUserCardByPackId(id));
-    }
-  }, []);
+    dispatch(getUserCardByPackId(URLParams));
+  }, [searchParams]);
 
   function createData(question: string, answer: string, lastUpdated: string, grade: number, actions: any): DataCards {
     return { question, answer, lastUpdated, grade, actions };
@@ -46,6 +48,7 @@ export const CardsList = () => {
       />
     );
   });
+
   useEffect(() => {
     if (cards && cards.length === 0 && status === "idle") {
       navigate(PATH.EMPTY_PACK);
@@ -55,7 +58,7 @@ export const CardsList = () => {
   return (
     <div>
       {statusApp === "loading" ? (
-        <Skeleton height={"60px"} count={5} background-color="#f3f3f3" foreground-color="#ecebeb" />
+        <SkeletonLoader height={"60px"} count={5} />
       ) : (
         <Paper>
           <Table aria-labelledby="tableTitle" size={"medium"}>

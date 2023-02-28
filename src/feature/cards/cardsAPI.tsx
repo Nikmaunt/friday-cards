@@ -1,17 +1,17 @@
 import { instanceHeroku } from "../../app/appAPI";
-import {CardParamsType, CardsType, editCardType} from "./cardsReducer";
+import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
-  getCards(packID: string, params?:CardParamsType) {
-    return instanceHeroku.get<CardRequestType>(`cards/card?cardsPack_id=${packID}`, {params});
+  getCards(params: CardParamsType) {
+    return instanceHeroku.get<CardResponseType>(`cards/card`, { params });
   },
-  udpateCard(grade: number, card_id:string) {
-    return instanceHeroku.put<GradeResponseType>('cards/grade',{grade,card_id});
+  updateCard(grade: number, card_id: string) {
+    return instanceHeroku.put<GradeResponseType>("cards/grade", { grade, card_id });
   },
   addCard(newCard: NewCardRequestType) {
     return instanceHeroku.post("cards/card", newCard);
   },
-  deleteCard(id:string) {
+  deleteCard(id: string) {
     return instanceHeroku.delete(`cards/card?id=${id}`);
   },
   editCard(editCard: editCardType) {
@@ -19,10 +19,19 @@ export const cardsAPI = {
   },
 };
 
-
 ////////////////// types /////////////////
+export type CardParamsType = {
+  cardsPack_id?: string;
+  cardAnswer?: string;
+  cardQuestion?: string;
+  min?: number;
+  max?: number;
+  sortCards?: string;
+  page?: number;
+  pageCount?: number;
+};
 
-export type CardRequestType = {
+export type CardResponseType = {
   cards: CardsType[];
   cardsTotalCount: number;
   maxGrade: number;
@@ -38,15 +47,35 @@ export type CardRequestType = {
   tokenDeathTime: string;
 };
 
+export type CardsType = {
+  _id: string;
+  cardsPack_id: string;
+  user_id: string;
+  question: string;
+  answer: string;
+  grade: number;
+  shots: number;
+  questionImg: string;
+  answerImg: string;
+  comments: string;
+  type: string;
+  rating: number;
+  more_id: string;
+  created: string;
+  updated: string;
+  _v: number;
+  answerVideo: string;
+  questionVideo: string;
+};
 
 export type GradeResponseType = {
-    _id: string
-    cardsPack_id: string
-    card_id: string
-    user_id: string
-    grade: number
-    shots: number
-}
+  _id: string;
+  cardsPack_id: string;
+  card_id: string;
+  user_id: string;
+  grade: number;
+  shots: number;
+};
 
 export type NewCardRequestType = {
   card: {

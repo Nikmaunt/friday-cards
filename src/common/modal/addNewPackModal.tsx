@@ -1,12 +1,16 @@
-import React from "react";
+import React, { FC } from "react";
 import { ActionModal } from "./actionModal";
-import { EditPack } from "./editPack";
-import { ActivateModalPropsType } from "../../feature/packs/packs";
+import { AddOrEditPack } from "./addOrEditPack";
 
-export const AddNewPackModal = (props: ActivateModalPropsType) => {
+export const AddNewPackModal: FC<ActivateModalPropsType> = ({ active, setActive }) => {
   return (
-    <ActionModal title="Add new pack" active={props.active} setActive={props.setActive}>
-      <EditPack active={props.active} setActive={props.setActive} />
+    <ActionModal title="Add new pack" active={active} setActive={setActive}>
+      <AddOrEditPack active={active} setActive={setActive} />
     </ActionModal>
   );
+};
+
+export type ActivateModalPropsType = {
+  active: boolean;
+  setActive: any;
 };

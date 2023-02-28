@@ -18,7 +18,7 @@ export const PacksTablePagination = () => {
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const params = { ...URLParams, pageCount: String(parseInt(event.target.value)), page: "1" };
+    const params = { ...URLParams, pageCount: String(event.target.value), page: "1" };
     setSearchParams(params);
     setRowsPerPage(+event.target.value);
   };

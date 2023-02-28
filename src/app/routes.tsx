@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PATH from "../common/constans/path/path";
 import { LoginRegistration } from "../feature/loginRegistration/loginRegistration";
 import { Profile } from "../feature/profile/profile";
@@ -23,7 +23,7 @@ export const Pages = () => {
       <Route path={PATH.PACKS} element={<Packs />}></Route>
       <Route path={PATH.EMPTY_PACK} element={<EmptyPageField />}></Route>
       <Route path={PATH.LEARN_PACK_BY_ID} element={<LearnCardPack />}></Route>
-      <Route path={PATH.CARDS_LIST_BY_ID} element={<Cards />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<Cards />}></Route>
     </Routes>
   );
 };
