@@ -10,8 +10,10 @@
     margin-top: -15px;
 }
 .answerImg {
+    width: 200px;
+    height: 200px;
     display: flex;
-    margin-left: 120px;
+    margin-left: 80px;
 }
 
 .title {
