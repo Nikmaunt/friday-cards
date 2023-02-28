@@ -21,26 +21,18 @@ export const CardsTableBody = ({rows}: PropsType) => {
                             component="th"
                             id={labelId}
                             scope="row"
-                            sx={{paddingRight: "36px", textAlign: "left", maxWidth: 252, overflow: "hidden"}}
-                        >
-                            <img className={s.answerImg}
-                                 src={row.questionImg || undefined}
-                            />
+                            sx={{paddingRight: "36px", textAlign: "left", maxWidth: 252, overflow: "hidden"}}>
+                            <img src={row.questionImg || undefined}/>
                             {row.questionImg ? null : row.question}
                         </TableCell>
                         <TableCell style={{overflow: "hidden", maxWidth: 252}} align="left">
-                            <img className={s.answerImg}
-                                 src={row.answerImg || undefined}/>
+                            <img src={row.answerImg || undefined}/>
                             {row.answerImg ? null : row.answer}
                         </TableCell>
                         <TableCell align="left">{row.lastUpdated}</TableCell>
                         <TableCell align="left">
                             <Box
-                                sx={{
-                                    width: 70,
-                                    display: "flex",
-                                }}
-                            >
+                                sx={{width: 70, display: "flex"}}>
                                 <Rating
                                     readOnly
                                     name="text-feedback"
