@@ -9,20 +9,21 @@ import s from "./Profile.module.css";
 import defaultAvatar from "./img/defaultAvatar.png";
 import { useAppDispatch } from "../../app/store";
 import { updateUserAvatar } from "../loginRegistration/authReducer";
+import { convertFileToBase64 } from "../../common/utils/convertFileToBase64";
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   width: 96,
   height: 96,
 }));
 
-const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
-  const reader = new FileReader();
-  reader.onloadend = () => {
-    const file64 = reader.result as string;
-    callBack(file64);
-  };
-  reader.readAsDataURL(file);
-};
+// const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
+//   const reader = new FileReader();
+//   reader.onloadend = () => {
+//     const file64 = reader.result as string;
+//     callBack(file64);
+//   };
+//   reader.readAsDataURL(file);
+// };
 
 export const BadgeAvatar = (props: PropsType) => {
   const [avatar, setAvatar] = useState(props.userAvatar);

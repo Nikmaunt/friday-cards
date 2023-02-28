@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
-import { TextField } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { IconButton, TextField } from "@mui/material";
 import s from "./actionModal.module.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -10,6 +10,7 @@ import { ActivateModalPropsType } from "../../feature/packs/packs";
 import { useParams } from "react-router-dom";
 import { getAllUserCards } from "../../feature/cards/cardsReducer";
 import AddImage from "./../../img/AddImage.png";
+import { convertFileToBase64 } from "../utils/convertFileToBase64";
 
 export const EditPack = (props: EditPackPropsType) => {
   const { id } = useParams();
@@ -19,6 +20,7 @@ export const EditPack = (props: EditPackPropsType) => {
   const [addPackName, setAddPackName] = useState<string>("");
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [imageDeckCover, setImageDeckCover] = useState(AddImage);
 
   const handleChange = () => {
     setChecked(!checked);
@@ -33,22 +35,8 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
-  // const changeName = (e: ChangeEvent<HTMLInputElement>) => {
-  //   setName(e.currentTarget.value);
-  //   if (name.trim() === "") {
-  //     setError("Title is required");
-  //   } else {
-  //     setError("");
-  //     if (props.pack_id) {
-  //       setPackName(e.currentTarget.value);
-  //     } else {
-  //       setAddPackName(e.currentTarget.value);
-  //     }
-  //   }
-  // };
-
   const addNewPackName = async () => {
-    const newPack = { cardsPack: { name: addPackName, private: checked } };
+    const newPack = { cardsPack: { name: addPackName, deckCover: imageDeckCover, private: checked } };
     if (addPackName.trim() !== "") {
       setDisabled(true);
       await dispatch(addPackTC(newPack));
@@ -59,23 +47,11 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
-  // const saveChangePackName = async () => {
-  //   if (props.pack_id && packName) {
-  //     setDisabled(true);
-  //     await dispatch(editPackTC(props.pack_id, packName));
-  //     setDisabled(false);
-  //     if (id) {
-  //       await dispatch(getAllUserCards(id));
-  //     }
-  //     props.setActive(false);
-  //   }
-  // };
-
   const saveChangePackName = async () => {
     if (props.pack_id && packName && packName.trim() !== "") {
       setError("");
       setDisabled(true);
-      await dispatch(editPackTC(props.pack_id, packName));
+      await dispatch(editPackTC(props.pack_id, packName, imageDeckCover));
       setDisabled(false);
       if (id) {
         await dispatch(getAllUserCards(id));
@@ -86,11 +62,37 @@ export const EditPack = (props: EditPackPropsType) => {
     }
   };
 
+  const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length) {
+      const file = e.target.files[0];
+
+      if (file.size < 4000000) {
+        convertFileToBase64(file, (file64: string) => {
+          setImageDeckCover(file64);
+          console.log(file64);
+          // setAvatar("111");
+          // dispatch(updateUserAvatar(file64));
+        });
+      } else {
+        console.error("Error: ", "Файл слишком большого размера");
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (props.deckCover) setImageDeckCover(props.deckCover);
+  }, [props.deckCover]);
   return (
-    <div>
-      <div className={s.addImage}>
-        <img src={AddImage} />
+    <div className={s.editPack}>
+      <div className={s.deckCover}>
+        <label>
+          <input type="file" onChange={uploadHandler} className={s.invisibleInput} />
+          <IconButton component="span" className={s.imageWrapper}>
+            <img src={imageDeckCover} alt="uploadFile" className={s.addImage} />
+          </IconButton>
+        </label>
       </div>
+
       <TextField
         label={"Name pack"}
         defaultValue={props.pack_id ? props.pack_name : addPackName}
@@ -124,4 +126,5 @@ type EditPackPropsType = ActivateModalPropsType & Partial<PropsType>;
 type PropsType = {
   pack_id: string;
   pack_name: string;
+  deckCover?: string;
 };

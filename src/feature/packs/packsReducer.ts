@@ -78,12 +78,13 @@ export const deletePackTC = (id: string) => async (dispatch: AppThunkDispatch) =
   }
 };
 
-export const editPackTC = (id: string, newName: string) => async (dispatch: AppThunkDispatch) => {
+export const editPackTC = (id: string, newName: string, deckCover: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   const editCardPack: EditCardPackRequestType = {
     cardsPack: {
       _id: id,
       name: newName,
+      deckCover: deckCover,
     },
   };
   try {
