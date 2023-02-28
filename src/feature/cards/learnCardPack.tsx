@@ -32,7 +32,7 @@ export const LearnCardPack = () =>  {
     const dispatch = useAppDispatch();
 
     const cards =  useSelector(selectorCards);
-    console.log(cards)
+
     const cardTOTALCOUNT =  useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
     const cardsPackName = useSelector(selectorPackName );
@@ -42,9 +42,6 @@ export const LearnCardPack = () =>  {
     const [cardGrade , setCardGrade] = React.useState<number>(cards?  cards[currentQuestion].grade : 0);
     const [cardShot , setCardShot] = React.useState<number>(cards?  cards[currentQuestion].shots : 0);
     const statusApp = useSelector(selectAppStatus);
-    console.log('USE', id)
-    console.log(!cards, "NE CARDS")
-    console.log(cards === undefined, "NE UND")
     useEffect(() => {
         if (isAuth && cards === undefined  && id) {
             dispatch(getAllUserCards(id));
