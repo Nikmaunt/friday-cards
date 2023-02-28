@@ -58,7 +58,7 @@ export const BadgeAvatar = (props: PropsType) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         badgeContent={
           <label>
-            <input type="file" onChange={uploadHandler} className={s.invisibleInput} />
+            <input type="file" accept="image/*" onChange={uploadHandler} className={s.invisibleInput} />
             <IconButton component="span" className={s.uploadFile}>
               <img src={smallPhotoIcon} alt="uploadFile" className={s.uploadImg} />
             </IconButton>

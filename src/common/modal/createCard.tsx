@@ -136,7 +136,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
                                 <div>
                                     <img className={s.questionImg} src={questionImg || undefined}/>
                                     <label className={s.uploadButtons}>
-                                        <input type="file" onChange={uploadQuestionImgHandler}
+                                        <input type="file" accept="image/*" onChange={uploadQuestionImgHandler}
                                                className={s.invisibleInput}/>
                                         <Button variant="contained" component="span">
                                             Upload question
@@ -146,7 +146,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
                                 <div>
                                     <img className={s.answerImg} src={answerImg || undefined}/>
                                     <label className={s.uploadButtons}>
-                                        <input type="file" onChange={uploadAnswerImgHandler}
+                                        <input type="file" accept="image/*" onChange={uploadAnswerImgHandler}
                                                className={s.invisibleInput}/>
                                         <Button sx={{marginTop: 3}} variant="contained" component="span">
                                             Upload answer
