@@ -37,6 +37,7 @@ export const BadgeAvatar = (props: PropsType) => {
       if (file.size < 4000000) {
         convertFileToBase64(file, (file64: string) => {
           setAvatar(file64);
+          console.log(file64);
           // setAvatar("111");
           dispatch(updateUserAvatar(file64));
         });

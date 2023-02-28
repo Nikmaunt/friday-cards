@@ -3,6 +3,12 @@ import { DataCards } from "../../feature/cards/cardsTable";
 
 export const headCells: readonly HeadCell[] = [
   {
+    id: "deckCover",
+    numeric: false,
+    disablePadding: true,
+    label: "Deck cover",
+  },
+  {
     id: "name",
     numeric: false,
     disablePadding: true,

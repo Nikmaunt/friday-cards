@@ -9,6 +9,7 @@ import { ModalButtons } from "./modalButtons";
 import { ActivateModalPropsType } from "../../feature/packs/packs";
 import { useParams } from "react-router-dom";
 import { getAllUserCards } from "../../feature/cards/cardsReducer";
+import AddImage from "./../../img/AddImage.png";
 
 export const EditPack = (props: EditPackPropsType) => {
   const { id } = useParams();
@@ -87,6 +88,9 @@ export const EditPack = (props: EditPackPropsType) => {
 
   return (
     <div>
+      <div className={s.addImage}>
+        <img src={AddImage} />
+      </div>
       <TextField
         label={"Name pack"}
         defaultValue={props.pack_id ? props.pack_name : addPackName}

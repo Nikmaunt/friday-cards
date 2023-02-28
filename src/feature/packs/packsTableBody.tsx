@@ -5,8 +5,11 @@ import TableBody from "@mui/material/TableBody";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { DataRows } from "./packsTable";
-import {getUserCardByPackId} from "../cards/cardsReducer";
-import {useAppDispatch} from "../../app/store";
+import { getUserCardByPackId } from "../cards/cardsReducer";
+import { useAppDispatch } from "../../app/store";
+import s from "./Packs.module.css";
+import EmptyImage from "./../../img/EmptyImage.png";
+import BrokenImage from "./../../img/BrokenImage.png";
 
 export const PacksTableBody = ({ rows }: PropsType) => {
   const navigate = useNavigate();
@@ -15,6 +18,9 @@ export const PacksTableBody = ({ rows }: PropsType) => {
     navigate(`${PATH.CARDS_LIST}${id}`);
   };
 
+  const errorHandler = () => {
+    return <img src={BrokenImage} className={s.deckCover} />;
+  };
   return (
     <TableBody>
       {rows.map((row, index) => {
@@ -22,19 +28,34 @@ export const PacksTableBody = ({ rows }: PropsType) => {
         return (
           <TableRow key={row.id}>
             <TableCell align={"center"} padding={"none"} />
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.deckCover ? (
+                <img src={row.deckCover} className={s.deckCover} onError={errorHandler} />
+              ) : (
+                <img src={EmptyImage} className={s.deckCover} />
+              )}
+            </TableCell>
             <TableCell
               onClick={() => goToCardsList(row.id)}
               component="th"
               id={labelId}
               scope="row"
-              sx={{ paddingRight: "36px", textAlign: "left",cursor:"pointer", overflow: "hidden",maxWidth:252  }}
+              sx={{ paddingRight: "36px", textAlign: "left", cursor: "pointer", overflow: "hidden", maxWidth: 252 }}
             >
               {row.name}
             </TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.cards}</TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.lastUpdated}</TableCell>
-            <TableCell sx={{maxWidth:252}}  align="left">{row.createdBy}</TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.actions}</TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.cards}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.lastUpdated}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.createdBy}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.actions}
+            </TableCell>
           </TableRow>
         );
       })}
