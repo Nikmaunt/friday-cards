@@ -74,12 +74,16 @@ export const loginUser = (values: LoginRequestType) => async (dispatch: AppThunk
 };
 
 export const authMe = () => async (dispatch: AppThunkDispatch) => {
+  dispatch(setAppStatus("loading"));
   try {
     let res = await authAPI.authMe();
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
     dispatch(setAuth(true));
   } catch (e) {}
+  finally {
+    dispatch(setAppStatus("succeeded"));
+  }
 };
 
 export const logoutUser = () => async (dispatch: AppThunkDispatch) => {

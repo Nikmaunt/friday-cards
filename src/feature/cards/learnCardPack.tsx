@@ -22,6 +22,7 @@ import PATH from "../../common/constans/path/path";
 import {selectAppStatus, selectorAuth} from "../../app/appSelectors";
 import {generateRandomQuestion} from "../../common/functions/smartRandom/generateRandomQuestion";
 import Skeleton from "react-loading-skeleton";
+import LinearProgress from "@mui/material/LinearProgress";
 
 
 
@@ -32,8 +33,6 @@ export const LearnCardPack = () => {
     const dispatch = useAppDispatch();
 
     const cards = useSelector(selectorCards);
-
-    const cardTOTALCOUNT = useSelector(selectorCardsTotalCount);
     const isAuth = useSelector(selectorAuth);
     const cardsPackName = useSelector(selectorPackName);
     const [expanded, setExpanded] = React.useState<boolean>(false);
@@ -66,9 +65,7 @@ export const LearnCardPack = () => {
         if (nextQuestion < cards.length) {
             setCurrentQuestion(nextQuestion)
             setCardID(cards[nextQuestion]._id)
-            setCardShot(cardShot + 1)
             dispatch(updateUserCard(cardGrade, cardId))
-            setCardShot(cardShot)
             setExpanded(!expanded)
         } else {
             setExpanded(!expanded)
