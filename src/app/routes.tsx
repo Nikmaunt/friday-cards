@@ -1,4 +1,4 @@
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import PATH from "../common/constans/path/path";
 import {LoginRegistration} from "../feature/loginRegistration/loginRegistration";
 import {Profile} from "../feature/profile/profile";
@@ -11,6 +11,7 @@ import {Cards} from "../feature/cards/cards";
 import {EmptyPageField} from "../feature/packs/emptyPageField";
 import {LearnCardPack} from "../feature/cards/learnCardPack";
 import {PrivateRoutes} from "./privateRoutes";
+
 
 
 export const Pages = () => {

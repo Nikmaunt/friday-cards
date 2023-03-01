@@ -6,7 +6,7 @@ import {useAppDispatch} from "./store";
 import {Pages} from "./routes";
 import {useSelector} from "react-redux";
 import {selectAppStatus} from "./appSelectors";
-import LinearProgress from "@mui/material/LinearProgress";
+import {StatusLoader} from "../common/statusLoader/statusLoader";
 
 const App = () => {
     const dispatch = useAppDispatch();
@@ -19,7 +19,7 @@ const App = () => {
     return (
         <>
             <Header/>
-            {loading === 'loading' && <LinearProgress/>}
+            {loading === 'loading' && <StatusLoader/>}
             <Pages/>
             <ErrorSnackbar/>
         </>
