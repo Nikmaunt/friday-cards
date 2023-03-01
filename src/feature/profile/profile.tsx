@@ -17,7 +17,6 @@ import { BadgeAvatar } from "./badgeAvatar";
 export const Profile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector(selectorLogin);
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
   const userAvatar = useSelector(selectUserAvatar);
@@ -25,10 +24,6 @@ export const Profile = () => {
   const logOutHandler = useCallback(() => {
     dispatch(logoutUser());
   }, []);
-
-  // if (!isLogin) {
-  //   return <Navigate to={PATH.LOGIN} />;
-  // }
 
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
