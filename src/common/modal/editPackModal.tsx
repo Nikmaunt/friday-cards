@@ -7,7 +7,7 @@ import { ActivateModalPropsType } from "./addNewPackModal";
 export const EditPackModal = (props: EditPackModalPropsType) => {
   return (
     <ActionModal title="Edit pack" active={props.active} setActive={props.setActive}>
-      <EditPack
+      <AddOrEditPack // ЗДЕСЬ БЫЛ EDIT PACK
         pack_id={props.pack_id}
         pack_name={props.pack_name}
         active={props.active}

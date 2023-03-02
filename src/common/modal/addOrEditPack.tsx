@@ -113,4 +113,5 @@ type EditPackPropsType = ActivateModalPropsType & Partial<PropsType>;
 type PropsType = {
   pack_id: string;
   pack_name: string;
+  deckCover?: string;
 };

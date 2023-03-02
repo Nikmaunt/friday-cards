@@ -69,6 +69,6 @@ export type EditCardPackRequestType = {
   cardsPack: {
     _id: string;
     name: string;
-    deckCover: string;
+    deckCover?: string;
   };
 };
