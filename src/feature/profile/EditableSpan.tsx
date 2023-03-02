@@ -45,7 +45,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   };
 
   const onButtonClickHandler = () => {
-    if (name !== "") {
+    if (name.trim()  !== "") {
       dispatch(updateUserName(name));
       setEditMode(!editMode);
     } else {
@@ -53,7 +53,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
     }
   };
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && name !== "") {
+    if (e.key === "Enter" && name.trim() !== "") {
       dispatch(updateUserName(name));
       setEditMode(!editMode);
     } else {
@@ -62,7 +62,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   };
   const onBlurHandler = () => {
     if (name == userName) setEditMode(!editMode);
-    if (name === "") {
+    if (name.trim() === "") {
       setErrors("Name is required!");
       setEditMode(!editMode);
     }
@@ -80,7 +80,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           variant="standard"
           label="Nickname"
           onKeyPress={onKeyPressHandler}
-          error={name === ""}
+          error={name.trim()  === ""}
           helperText={name === "" ? errors : null}
           onChange={changeName}
           value={name}
@@ -92,7 +92,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                 size="small"
                 style={{ marginBottom: "3px" }}
                 variant="contained"
-                disabled={name === ""}
+                disabled={name.trim()  === ""}
               >
                 SAVE
               </Button>
