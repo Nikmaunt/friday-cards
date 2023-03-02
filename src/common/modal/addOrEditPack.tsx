@@ -37,10 +37,12 @@ export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setAc
 
   const addNewPackName = async () => {
     const newPack = { cardsPack: { name: addPackName, private: checked } };
+
     setDisabled(true);
     await dispatch(addPackTC(newPack));
     setDisabled(false);
     setActive(false);
+
     // if (addPackName.trim() !== "") {
     //   setDisabled(true);
     //   await dispatch(addPackTC(newPack));

@@ -5,22 +5,21 @@ import { authMe } from "../feature/loginRegistration/authReducer";
 import { useAppDispatch } from "./store";
 import { Pages } from "./routes";
 import { useSelector } from "react-redux";
-import { isInitialized, selectAppStatus, selectorAuth } from "./appSelectors";
+import { isInitialized } from "./appSelectors";
 import { InitializedLoader } from "../common/initializedLoader/InitializedLoader";
-import { selectorLogin } from "../feature/loginRegistration/selectors";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const status = useSelector(selectAppStatus);
-  const isAuth = useSelector(selectorAuth);
-  const isLogin = useSelector(selectorLogin);
-  const isINIT = useSelector(isInitialized);
+  const isInitializedApp = useSelector(isInitialized);
+
   useEffect(() => {
     dispatch(authMe());
   }, []);
-  if (!isINIT) {
+
+  if (!isInitializedApp) {
     return <InitializedLoader />;
   }
+
   return (
     <>
       <Header />
