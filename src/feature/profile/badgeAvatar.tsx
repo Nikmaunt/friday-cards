@@ -9,6 +9,7 @@ import s from "./Profile.module.css";
 import defaultAvatar from "./img/defaultAvatar.png";
 import { useAppDispatch } from "../../app/store";
 import { updateUserAvatar } from "../loginRegistration/authReducer";
+import { convertFileToBase64 } from "../../common/utils/convertFileToBase64";
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   width: 96,

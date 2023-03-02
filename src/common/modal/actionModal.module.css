@@ -120,3 +120,36 @@
 .invisibleInput {
     display: none;
 }
+
+.label {
+    width: 0;
+    height: 0;
+}
+
+.deckCover {
+    margin-top: auto;
+    margin-left: 120px;
+}
+
+.imageWrapper {
+    width: 160px;
+    height: 160px;
+
+}
+
+.addImage {
+    width: 160px;
+    height: 160px;
+}
+
+.addImage :hover {
+    background-color: #0059b2;
+}
+
+.invisibleInput {
+    display: none;
+}
+
+.editPack {
+    min-height: 407px;
+}

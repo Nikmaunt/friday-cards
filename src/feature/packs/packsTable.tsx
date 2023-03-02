@@ -32,6 +32,7 @@ export const PacksTable = () => {
   }, [dispatch, searchParams]);
 
   function createData(
+    deckCover: string | undefined,
     name: string,
     cards: number,
     createdBy: string,
@@ -39,17 +40,24 @@ export const PacksTable = () => {
     id: string,
     actions: any
   ): DataRows {
-    return { name, cards, lastUpdated, createdBy, id, actions };
+    return { deckCover, name, cards, lastUpdated, createdBy, id, actions };
   }
 
   const rows = packs.cardPacks.map((pack) => {
     return createData(
+      pack.deckCover,
       pack.name,
       pack.cardsCount,
       pack.user_name,
       pack.updated.substring(0, 10),
       pack._id,
-      <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} cards_count={pack.cardsCount} />
+      <ActionsIconPack
+        user_id={pack.user_id}
+        pack_id={pack._id}
+        pack_name={pack.name}
+        cards_count={pack.cardsCount}
+        deckCover={pack.deckCover}
+      />
     );
   });
   if (!isLogin) {
@@ -80,6 +88,7 @@ export const PacksTable = () => {
 
 /////////// types //////////////
 export type DataRows = {
+  deckCover: string | undefined;
   name: string;
   cards: number;
   createdBy: string;
