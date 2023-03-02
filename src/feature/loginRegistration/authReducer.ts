@@ -1,6 +1,6 @@
 import { AppThunkDispatch } from "../../app/store";
 import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
-import { setAppStatus, setAuth, setInitialezed, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus, setAuth, setInitialized, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 
@@ -79,7 +79,7 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     //dispatch(setInitialezed(true));
   } catch (e) {
   } finally {
-    dispatch(setInitialezed(true));
+    dispatch(setInitialized(true));
   }
 };
 

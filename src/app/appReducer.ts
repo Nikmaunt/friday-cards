@@ -19,7 +19,7 @@ export const appReducer = (state = initialState, action: AppActionCreatorsType):
       return { ...state, error: action.payload.error };
     case AppActions.SetCurrentPackId:
       return { ...state, currentPackId: action.payload.packId };
-    case "SET-INIT":
+    case AppActions.SetInitialized:
       return { ...state, isInitialized: action.value };
     default:
       return state;
@@ -35,7 +35,7 @@ export const setAppError = (error: ErrorType) => ({ type: AppActions.SetError, p
 export const setAuth = (value: boolean) => ({ type: AppActions.SetAuth, payload: { value } } as const);
 export const setCurrentPackId = (packId: string) =>
   ({ type: AppActions.SetCurrentPackId, payload: { packId } } as const);
-export const setInitialezed = (value: boolean) => ({ type: "SET-INIT", value } as const);
+export const setInitialized = (value: boolean) => ({ type: AppActions.SetInitialized, value } as const);
 
 //////////////////////// types  ///////////////////////////////
 
@@ -50,7 +50,7 @@ export type AppActionCreatorsType =
   | SetAppErrorType
   | ReturnType<typeof setAuth>
   | ReturnType<typeof setCurrentPackId>
-  | ReturnType<typeof setInitialezed>;
+  | ReturnType<typeof setInitialized>;
 
 export const AppActions = {
   ToggleIsSignUp: "TOGGLE-IS-SIGN-UP",
@@ -58,4 +58,5 @@ export const AppActions = {
   SetError: "SET-ERROR",
   SetAuth: "SET-AUTH",
   SetCurrentPackId: "SET-CURRENT-PACK-ID",
+  SetInitialized: "SET-INITIALIZED",
 } as const;
