@@ -13,7 +13,6 @@ import {LearnCardPack} from "../feature/cards/learnCardPack";
 import {PrivateRoutes} from "./privateRoutes";
 
 
-
 export const Pages = () => {
     return (
         <Routes>
