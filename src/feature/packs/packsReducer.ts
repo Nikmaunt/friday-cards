@@ -2,7 +2,7 @@ import { AppThunkDispatch } from "../../app/store";
 import { setAppStatus } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
-import { AddPackParamsType, EditCardPackRequestType, PackReturnType, packsAPI, PacksReturnType } from "./packsAPI";
+import { AddPackParamsType, EditCardPackRequestType, PackResponseType, packsAPI, PacksReturnType } from "./packsAPI";
 
 const initialPacksState = {
   cardPacks: [],
@@ -93,7 +93,7 @@ export const editPackTC = (cardsPack: EditCardPackRequestType) => async (dispatc
 
 /////////// types /////////////
 export type PacksResponseType = {
-  cardPacks: Array<PackReturnType>;
+  cardPacks: Array<PackResponseType>;
   page: number;
   pageCount: number;
   cardPacksTotalCount: number;

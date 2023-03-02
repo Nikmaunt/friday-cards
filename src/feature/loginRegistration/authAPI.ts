@@ -1,9 +1,9 @@
-import { instance, instanceHeroku } from "../../app/appAPI";
+import { instanceHeroku } from "../../app/appAPI";
 import { UserDataType } from "./authReducer";
 
 export const authAPI = {
   registration(values: RegistrationRequestType) {
-    return instance.post<ResponseRegistrationType>("/auth/register", values);
+    return instanceHeroku.post<ResponseRegistrationType>("/auth/register", values);
   },
   login(values: LoginRequestType) {
     return instanceHeroku.post<UserDataType>("/auth/login", values);

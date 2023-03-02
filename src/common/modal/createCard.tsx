@@ -6,8 +6,8 @@ import { ModalButtons } from "./modalButtons";
 import { useAppDispatch } from "../../app/store";
 import { addNewCardTC, editCardTC } from "../../feature/cards/cardsReducer";
 import { useNavigate } from "react-router-dom";
-import PATH from "../../common/constans/path/path";
 import { ActivateModalPropsType } from "./addNewPackModal";
+import { EditCardRequestType, NewCardRequestType } from "../../feature/cards/cardsAPI";
 
 export const CreateCard = (props: CreateNewCardPropsType) => {
   const navigate = useNavigate();
@@ -26,17 +26,29 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
   const addNewCard = async () => {
     if (props.pack_id) {
       setDisabled(true);
-      await dispatch(addNewCardTC(props.pack_id, question, answer));
+      const newCard: NewCardRequestType = {
+        card: {
+          cardsPack_id: props.pack_id,
+          question,
+          answer,
+        },
+      };
+      await dispatch(addNewCardTC(newCard));
       setDisabled(false);
       props.setActive(false);
-      navigate(`${PATH.CARDS_LIST}${props.pack_id}`);
-      console.log("navigate", props.pack_id);
     }
   };
 
-  const saveChangeCard = async () => {
+  const editCard = async () => {
     if (props.card_id && props.pack_id) {
-      await dispatch(editCardTC(props.pack_id, props.card_id, question, answer));
+      const editCard: EditCardRequestType = {
+        card: {
+          _id: props.card_id,
+          question,
+          answer,
+        },
+      };
+      await dispatch(editCardTC(editCard, props.pack_id));
       props.setActive(false);
     }
   };
@@ -68,7 +80,7 @@ export const CreateCard = (props: CreateNewCardPropsType) => {
           setActive={props.setActive}
           // changePackName={() => alert("pack")}
 
-          onKeyDownSaveChangeNameHandler={saveChangeCard}
+          onKeyDownSaveChangeNameHandler={editCard}
         />
       ) : (
         <ModalButtons

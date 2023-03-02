@@ -1,6 +1,7 @@
 const initialState = {
   isSignUp: false,
   isAuth: false,
+  isInitialized: false,
   status: "idle" as RequestStatusType,
   error: null as ErrorType,
   currentPackId: "",
@@ -18,6 +19,8 @@ export const appReducer = (state = initialState, action: AppActionCreatorsType):
       return { ...state, error: action.payload.error };
     case AppActions.SetCurrentPackId:
       return { ...state, currentPackId: action.payload.packId };
+    case "SET-INIT":
+      return { ...state, isInitialized: action.value };
     default:
       return state;
   }
@@ -32,6 +35,7 @@ export const setAppError = (error: ErrorType) => ({ type: AppActions.SetError, p
 export const setAuth = (value: boolean) => ({ type: AppActions.SetAuth, payload: { value } } as const);
 export const setCurrentPackId = (packId: string) =>
   ({ type: AppActions.SetCurrentPackId, payload: { packId } } as const);
+export const setInitialezed = (value: boolean) => ({ type: "SET-INIT", value } as const);
 
 //////////////////////// types  ///////////////////////////////
 
@@ -45,7 +49,8 @@ export type AppActionCreatorsType =
   | ReturnType<typeof setAppStatus>
   | SetAppErrorType
   | ReturnType<typeof setAuth>
-  | ReturnType<typeof setCurrentPackId>;
+  | ReturnType<typeof setCurrentPackId>
+  | ReturnType<typeof setInitialezed>;
 
 export const AppActions = {
   ToggleIsSignUp: "TOGGLE-IS-SIGN-UP",

@@ -9,7 +9,7 @@ import { CardsTableHead } from "./cardsTableHead";
 import { CardsTableBody } from "./cardsTableBody";
 import { CardsTablePagination } from "./cardsTablePagination";
 import { useAppDispatch } from "../../app/store";
-import { getUserCardByPackId } from "./cardsReducer";
+import { getCardsTC } from "./cardsReducer";
 import { selectAppStatus } from "../../app/appSelectors";
 import PATH from "../../common/constans/path/path";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
@@ -26,7 +26,7 @@ export const CardsList = () => {
   const statusApp = useSelector(selectAppStatus);
 
   useEffect(() => {
-    dispatch(getUserCardByPackId(URLParams));
+    dispatch(getCardsTC(URLParams));
   }, [searchParams]);
 
   function createData(question: string, answer: string, lastUpdated: string, grade: number, actions: any): DataCards {

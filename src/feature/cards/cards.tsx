@@ -13,7 +13,6 @@ import { AddNewCardModal } from "../../common/modal/addNewCardModal";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 
 export const Cards = () => {
-  const { id } = useParams(); // replace on packId ?
   const userAuthId = useSelector(selectorUserId);
   const userPackId = useSelector(selectorPackUserId);
   const packName = useSelector(selectorPackName);
@@ -27,7 +26,7 @@ export const Cards = () => {
   };
 
   const learnFriendPackHandler = () => {
-    navigate(`${PATH.LEARN_PACK}${id}`);
+    navigate(`${PATH.LEARN_PACK}/?cardsPack_id=${packId}`);
   };
 
   const returnToPackHandler = () => {
@@ -48,7 +47,7 @@ export const Cards = () => {
       <div className={s.search}>
         <SearchField />
       </div>
-      <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={id} />
+      <AddNewCardModal active={activeAddNewCard} setActive={setActiveAddNewCard} pack_id={packId} />
       <CardsList />
     </div>
   );

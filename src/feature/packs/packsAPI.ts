@@ -6,7 +6,7 @@ export const packsAPI = {
     return instanceHeroku.get<PacksReturnType>("/cards/pack", { params });
   },
   addPack(newPack: AddPackParamsType) {
-    return instanceHeroku.post<PackReturnType>("/cards/pack", newPack);
+    return instanceHeroku.post<PackResponseType>("/cards/pack", newPack);
   },
   deletePack(id: string) {
     return instanceHeroku.delete(`/cards/pack?id=${id}`);
@@ -36,8 +36,7 @@ export type AddPackParamsType = {
   };
 };
 
-//pack type from response
-export type PackReturnType = {
+export type PackResponseType = {
   _id: string;
   user_id: string;
   user_name: string;
@@ -57,7 +56,7 @@ export type PackReturnType = {
 };
 
 export type PacksReturnType = {
-  cardPacks: PackReturnType[];
+  cardPacks: PackResponseType[];
   page: number;
   pageCount: number;
   cardPacksTotalCount: number;

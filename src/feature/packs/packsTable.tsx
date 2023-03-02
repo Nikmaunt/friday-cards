@@ -12,7 +12,9 @@ import { Paper } from "@mui/material";
 import { selectAppStatus } from "../../app/appSelectors";
 import { NotFoundPage } from "./notFoundPage";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
-import { useSearchParams } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
+import { selectorLogin } from "../loginRegistration/selectors";
+import PATH from "../../common/constans/path/path";
 
 export const PacksTable = () => {
   const dispatch = useAppDispatch();
@@ -21,10 +23,12 @@ export const PacksTable = () => {
   const isPacksEmpty = packs.cardPacks.length === 0;
   const [searchParams] = useSearchParams();
   const URLParams = Object.fromEntries(searchParams);
-
+  const isLogin = useSelector(selectorLogin);
   useEffect(() => {
-    dispatch(setSearchFieldEmpty(false));
-    dispatch(fetchPacksTC(URLParams));
+    if (isLogin) {
+      dispatch(setSearchFieldEmpty(false));
+      dispatch(fetchPacksTC(URLParams));
+    }
   }, [dispatch, searchParams]);
 
   function createData(
@@ -48,7 +52,9 @@ export const PacksTable = () => {
       <ActionsIconPack user_id={pack.user_id} pack_id={pack._id} pack_name={pack.name} cards_count={pack.cardsCount} />
     );
   });
-
+  if (!isLogin) {
+    return <Navigate to={PATH.LOGIN} />;
+  }
   return (
     <div>
       {statusApp === "loading" ? (

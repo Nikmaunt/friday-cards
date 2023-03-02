@@ -1,12 +1,11 @@
 import { instanceHeroku } from "../../app/appAPI";
-import { editCardType } from "./cardsReducer";
 
 export const cardsAPI = {
   getCards(params: CardParamsType) {
     return instanceHeroku.get<CardResponseType>(`cards/card`, { params });
   },
-  updateCard(grade: number, card_id: string) {
-    return instanceHeroku.put<GradeResponseType>("cards/grade", { grade, card_id });
+  updateGradeCard(newGradeCard: UpdateGradeCardType) {
+    return instanceHeroku.put<GradeResponseType>("cards/grade", newGradeCard);
   },
   addCard(newCard: NewCardRequestType) {
     return instanceHeroku.post("cards/card", newCard);
@@ -14,7 +13,7 @@ export const cardsAPI = {
   deleteCard(id: string) {
     return instanceHeroku.delete(`cards/card?id=${id}`);
   },
-  editCard(editCard: editCardType) {
+  editCard(editCard: EditCardRequestType) {
     return instanceHeroku.put(`cards/card`, editCard);
   },
 };
@@ -89,4 +88,17 @@ export type NewCardRequestType = {
     questionVideo?: string;
     answerVideo?: string;
   };
+};
+
+export type EditCardRequestType = {
+  card: {
+    _id: string;
+    question: string;
+    answer: string;
+  };
+};
+
+export type UpdateGradeCardType = {
+  grade: number;
+  card_id: string;
 };

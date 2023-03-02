@@ -11,43 +11,46 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { useSelector } from "react-redux";
-import { selectorCards, selectorCardsTotalCount, selectorPackName } from "./cardsSelectors";
+import { selectorCards, selectorPackName } from "./cardsSelectors";
 import { useAppDispatch } from "../../app/store";
-import { useEffect } from "react";
-import { getAllUserCards, getCards, updateUserCard } from "./cardsReducer";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getCardsTC, updateGradeCardTC } from "./cardsReducer";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SuperButton } from "../../common/superButton/superButton";
 import { ReturnBack } from "../../common/returnBack/returnBack";
 import PATH from "../../common/constans/path/path";
 import { selectAppStatus, selectorAuth } from "../../app/appSelectors";
 import { generateRandomQuestion } from "../../common/functions/smartRandom/generateRandomQuestion";
-import Skeleton from "react-loading-skeleton";
+import { CardParamsType, UpdateGradeCardType } from "./cardsAPI";
+import { selectorMax } from "../packs/packsSelectors";
+import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 
 export const LearnCardPack = () => {
-  const { id } = useParams();
   const dispatch = useAppDispatch();
-  const cards = useSelector(selectorCards);
-  const cardTOTALCOUNT = useSelector(selectorCardsTotalCount);
-  const isAuth = useSelector(selectorAuth);
-  const cardsPackName = useSelector(selectorPackName);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [expanded, setExpanded] = React.useState<boolean>(false);
-  const [currentQuestion, setCurrentQuestion] = React.useState<number>(0);
-  const [cardId, setCardID] = React.useState<string>(cards ? cards[currentQuestion]._id : "");
-  const [cardGrade, setCardGrade] = React.useState<number>(cards ? cards[currentQuestion].grade : 0);
-  const [cardShot, setCardShot] = React.useState<number>(cards ? cards[currentQuestion].shots : 0);
+  //const URLParams = Object.fromEntries(searchParams);
+
+  const packId = searchParams.get("cardsPack_id") || "";
+  const cards = useSelector(selectorCards);
+  //const isAuth = useSelector(selectorAuth);
+  const cardsPackName = useSelector(selectorPackName);
+  const maxValueCards = useSelector(selectorMax);
   const statusApp = useSelector(selectAppStatus);
 
-  useEffect(() => {
-    if (isAuth && cards === undefined && id) {
-      console.log("isAuth", isAuth);
-      console.log("cards", cards);
-      console.log("id", id);
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0);
+  const [cardId, setCardID] = useState<string>(cards ? cards[currentQuestion]._id : "");
+  const [cardGrade, setCardGrade] = useState<number>(cards ? cards[currentQuestion].grade : 0);
+  const [cardShot, setCardShot] = useState<number>(cards ? cards[currentQuestion].shots : 0);
 
-      console.log("LEARN");
-      dispatch(getAllUserCards(id));
-    }
-  }, [isAuth]);
+  useEffect(() => {
+    const params: CardParamsType = {
+      cardsPack_id: packId,
+      pageCount: maxValueCards,
+    };
+    dispatch(getCardsTC(params));
+  }, [searchParams]);
 
   useEffect(() => {
     if (cards && cards[currentQuestion]) {
@@ -61,24 +64,31 @@ export const LearnCardPack = () => {
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
   };
+
   const onNextClickHandler = () => {
     const nextQuestion = generateRandomQuestion(cards);
+    const updateGradeCard: UpdateGradeCardType = {
+      grade: cardGrade,
+      card_id: cardId,
+    };
+
     if (nextQuestion < cards.length) {
       setCurrentQuestion(nextQuestion);
       setCardID(cards[nextQuestion]._id);
       setCardShot(cardShot + 1);
-      dispatch(updateUserCard(cardGrade, cardId));
+      dispatch(updateGradeCardTC(updateGradeCard));
       setCardShot(cardShot);
       setExpanded(!expanded);
     } else {
       setExpanded(!expanded);
-      dispatch(updateUserCard(cardGrade, cardId));
+      dispatch(updateGradeCardTC(updateGradeCard));
     }
   };
+
   return (
     <div className={s.wrapper}>
       {statusApp === "loading" ? (
-        <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb" />
+        <SkeletonLoader height={"50px"} />
       ) : (
         <>
           <ReturnBack callback={returnToPackHandler} />
@@ -87,9 +97,11 @@ export const LearnCardPack = () => {
             <CardContent className={s.content}>
               <Typography paragraph>
                 <b>Question:</b> {cards ? cards[currentQuestion].question : "question"}
+                {/*<b>Question:</b> {cards[currentQuestion].question}*/}
               </Typography>
               <Typography paragraph>
                 Number of attempts to answer the question: {cards ? cards[currentQuestion].shots : "shots"}
+                {/*Number of attempts to answer the question: {cards[currentQuestion].shots}*/}
               </Typography>
             </CardContent>
             <CardActions className={s.buttonShow} disableSpacing>
@@ -100,6 +112,8 @@ export const LearnCardPack = () => {
                 <Typography paragraph>
                   <b>Answer: </b>
                   {cards ? cards[currentQuestion].answer : "answer"}
+                  {/*<b>Answer: </b>*/}
+                  {/*{cards[currentQuestion].answer}*/}
                 </Typography>
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">Rate yourself</FormLabel>

@@ -7,7 +7,7 @@ import { selectorCardsTotalCount } from "./cardsSelectors";
 export const CardsTablePagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const URLParams = Object.fromEntries(searchParams);
-  const cardsTotalCount = useSelector(selectorCardsTotalCount);
+  const cardsTotalCount = useSelector(selectorCardsTotalCount) || 4;
   const selPage = Number(searchParams.get("page")) || 1;
   const rowPerPage = Number(searchParams.get("pageCount")) || 4;
 

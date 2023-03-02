@@ -16,8 +16,7 @@ const PATH = {
   SET_NEW_PASSWORD: "/set-new-password/:token",
   PACKS: "/packs",
   EMPTY_PACK: "/empty-pack",
-  LEARN_PACK: "/learn-pack/",
-  LEARN_PACK_BY_ID: "/learn-pack/:id",
+  LEARN_PACK: "/learn",
   CARDS_LIST: "/cards/",
 } as const;
 

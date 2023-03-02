@@ -1,6 +1,6 @@
 import { AppThunkDispatch } from "../../app/store";
 import { authAPI, LoginRequestType, RegistrationRequestType } from "./authAPI";
-import { setAppStatus, setAuth, toggleIsSignUp } from "../../app/appReducer";
+import { setAppStatus, setAuth, setInitialezed, toggleIsSignUp } from "../../app/appReducer";
 import { AxiosError } from "axios";
 import { errorUtils } from "../../utils/errorUtils/errorUtils";
 
@@ -76,7 +76,11 @@ export const authMe = () => async (dispatch: AppThunkDispatch) => {
     dispatch(setCurrentUser(res.data));
     dispatch(setLoginUser(true));
     dispatch(setAuth(true));
-  } catch (e) {}
+    //dispatch(setInitialezed(true));
+  } catch (e) {
+  } finally {
+    dispatch(setInitialezed(true));
+  }
 };
 
 export const logoutUser = () => async (dispatch: AppThunkDispatch) => {
