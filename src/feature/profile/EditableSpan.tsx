@@ -10,7 +10,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useAppDispatch } from "../../app/store";
-import { updateUser } from "../loginRegistration/authReducer";
+import { updateUserName } from "../loginRegistration/authReducer";
 import { useSelector } from "react-redux";
 import { selectUserName } from "./selectors";
 
@@ -45,16 +45,16 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   };
 
   const onButtonClickHandler = () => {
-    if (name !== "") {
-      dispatch(updateUser(name));
+    if (name.trim()  !== "") {
+      dispatch(updateUserName(name));
       setEditMode(!editMode);
     } else {
       setErrors("Name is required!");
     }
   };
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && name !== "") {
-      dispatch(updateUser(name));
+    if (e.key === "Enter" && name.trim() !== "") {
+      dispatch(updateUserName(name));
       setEditMode(!editMode);
     } else {
       setErrors("Name is required!");
@@ -62,7 +62,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
   };
   const onBlurHandler = () => {
     if (name == userName) setEditMode(!editMode);
-    if (name === "") {
+    if (name.trim() === "") {
       setErrors("Name is required!");
       setEditMode(!editMode);
     }
@@ -80,7 +80,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
           variant="standard"
           label="Nickname"
           onKeyPress={onKeyPressHandler}
-          error={name === ""}
+          error={name.trim()  === ""}
           helperText={name === "" ? errors : null}
           onChange={changeName}
           value={name}
@@ -92,7 +92,7 @@ const SuperEditableSpan: React.FC<SuperEditableSpanType> = ({
                 size="small"
                 style={{ marginBottom: "3px" }}
                 variant="contained"
-                disabled={name === ""}
+                disabled={name.trim()  === ""}
               >
                 SAVE
               </Button>

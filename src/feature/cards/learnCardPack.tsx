@@ -95,10 +95,12 @@ export const LearnCardPack = () => {
           <h2 className={s.title}> Learn {cardsPackName} </h2>
           <Card className={s.card}>
             <CardContent className={s.content}>
-              <Typography paragraph>
-                <b>Question:</b> {cards ? cards[currentQuestion].question : "question"}
-                {/*<b>Question:</b> {cards[currentQuestion].question}*/}
-              </Typography>
+                <Typography paragraph><b>Question:</b>
+                    {cards ?  cards[currentQuestion].questionImg ?
+                        <img className={s.answerImg}
+                             src={cards[currentQuestion].questionImg || undefined}/>
+                        : cards ? cards[currentQuestion].question : 'question' : null}
+                </Typography>
               <Typography paragraph>
                 Number of attempts to answer the question: {cards ? cards[currentQuestion].shots : "shots"}
                 {/*Number of attempts to answer the question: {cards[currentQuestion].shots}*/}
@@ -109,12 +111,12 @@ export const LearnCardPack = () => {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
               <CardContent className={s.contentAnswer}>
-                <Typography paragraph>
-                  <b>Answer: </b>
-                  {cards ? cards[currentQuestion].answer : "answer"}
-                  {/*<b>Answer: </b>*/}
-                  {/*{cards[currentQuestion].answer}*/}
-                </Typography>
+                  <Typography paragraph><b>Answer:</b>
+                      {cards ?  cards[currentQuestion].answerImg ?
+                          <img className={s.answerImg}
+                               src={cards[currentQuestion].answerImg || undefined }
+                          /> : cards ? cards[currentQuestion].answer : 'answer': null}
+                  </Typography>
                 <FormControl>
                   <FormLabel id="demo-radio-buttons-group-label">Rate yourself</FormLabel>
                   <RadioGroup
@@ -173,5 +175,71 @@ export const LearnCardPack = () => {
         </>
       )}
     </div>
+
   );
 };
+// return (
+//     <div className={s.wrapper}>
+//         {statusApp === "loading" ? (
+//             <Skeleton height={"50px"} background-color="#f3f3f3" foreground-color="#ecebeb"/>
+//         ) : (<>
+//                 <ReturnBack callback={returnToPackHandler}/>
+//                 <h2 className={s.title}> Learn {cardsPackName} </h2>
+//                 <Card className={s.card}>
+//                     <CardContent className={s.content}>
+//
+//                         <Typography paragraph><b>Question:</b>
+//                             {cards ?  cards[currentQuestion].questionImg ?
+//                                 <img className={s.answerImg}
+//                                      src={cards[currentQuestion].questionImg || undefined}/>
+//                                 : cards ? cards[currentQuestion].question : 'question' : null}
+//                         </Typography>
+//                         <Typography paragraph>Number of attempts to answer the
+//                             question: {cards ? cards[currentQuestion].shots : 'shots'}</Typography>
+//                     </CardContent>
+//                     <CardActions className={s.buttonShow} disableSpacing>
+//                         <SuperButton name={'Show answer'} callback={handleExpandClick}/>
+//                     </CardActions>
+//                     <Collapse in={expanded} timeout="auto" unmountOnExit>
+//                         <CardContent className={s.contentAnswer}>
+//                             <Typography paragraph><b>Answer:</b>
+//                                 {cards ?  cards[currentQuestion].answerImg ?
+//                                     <img className={s.answerImg}
+//                                          src={cards[currentQuestion].answerImg || undefined }
+//                                     /> : cards ? cards[currentQuestion].answer : 'answer': null}
+//                             </Typography>
+//                             <FormControl>
+//                                 <FormLabel id="demo-radio-buttons-group-label">Rate yourself</FormLabel>
+//                                 <RadioGroup
+//                                     aria-labelledby="demo-radio-buttons-group-label"
+//                                     defaultValue="Did not know"
+//                                     name="radio-buttons-group"
+//                                 >
+//                                     <FormControlLabel onClick={() => {
+//                                         setCardGrade(1)
+//                                     }} value="Did not know" control={<Radio/>} label="Did not know"/>
+//                                     <FormControlLabel onClick={() => {
+//                                         setCardGrade(2)
+//                                     }} value="Forgot" control={<Radio/>} label="Forgot"/>
+//                                     <FormControlLabel onClick={() => {
+//                                         setCardGrade(3)
+//                                     }} value="A lot of thought" control={<Radio/>} label="A lot of thought"/>
+//                                     <FormControlLabel onClick={() => {
+//                                         setCardGrade(4)
+//                                     }} value="Confused" control={<Radio/>} label="Confused"/>
+//                                     <FormControlLabel onClick={() => {
+//                                         setCardGrade(5)
+//                                     }} value="Knew the answer" control={<Radio/>} label="Knew the answer"/>
+//                                 </RadioGroup>
+//                                 <CardActions className={s.buttonNext} disableSpacing>
+//                                     <SuperButton name={'Next'} callback={onNextClickHandler}/>
+//                                 </CardActions>
+//                             </FormControl>
+//                         </CardContent>
+//                     </Collapse>
+//                 </Card>
+//             </>
+//
+//         )}
+//     </div>
+// );

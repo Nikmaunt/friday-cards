@@ -1,5 +1,4 @@
 import { Box, Paper, Stack } from "@mui/material";
-import BadgeAvatars from "./StyledBadge";
 import Button from "@mui/material/Button";
 import arrowIcon from "./img/logOutArrow.png";
 import React, { useCallback } from "react";
@@ -11,23 +10,20 @@ import { ReturnBack } from "../../common/returnBack/returnBack";
 import s from "./Profile.module.css";
 import PATH from "../../common/constans/path/path";
 import { useSelector } from "react-redux";
-import { selectUserEmail, selectUserName } from "./selectors";
+import { selectUserAvatar, selectUserEmail, selectUserName } from "./selectors";
 import { selectorLogin } from "../loginRegistration/selectors";
+import { BadgeAvatar } from "./badgeAvatar";
 
 export const Profile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector(selectorLogin);
   const userName = useSelector(selectUserName);
   const userEmail = useSelector(selectUserEmail);
+  const userAvatar = useSelector(selectUserAvatar);
 
   const logOutHandler = useCallback(() => {
     dispatch(logoutUser());
   }, []);
-
-  if (!isLogin) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
 
   const returnToPackHandler = () => {
     navigate(PATH.PACKS);
@@ -40,7 +36,7 @@ export const Profile = () => {
         <Paper className={s.container} elevation={3}>
           <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2.4}>
             <h2>Personal information</h2>
-            <BadgeAvatars />
+            <BadgeAvatar userAvatar={userAvatar} />
             <EditableSpan value={userName} />
             <span>{userEmail}</span>
             <div className={s.wrapperLogOut}>

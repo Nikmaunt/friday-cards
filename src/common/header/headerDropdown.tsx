@@ -2,12 +2,11 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Stack } from "@mui/material";
+import {Stack} from "@mui/material";
 import s from "./Header.module.css";
 import Avatar from "@mui/material/Avatar";
-import userPhoto from "../../feature/profile/img/userPhoto.png";
 import { useSelector } from "react-redux";
-import { selectUserName } from "../../feature/profile/selectors";
+import { selectUserAvatar, selectUserName } from "../../feature/profile/selectors";
 import { useCallback } from "react";
 import { logoutUser } from "../../feature/loginRegistration/authReducer";
 import { useAppDispatch } from "../../app/store";
@@ -17,24 +16,30 @@ import profileUserLogo from "./img/profileUserLogo.png";
 import arrowIcon from "../../feature/profile/img/logOutArrow.png";
 
 export const HeaderDropdown = () => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const userName = useSelector(selectUserName);
 
   const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+
+  const userAvatar = useSelector(selectUserAvatar);
+  const userName = useSelector(selectUserName);
+
+  const menuHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const logOutHandler = useCallback(() => {
     dispatch(logoutUser());
   }, []);
 
-  const goToProfile = () => {
+  const goToProfileHandler = () => {
     setAnchorEl(null);
     navigate(PATH.PROFILE);
   };
-  const handleClose = () => {
+
+  const closeHandler = () => {
     setAnchorEl(null);
   };
 
@@ -46,31 +51,32 @@ export const HeaderDropdown = () => {
         aria-haspopup="false"
         aria-hidden="false"
         aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+        onClick={menuHandler}
         disableRipple
+        className={s.menuButton}
       >
         <Stack className={s.userProfile} direction="row" spacing={1}>
-          <h4 style={{ color: "black" }}>{userName}</h4>
-          <Avatar style={{ marginTop: "12px" }} alt="userName" src={userPhoto} sx={{ width: 36, height: 36 }} />
+          <h4 className={s.userName}>{userName}</h4>
+          <Avatar className={s.userAvatar} style={{ marginTop: "12px" }} alt="userName" src={userAvatar} />
         </Stack>
       </Button>
       <Menu
         aria-hidden="false"
-        sx={{ marginTop: -1 }}
+        className={s.menu}
         id="basic-menu"
         anchorEl={anchorEl}
         open={open}
         transitionDuration={0}
-        onClose={handleClose}
+        onClose={closeHandler}
       >
-        <MenuItem onClick={goToProfile}>
+        <MenuItem onClick={goToProfileHandler}>
           {" "}
-          <img src={profileUserLogo} style={{ width: 12, height: 12, marginRight: 3 }} alt="profileUserLogo" />
+          <img className={s.menuProfileLogo} src={profileUserLogo} alt="profileUserLogo" />
           Profile
         </MenuItem>
         <MenuItem onClick={logOutHandler}>
           {" "}
-          <img src={arrowIcon} style={{ width: 20, height: 20, marginLeft: -6 }} alt="logoutIcon" />
+          <img className={s.menuLogoutLogo} src={arrowIcon} alt="logoutIcon" />
           Logout
         </MenuItem>
       </Menu>

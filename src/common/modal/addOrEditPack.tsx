@@ -15,12 +15,14 @@ export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setAc
   const [disabled, setDisabled] = useState(true);
   const [addPackName, setAddPackName] = useState<string>("");
   const [checked, setChecked] = useState(false);
+  const [error, setError] = useState<null | string>(null);
 
   const handleChange = () => {
     setChecked(!checked);
   };
 
   const changeName = (e: ChangeEvent<HTMLInputElement>) => {
+    setError("");
     if (e.currentTarget.value) {
       setDisabled(false);
     } else {
@@ -39,6 +41,14 @@ export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setAc
     await dispatch(addPackTC(newPack));
     setDisabled(false);
     setActive(false);
+    // if (addPackName.trim() !== "") {
+    //   setDisabled(true);
+    //   await dispatch(addPackTC(newPack));
+    //   setDisabled(false);
+    //   setActive(false);
+    // } else {
+    //   setError("Title is required");
+    // }
   };
 
   const saveChangePackName = async () => {
@@ -53,6 +63,18 @@ export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setAc
       await dispatch(editPackTC(editPack));
       setDisabled(false);
     }
+    // if (props.pack_id && packName && packName.trim() !== "") {
+    //   setError("");
+    //   setDisabled(true);
+    //   await dispatch(editPackTC(props.pack_id, packName));
+    //   setDisabled(false);
+    //   if (id) {
+    //     await dispatch(getAllUserCards(id));
+    //   }
+    //   props.setActive(false);
+    // } else {
+    //   setError("Title is required");
+    // }
   };
 
   return (
@@ -63,6 +85,8 @@ export const AddOrEditPack: FC<EditPackPropsType> = ({ pack_name, pack_id, setAc
         variant="standard"
         className={s.nameInput}
         onChange={changeName}
+        error={!!error}
+        helperText={error}
       />
       <FormControlLabel
         label="Private pack"

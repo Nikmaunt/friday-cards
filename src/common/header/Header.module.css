@@ -55,11 +55,45 @@
   width: 12px;
   height: 12px;
   margin-left: 4px;
-margin-right: 5px;
+  margin-right: 5px;
+}
+
+.menuButton {
+  /*margin-top: 12px;*/
+  display: flex;
+  height: 50px;
+}
+
+.userName {
+  color: black;
+  text-decoration: underline;
+}
+
+
+.userAvatar {
+  margin-top: 12px;
+  width: 36px;
+  height: 36px;
 }
 
 .logoutIcon{
   width: 20px;
   height: 20px;
   margin-right: 5px;
+}
+
+.menuProfileLogo {
+  width: 12px;
+  height: 12px;
+  margin-right: 3px
+}
+
+.menuLogoutLogo {
+  width: 20px;
+  height: 20px;
+  margin-left: -6px
+}
+
+.menu {
+
 }

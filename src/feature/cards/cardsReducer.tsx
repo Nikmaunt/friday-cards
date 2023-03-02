@@ -68,7 +68,28 @@ export const editCardTC = (editCard: EditCardRequestType, pack_id: string) => as
     dispatch(setAppStatus("succeeded"));
   }
 };
-
+// export const editCardTC =
+//     (pack_id: string, card_id: string, question: string, answer: string, answerImg?: string, questionImg?: string) => async (dispatch: AppThunkDispatch) => {
+//         dispatch(setAppStatus("loading"));
+//         const editCard: editCardType = {
+//             card: {
+//                 _id: card_id,
+//                 question,
+//                 answer,
+//                 answerImg,
+//                 questionImg
+//             },
+//         };
+//         try {
+//             await cardsAPI.editCard(editCard);
+//             await dispatch(getUserCardByPackId(pack_id));
+//         } catch (e) {
+//             const err = e as Error | AxiosError<{ error: string }>;
+//             errorUtils(err, dispatch);
+//         } finally {
+//             dispatch(setAppStatus("succeeded"));
+//         }
+//     };
 export const deleteCardTC = (card_id: string, pack_id: string) => async (dispatch: AppThunkDispatch) => {
   dispatch(setAppStatus("loading"));
   try {
@@ -142,4 +163,13 @@ export type CardsActionCreatorsType = ReturnType<typeof getCards>;
 //     pageCount: 4,
 //     token: '',
 //     tokenDeathTime: '',
+// };
+// export type editCardType = {
+//     card: {
+//         _id: string;
+//         question: string;
+//         answer: string;
+//         answerImg?: string,
+//         questionImg?: string
+//     };
 // };

@@ -20,12 +20,11 @@ export const TitleWithButton = (props: TitleWithButtonPropsType) => {
     const learnPackHandler = () => {
         navigate(`${PATH.LEARN_PACK}${id}`);
     };
-    console.log(userAuthId === userPackId)
-    console.log(id === userPackId )
+
     return (
         <div className={s.titleButton}>
             <h2>{id === userPackId ? packName : title}</h2>
-            {id  && < TitleDropdown pack_id={id} pack_name={packName}/>  }
+            {userAuthId === userPackId ? < TitleDropdown pack_id={id} pack_name={packName}/>  : null }
             {id && (
                 <button className={s.learnButton} onClick={learnPackHandler}><img className={s.learnIcon}  src={learnIcon } alt=""/> </button>
             )}
