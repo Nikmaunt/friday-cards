@@ -95,6 +95,8 @@ export type EditCardRequestType = {
     _id: string;
     question: string;
     answer: string;
+    answerImg?: string;
+    questionImg?: string;
   };
 };
 
