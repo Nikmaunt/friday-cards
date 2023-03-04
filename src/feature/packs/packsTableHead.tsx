@@ -5,20 +5,27 @@ import TableCell from "@mui/material/TableCell";
 import { headCells } from "../../common/constans/table";
 import s from "./Packs.module.css";
 import TableSortLabel from "@mui/material/TableSortLabel";
-
 import { DataRows } from "./packsTable";
-
 import { useAppDispatch } from "../../app/store";
 import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 import { fetchPacksTC } from "./packsReducer";
 import { log } from "util";
+import { useSearchParams } from "react-router-dom";
 
 type a = {
   orderRef: MutableRefObject<Order>;
+  urlParams: urlParamsType;
 };
 
-export const PacksTableHead = ({ orderRef }: a) => {
+type urlParamsType = {
+  pageCount?: number;
+  page?: number;
+};
+
+export const PacksTableHead = ({ orderRef, urlParams }: a) => {
+  console.log("Table urlParams", urlParams);
+  console.log("Table urlParams.pageCount", urlParams.pageCount);
   // const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>();
   const dispatch = useAppDispatch();
@@ -49,14 +56,20 @@ export const PacksTableHead = ({ orderRef }: a) => {
       //стрелка вниз
       // setOrder("desc");
       orderRef.current = "desc";
-      let params = { sortPacks: `0${cellName}` };
+
+      let params = urlParams.pageCount
+        ? { sortPacks: `0${cellName}`, pageCount: urlParams.pageCount }
+        : { sortPacks: `0${cellName}` };
       console.log(params);
       dispatch(fetchPacksTC(params));
     }
     if (order === "desc") {
       // setOrder("asc");
       orderRef.current = "asc";
-      let params = { sortPacks: `1${cellName}` };
+      // let params = { sortPacks: `1${cellName}`, pageCount: urlParams.pageCount };
+      let params = urlParams.pageCount
+        ? { sortPacks: `1${cellName}`, pageCount: urlParams.pageCount }
+        : { sortPacks: `1${cellName}` };
       console.log(params);
       dispatch(fetchPacksTC(params));
     }
@@ -101,9 +114,9 @@ export const PacksTableHead = ({ orderRef }: a) => {
     // setOrderBy(property);
   };
 
-  const createSortHandler = (property: keyof DataRows, order: Order) => (event: React.MouseEvent<unknown>) => {
-    onRequestSort(event, property, order);
-  };
+  // const createSortHandler = (property: keyof DataRows, order: Order) => (event: React.MouseEvent<unknown>) => {
+  //   onRequestSort(event, property, order);
+  // };
 
   console.log("from render asc", orderRef.current);
   return (

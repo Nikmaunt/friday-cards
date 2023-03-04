@@ -23,6 +23,7 @@ export const PacksTable = () => {
   const isPacksEmpty = packs.cardPacks.length === 0;
   const orderRef = useRef<Order>("asc");
   const [searchParams] = useSearchParams();
+
   const URLParams = Object.fromEntries(searchParams);
   const isLogin = useSelector(selectorLogin);
   const [order, setOrder] = React.useState<Order>("asc");
@@ -30,6 +31,7 @@ export const PacksTable = () => {
   useEffect(() => {
     if (isLogin) {
       dispatch(setSearchFieldEmpty(false));
+      console.log("URLParams", URLParams);
       dispatch(fetchPacksTC(URLParams));
     }
   }, [dispatch, searchParams]);
@@ -77,7 +79,7 @@ export const PacksTable = () => {
           ) : (
             <Paper>
               <Table aria-labelledby="tableTitle" size={"medium"}>
-                <PacksTableHead orderRef={orderRef} />
+                <PacksTableHead orderRef={orderRef} urlParams={URLParams} />
                 <PacksTableBody rows={rows} />
               </Table>
               <PacksTablePagination />
