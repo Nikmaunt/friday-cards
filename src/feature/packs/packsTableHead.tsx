@@ -1,146 +1,79 @@
-import React, { useRef, MutableRefObject } from "react";
+import React, { MutableRefObject, useRef } from "react";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import { headCells } from "../../common/constans/table";
 import s from "./Packs.module.css";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { DataRows } from "./packsTable";
 import { useAppDispatch } from "../../app/store";
 import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 import { fetchPacksTC } from "./packsReducer";
-import { log } from "util";
-import { useSearchParams } from "react-router-dom";
 
-type a = {
-  orderRef: MutableRefObject<Order>;
-  urlParams: urlParamsType;
-};
-
-type urlParamsType = {
-  pageCount?: number;
-  page?: number;
-};
-
-export const PacksTableHead = ({ orderRef, urlParams }: a) => {
-  console.log("Table urlParams", urlParams);
-  console.log("Table urlParams.pageCount", urlParams.pageCount);
-  // const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<string>();
+export const PacksTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }: PropsType) => {
   const dispatch = useAppDispatch();
-  // const orderRef = useRef<Order>("asc");
+  let params: any;
 
   const onRequestSort = (event: React.MouseEvent<unknown>, property: string, order: Order) => {
-    // const isAsc = orderBy === property && order === "asc";
-    // setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
 
-    //0 от большего desk - стрелка вниз
-    //1 от меньшего к большему ask - стрелка вверх
-    let sortDirection;
     let cellName = property;
 
-    console.log("orderBy", orderBy);
-    console.log("property", property);
-    // console.log("isAsc", isAsc);
-    console.log("order", orderRef.current);
-    // if (orderBy === property) {
     if (property === "cards") {
       cellName = "cardsCount";
     } else if (property === "lastUpdated") {
       cellName = "updated";
     }
-    // if (isAsc) {
     if (order === "asc") {
-      //стрелка вниз
-      // setOrder("desc");
       orderRef.current = "desc";
-
-      let params = urlParams.pageCount
+      params = urlParams.pageCount
         ? { sortPacks: `0${cellName}`, pageCount: urlParams.pageCount }
         : { sortPacks: `0${cellName}` };
-      console.log(params);
-      dispatch(fetchPacksTC(params));
     }
     if (order === "desc") {
-      // setOrder("asc");
       orderRef.current = "asc";
-      // let params = { sortPacks: `1${cellName}`, pageCount: urlParams.pageCount };
-      let params = urlParams.pageCount
+      params = urlParams.pageCount
         ? { sortPacks: `1${cellName}`, pageCount: urlParams.pageCount }
         : { sortPacks: `1${cellName}` };
-      console.log(params);
-      dispatch(fetchPacksTC(params));
     }
-    // console.log("if property", property);
-    // if (order === "asc") {
-    //   console.log("стрелка вниз", order);
-    //   console.log("стрелка вниз property", property);
-    //   if (property === "cards") {
-    //     params = { sortPacks: `0cardsCount` };
-    //   } else if (property === "lastUpdated") {
-    //     params = { sortPacks: `0updated` };
-    //   } else {
-    //     params = { sortPacks: `0${property}` };
-    //   }
-    // if (property === )
-    // params = { sortPacks: `0${property}` };
-    // setOrder("desc");
-    // dispatch(fetchPacksTC(params));
-    // console.log("стрелка вниз setOrder", order);
-    // @ts-ignore
-    // setOrder("desk");
-    // } else {
-    //   console.log("стрелка вверх", order);
-    //   console.log("стрелка вверх property", property);
-    //   console.log("orderBy", orderBy);
-    //   if (property === "cards") {
-    //     params = { sortPacks: `1cardsCount` };
-    //   } else if (property === "lastUpdated") {
-    //     params = { sortPacks: `1updated` };
-    //   } else {
-    //     params = { sortPacks: `1${property}` };
-    //   }
-    //   // setOrder("asc");
-    //   console.log("стрелка вверх setOrder", order);
-    //   // dispatch(fetchPacksTC(params));
-    //   // @ts-ignore
-    //   setOrder("ask");
-    // }
-    // }
-    // setOrder(isAsc ? "desc" : "asc");
-    //
-    // setOrderBy(property);
+    dispatch(fetchPacksTC(params));
+    console.log(params);
   };
 
-  // const createSortHandler = (property: keyof DataRows, order: Order) => (event: React.MouseEvent<unknown>) => {
-  //   onRequestSort(event, property, order);
-  // };
-
-  console.log("from render asc", orderRef.current);
   return (
     <TableHead className={s.headCell}>
       <TableRow>
         <TableCell padding="none"></TableCell>
-        {headCells.map((headCell) => (
-          <TableCell key={headCell.id} sortDirection={orderBy === headCell.id ? orderRef.current : false}>
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? orderRef.current : "asc"}
-              // onClick={createSortHandler(headCell.id, order)}
-              onClick={(e) => onRequestSort(e, headCell.id, orderRef.current)}
+        {headCells.map((headCell) =>
+          headCell.id === "cards" || headCell.id === "lastUpdated" || headCell.id === "name" ? (
+            <TableCell
+              key={headCell.id}
+              sortDirection={orderBy === headCell.id ? orderRef.current : false}
+              className={headCell.id === "name" ? s.headCellName : s.headCellAnotherSort}
+            >
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? orderRef.current : "asc"}
+                onClick={(e) => onRequestSort(e, headCell.id, orderRef.current)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id && (
+                  <Box component="span" sx={visuallyHidden}>
+                    {orderRef.current === "desc" ? "sorted descending" : "sorted ascending"}
+                  </Box>
+                )}
+              </TableSortLabel>
+            </TableCell>
+          ) : (
+            <TableCell
+              key={headCell.id}
+              sortDirection={orderBy === headCell.id ? orderRef.current : false}
+              className={s.headCellAnother}
             >
               {headCell.label}
-              {/*"2"*/}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {orderRef.current === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
+            </TableCell>
+          )
+        )}
       </TableRow>
     </TableHead>
   );
@@ -164,3 +97,15 @@ export const PacksTableHead = ({ orderRef, urlParams }: a) => {
 
 //////types/////////
 export type Order = "asc" | "desc";
+
+type PropsType = {
+  orderRef: MutableRefObject<Order>;
+  urlParams: urlParamsType;
+  orderBy: any;
+  setOrderBy: any;
+};
+
+type urlParamsType = {
+  pageCount?: number;
+  page?: number;
+};

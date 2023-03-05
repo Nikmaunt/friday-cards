@@ -17,6 +17,19 @@
 .headCell {
   background-color: #EFEFEF;
 }
+
+.headCellName {
+  width: 320px;
+}
+
+.headCellAnotherSort {
+  width: 134px;
+}
+
+.headCellAnother {
+  min-width: 76px;
+}
+
 .titleEmptyPage{
   margin-bottom:86px ;
 }

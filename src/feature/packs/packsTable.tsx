@@ -26,7 +26,6 @@ export const PacksTable = () => {
 
   const URLParams = Object.fromEntries(searchParams);
   const isLogin = useSelector(selectorLogin);
-  const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<string>("cards");
   useEffect(() => {
     if (isLogin) {
@@ -79,7 +78,7 @@ export const PacksTable = () => {
           ) : (
             <Paper>
               <Table aria-labelledby="tableTitle" size={"medium"}>
-                <PacksTableHead orderRef={orderRef} urlParams={URLParams} />
+                <PacksTableHead orderRef={orderRef} urlParams={URLParams} orderBy={orderBy} setOrderBy={setOrderBy} />
                 <PacksTableBody rows={rows} />
               </Table>
               <PacksTablePagination />

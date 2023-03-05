@@ -46,10 +46,18 @@ export const PacksTableBody = ({ rows }: PropsType) => {
             >
               {row.name}
             </TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.cards}</TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.lastUpdated}</TableCell>
-            <TableCell sx={{maxWidth:252}}  align="left">{row.createdBy}</TableCell>
-            <TableCell sx={{maxWidth:252}} align="left">{row.actions}</TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.cards}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.lastUpdated}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.createdBy}
+            </TableCell>
+            <TableCell sx={{ maxWidth: 252 }} align="left">
+              {row.actions}
+            </TableCell>
           </TableRow>
         );
       })}
