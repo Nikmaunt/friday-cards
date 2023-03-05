@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Table from "@mui/material/Table";
 import { fetchPacksTC, setSearchFieldEmpty } from "./packsReducer";
 import { useAppDispatch } from "../../app/store";
 import { useSelector } from "react-redux";
 import { selectorPacks } from "./packsSelectors";
 import { ActionsIconPack } from "../../common/utils/actionsIconPack";
-import { PacksTableHead } from "./packsTableHead";
+import { Order, PacksTableHead } from "./packsTableHead";
 import { PacksTableBody } from "./packsTableBody";
 import { PacksTablePagination } from "./packsTablePagination";
 import { Paper } from "@mui/material";
@@ -21,12 +21,16 @@ export const PacksTable = () => {
   const packs = useSelector(selectorPacks);
   const statusApp = useSelector(selectAppStatus);
   const isPacksEmpty = packs.cardPacks.length === 0;
+  const orderRef = useRef<Order>("asc");
   const [searchParams] = useSearchParams();
+
   const URLParams = Object.fromEntries(searchParams);
   const isLogin = useSelector(selectorLogin);
+  const [orderBy, setOrderBy] = React.useState<string>("cards");
   useEffect(() => {
     if (isLogin) {
       dispatch(setSearchFieldEmpty(false));
+      console.log("URLParams", URLParams);
       dispatch(fetchPacksTC(URLParams));
     }
   }, [dispatch, searchParams]);
@@ -74,7 +78,7 @@ export const PacksTable = () => {
           ) : (
             <Paper>
               <Table aria-labelledby="tableTitle" size={"medium"}>
-                <PacksTableHead />
+                <PacksTableHead orderRef={orderRef} urlParams={URLParams} orderBy={orderBy} setOrderBy={setOrderBy} />
                 <PacksTableBody rows={rows} />
               </Table>
               <PacksTablePagination />
