@@ -79,22 +79,6 @@ export const PacksTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }: Pro
   );
 };
 
-// return (
-//     <TableHead>
-//       <TableRow>
-//         <TableCell padding="none"></TableCell>
-//         {headCells.map((headCell) => (
-//             <TableCell key={headCell.id} className={s.headCell} sx={{ paddingRight: "36px", textAlign: "left" }}>
-//               <TableSortLabel active={orderBy === headCell.id} onClick={createSortHandler(headCell.id)}>
-//                 <span className={s.headCell}>{headCell.label}</span>
-//                 {orderBy === headCell.id ? <Box component="span" sx={visuallyHidden}></Box> : null}
-//               </TableSortLabel>
-//             </TableCell>
-//         ))}
-//       </TableRow>
-//     </TableHead>
-// );
-
 //////types/////////
 export type Order = "asc" | "desc";
 
