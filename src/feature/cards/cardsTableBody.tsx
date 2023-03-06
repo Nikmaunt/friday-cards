@@ -17,22 +17,21 @@ export const CardsTableBody = ({rows}: PropsType) => {
                     <TableRow key={index}>
                         <TableCell align={"center"} padding={"none"}/>
                         <TableCell
-                            style={{maxWidth: 350}}
                             component="th"
                             id={labelId}
                             scope="row"
-                            sx={{paddingRight: "36px", textAlign: "left", maxWidth: 252, overflow: "hidden"}}>
+                            sx={{paddingRight: "36px", textAlign: "left", maxWidth: 252,flexWrap: 'wrap',wordWrap:'break-word'}}>
                             <img src={row.questionImg || undefined}/>
                             {row.questionImg ? null : row.question}
                         </TableCell>
-                        <TableCell style={{overflow: "hidden", maxWidth: 252}} align="left">
+                        <TableCell style={{ maxWidth: 252,flexWrap: 'wrap',wordWrap:'break-word'}} align="left">
                             <img src={row.answerImg || undefined}/>
                             {row.answerImg ? null : row.answer}
                         </TableCell>
-                        <TableCell align="left">{row.lastUpdated}</TableCell>
-                        <TableCell align="left">
+                        <TableCell style={{maxWidth: 252, flexWrap:'wrap'}} align="left">{row.lastUpdated}</TableCell>
+                        <TableCell style={{maxWidth: 252, flexWrap:'wrap',}} align="left">
                             <Box
-                                sx={{width: 70, display: "flex"}}>
+                                sx={{width: 170, display: "flex", flexWrap:'wrap'}}>
                                 <Rating
                                     readOnly
                                     name="text-feedback"

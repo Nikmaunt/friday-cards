@@ -11,10 +11,12 @@ import { Cards } from "../feature/cards/cards";
 import { EmptyPageField } from "../feature/packs/emptyPageField";
 import { LearnCardPack } from "../feature/cards/learnCardPack";
 import {PrivateRoutes} from "./privateRoutes";
+import AppNotFoundPage from "../common/notFoundPage/appNotFoundPage";
 export const Pages = () => {
   return (
     <Routes>
       <Route path={"/"} element={<Packs />}></Route>
+      <Route path={"*"} element={<AppNotFoundPage/>}></Route>
       <Route path={PATH.LOGIN} element={<LoginRegistration />}></Route>
       <Route path={PATH.PROFILE} element={<Profile />}></Route>
       <Route path={PATH.FORGOT_PASSWORD} element={<ForgotPassword />}></Route>
@@ -23,6 +25,7 @@ export const Pages = () => {
       <Route path={PATH.PACKS} element={<Packs />}></Route>
       <Route path={PATH.EMPTY_PACK} element={<EmptyPageField />}></Route>
       <Route path={PATH.LEARN_PACK} element={<LearnCardPack />}></Route>
+      <Route path={PATH.CARDS_LIST} element={<Cards />}></Route>
       <Route path={PATH.CARDS_LIST} element={<Cards />}></Route>
     </Routes>
   );

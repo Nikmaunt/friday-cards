@@ -5,7 +5,7 @@
 .icons {
   display: flex;
   justify-content: space-between;
-  /*align-items: center;*/
+  max-width: 252px;
 }
 .title {
   text-align: center;

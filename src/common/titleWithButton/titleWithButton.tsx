@@ -1,31 +1,33 @@
 import s from "./TitleWithButton.module.css";
 import {SuperButton} from "../superButton/superButton";
 import React from "react";
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import PATH from "../constans/path/path";
-import {useNavigate, useParams} from "react-router-dom";
-import {useAppDispatch} from "../../app/store";
+import {useNavigate, useParams, useSearchParams} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {selectorUserId} from "../../app/appSelectors";
 import {selectorPackName, selectorPackUserId} from "../../feature/cards/cardsSelectors";
 import {TitleDropdown} from "./titleDropdown";
 import learnIcon from "../../img/learnIcon.svg";
+
 export const TitleWithButton = (props: TitleWithButtonPropsType) => {
     const {title, nameButton, callback} = props;
-    const {id} = useParams();
     const packName = useSelector(selectorPackName);
     const userAuthId = useSelector(selectorUserId);
+    const [searchParams] = useSearchParams();
+    const isCardPack = JSON.stringify(Object.fromEntries(searchParams)).includes("cardsPack_id")
     const userPackId = useSelector(selectorPackUserId);
     const navigate = useNavigate();
+    const id = Object.fromEntries(searchParams).cardsPack_id
+
     const learnPackHandler = () => {
-        navigate(`${PATH.LEARN_PACK}${id}`);
+        navigate(`${PATH.LEARN_PACK}/?cardsPack_id=${id}`);
     };
 
     return (
         <div className={s.titleButton}>
-            <h2>{id === userPackId ? packName : title}</h2>
-            {userAuthId === userPackId ? < TitleDropdown pack_id={id} pack_name={packName}/>  : null }
-            {id && (
+            <h2>{!userPackId ? packName || 'Packs list' : title}</h2>
+            {userAuthId === userPackId && isCardPack  ? < TitleDropdown pack_id={id} pack_name={packName}/>  : null }
+            {isCardPack && (
                 <button className={s.learnButton} onClick={learnPackHandler}><img className={s.learnIcon}  src={learnIcon } alt=""/> </button>
             )}
             <div className={s.button}>

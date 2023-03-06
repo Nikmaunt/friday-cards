@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useRef} from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import { useSelector } from "react-redux";
@@ -14,9 +14,10 @@ import { selectAppStatus } from "../../app/appSelectors";
 import PATH from "../../common/constans/path/path";
 import { SkeletonLoader } from "../../common/skeletonLoader/skeletonLoader";
 import { CardsType } from "./cardsAPI";
+import {Order} from "../packs/packsTableHead";
 
 export const CardsList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();;
   const URLParams = Object.fromEntries(searchParams);
 
   const cards = useSelector(selectorCards);
@@ -24,10 +25,13 @@ export const CardsList = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const statusApp = useSelector(selectAppStatus);
+  const [orderBy, setOrderBy] = React.useState<string>("grade");
+  const orderRef = useRef<Order>("asc");
 
   useEffect(() => {
     dispatch(getCardsTC(URLParams));
-  }, [searchParams]);
+
+  }, [dispatch, searchParams]);
 
   function createData(question: string, answer: string, lastUpdated: string, grade: number,answerImg:string,questionImg:string, actions: any): DataCards {
     return { question, answer, lastUpdated, grade,answerImg,questionImg, actions };
@@ -66,7 +70,8 @@ export const CardsList = () => {
       ) : (
         <Paper>
           <Table aria-labelledby="tableTitle" size={"medium"}>
-            <CardsTableHead />
+            <CardsTableHead orderRef={orderRef} urlParams={URLParams}
+            orderBy={orderBy} setOrderBy={setOrderBy}/>
             <CardsTableBody rows={rows} />
           </Table>
           <CardsTablePagination />
