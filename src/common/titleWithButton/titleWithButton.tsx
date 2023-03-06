@@ -17,16 +17,16 @@ export const TitleWithButton = (props: TitleWithButtonPropsType) => {
     const isCardPack = JSON.stringify(Object.fromEntries(searchParams)).includes("cardsPack_id")
     const userPackId = useSelector(selectorPackUserId);
     const navigate = useNavigate();
-    const _id = JSON.stringify(Object.fromEntries(searchParams)).substring(17,41)
+    const id = Object.fromEntries(searchParams).cardsPack_id
 
     const learnPackHandler = () => {
-        navigate(`${PATH.LEARN_PACK}/?cardsPack_id=${_id}`);
+        navigate(`${PATH.LEARN_PACK}/?cardsPack_id=${id}`);
     };
 
     return (
         <div className={s.titleButton}>
             <h2>{!userPackId ? packName || 'Packs list' : title}</h2>
-            {userAuthId === userPackId && isCardPack  ? < TitleDropdown pack_id={_id} pack_name={packName}/>  : null }
+            {userAuthId === userPackId && isCardPack  ? < TitleDropdown pack_id={id} pack_name={packName}/>  : null }
             {isCardPack && (
                 <button className={s.learnButton} onClick={learnPackHandler}><img className={s.learnIcon}  src={learnIcon } alt=""/> </button>
             )}
