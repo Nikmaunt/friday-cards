@@ -42,7 +42,7 @@ export const PacksTableBody = ({ rows }: PropsType) => {
               component="th"
               id={labelId}
               scope="row"
-              sx={{ paddingRight: "36px", textAlign: "left", cursor: "pointer", overflow: "hidden", maxWidth: 252 }}
+              sx={{ paddingRight: "36px", textAlign: "left", cursor: "pointer", wordWrap:'break-word', maxWidth: 252 }}
             >
               {row.name}
             </TableCell>
