@@ -19,6 +19,8 @@ export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 //export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
 
 
+
+
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector;
 
