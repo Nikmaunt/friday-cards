@@ -42,6 +42,7 @@ export const CardsTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }:Sort
       <TableRow>
         <TableCell padding="none"></TableCell>
         {headCellsCards.map((headCell) =>
+            headCell.id === "grade" || headCell.id === 'lastUpdated' ? (
           <TableCell key={headCell.id}
                      sortDirection={orderBy === headCell.id ? orderRef.current : false}
                      className={s.headCell}
@@ -56,7 +57,16 @@ export const CardsTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }:Sort
                   </Box>
               )}
             </TableSortLabel>
-          </TableCell>)}
+          </TableCell>) : (
+                <TableCell
+                    sx={{backgroundColor:' #EFEFEF'}}
+                    key={headCell.id}
+                    sortDirection={orderBy === headCell.id ? orderRef.current : false}
+                    className={s.headCellAnother}
+                >
+                  <span>{headCell.label}</span>
+                </TableCell>
+            )) }
       </TableRow>
     </TableHead>
   );
