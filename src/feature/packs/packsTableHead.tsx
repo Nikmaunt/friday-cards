@@ -10,7 +10,7 @@ import { visuallyHidden } from "@mui/utils";
 import Box from "@mui/material/Box";
 import { fetchPacksTC } from "./packsReducer";
 
-export const PacksTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }: PropsType) => {
+export const PacksTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }: SortPropsType) => {
   const dispatch = useAppDispatch();
   let params: any;
 
@@ -82,14 +82,15 @@ export const PacksTableHead = ({ orderRef, urlParams, orderBy, setOrderBy }: Pro
 //////types/////////
 export type Order = "asc" | "desc";
 
-type PropsType = {
+export type SortPropsType = {
   orderRef: MutableRefObject<Order>;
   urlParams: urlParamsType;
   orderBy: any;
   setOrderBy: any;
 };
 
-type urlParamsType = {
+export type urlParamsType = {
+  cardsPack_id?:string
   pageCount?: number;
   page?: number;
 };
