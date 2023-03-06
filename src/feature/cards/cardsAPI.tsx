@@ -79,8 +79,8 @@ export type GradeResponseType = {
 export type NewCardRequestType = {
   card: {
     cardsPack_id: string;
-    question: string;
-    answer: string;
+    question?: string;
+    answer?: string;
     grade?: number;
     shots?: number;
     answerImg?: string;

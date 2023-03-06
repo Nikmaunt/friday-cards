@@ -3,11 +3,12 @@ import { ActionModal } from "./actionModal";
 
 import { AddOrEditPack } from "./addOrEditPack";
 import { ActivateModalPropsType } from "./addNewPackModal";
+import { EditPack } from "./editPack";
 
 export const EditPackModal = (props: EditPackModalPropsType) => {
   return (
     <ActionModal title="Edit pack" active={props.active} setActive={props.setActive}>
-      <AddOrEditPack // ЗДЕСЬ БЫЛ EDIT PACK
+      <EditPack // ЗДЕСЬ БЫЛ EDIT PACK
         pack_id={props.pack_id}
         pack_name={props.pack_name}
         active={props.active}

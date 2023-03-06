@@ -11,7 +11,6 @@ import s from "./Profile.module.css";
 import PATH from "../../common/constans/path/path";
 import { useSelector } from "react-redux";
 import { selectUserAvatar, selectUserEmail, selectUserName } from "./selectors";
-import { selectorLogin } from "../loginRegistration/selectors";
 import { BadgeAvatar } from "./badgeAvatar";
 
 export const Profile = () => {
