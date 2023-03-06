@@ -18,16 +18,6 @@ export const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 //export const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
 
-// store.subscribe(() => {
-//   saveState({
-//     app: store.getState().app,
-//     auth: store.getState().auth,
-//     recoveryPassword: store.getState().recoveryPassword,
-//     cards: store.getState().cards,
-//     packs: store.getState().packs,
-//     //settings: store.getState().settings,
-//   });
-// });
 
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootReducerType> = useSelector;
