@@ -29,8 +29,8 @@ export const CardsTableBody = ({rows}: PropsType) => {
                             <img src={row.answerImg || undefined}/>
                             {row.answerImg ? null : row.answer}
                         </TableCell>
-                        <TableCell align="left">{row.lastUpdated}</TableCell>
-                        <TableCell align="left">
+                        <TableCell style={{maxWidth: 350, flexWrap:'wrap'}} align="left">{row.lastUpdated}</TableCell>
+                        <TableCell style={{maxWidth: 350}} align="left">
                             <Box
                                 sx={{width: 70, display: "flex"}}>
                                 <Rating
