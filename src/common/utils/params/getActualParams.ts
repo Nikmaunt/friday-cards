@@ -1,5 +1,4 @@
-import { GetPacksParamsType } from "../../../feature/packs/packsAPI";
-import { PackParamsType } from "../../../feature/packs/packsReducer";
+import {PackParamsType} from "../../../feature/packs/packsReducer";
 
 export const getActualPacksParams = (searchParams: URLSearchParams): PackParamsType => {
   return {

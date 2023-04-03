@@ -29,11 +29,10 @@ export const LearnCardPack = () => {
   const dispatch = useAppDispatch();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  //const URLParams = Object.fromEntries(searchParams);
 
   const packId = searchParams.get("cardsPack_id") || "";
   const cards = useSelector(selectorCards);
-  //const isAuth = useSelector(selectorAuth);
+
   const cardsPackName = useSelector(selectorPackName);
   const maxValueCards = useSelector(selectorMax);
   const statusApp = useSelector(selectAppStatus);

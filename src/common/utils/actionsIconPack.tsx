@@ -9,7 +9,7 @@ import {selectorIdUser} from "../../feature/loginRegistration/selectors";
 import {EditPackModal} from "../modal/editPackModal";
 import {DeletePackModal} from "../modal/deletePackModal";
 import PATH from "../constans/path/path";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type ActionsIconPackType = {
   pack_id: string;
