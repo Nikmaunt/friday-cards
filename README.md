@@ -7,7 +7,7 @@ You can create custom cards with pictures.
 
 Happy studying!
 
-Explore our [ App](https://nikmaunt.github.io/friday-cards/).
+# Explore our [ App](https://nikmaunt.github.io/friday-cards/).
 
 # Developers
 
