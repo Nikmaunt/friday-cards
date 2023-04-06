@@ -1,8 +1,11 @@
-# Learning Cards App
+# About The Project
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# About The Project
-In the project you can create packs of cards, and learn from them. There is a registration option, so that other users can view your cards and you can train them, and they can create their own personal packs in their admins. The application implements such features as filtering, search, pagination.
+Create your own cards and share them with other students. Study your and friend's cards. Evaluate your knowledge, and in case of a low score, the question will be repeated again (using smart random) for a better learning experiense.
+
+You can create custom cards with pictures.
+
+Happy studying!
 
 Explore our [ App](https://nikmaunt.github.io/friday-cards/).
 
