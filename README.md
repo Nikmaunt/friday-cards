@@ -7,8 +7,9 @@ In the project you can create packs of cards, and learn from them. There is a re
 Explore our App[nikmaunt.github.io/friday-cards/]
 
 # Developers
+
   [Nikita Kokhan] (https://github.com/Nikmaunt)
-	[Denis Anishchenko](https://github.com/Denishilo)
+  [Denis Anishchenko](https://github.com/Denishilo)
   [Vladimir ](https://github.com/Cheloyek)
   
  # Technologies
