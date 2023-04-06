@@ -5,9 +5,9 @@ Create your own cards and share them with other students. Study your and friend'
 
 You can create custom cards with pictures.
 
-Happy studying!
+Explore our [ App](https://nikmaunt.github.io/friday-cards/).
 
-# Explore our [ App](https://nikmaunt.github.io/friday-cards/).
+Happy studying!
 
 # Developers
 
